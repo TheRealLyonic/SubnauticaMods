@@ -1,0 +1,12 @@
+﻿{
+  "Id": "IncreaseReaperDamage",
+  "DisplayName": "Increase Reaper Damage",
+  "Author": "JDev",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "IncreaseReaperDamage.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "Game": "Subnautica"
+}
