@@ -1,0 +1,13 @@
+﻿{
+  "Id": "ImprovedReaper",
+  "DisplayName": "Improved Reaper Leviathan",
+  "Author": "JDev",
+  "Version": "2.9.0",
+  "Enable": true,
+  "AssemblyName": "ImprovedReaper.dll",
+  "NitroxCompat": true,
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "Game": "Subnautica"
+}
