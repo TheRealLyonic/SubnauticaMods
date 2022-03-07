@@ -9,3 +9,5 @@ DaWrecka (Subnautica Modding Discord) - Awesome Modding help!
 Lee23 (Subnautica Modding Discord) - Just as awesome Modding Help!
 
 Mayonnaise (Subnautica Modding Discord) - Posted the amazing idea of improving the Cragfields with Terrain patches and more resources! Also helped with beta/alpha testing of the mod!
+
+[Angriest Fishy] Revan 🎃 🦃 🎄 - Emotional Support
