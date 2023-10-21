@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeatBladeWarmthBZ", "HeatBl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IslandSpawn", "IslandSpawn\IslandSpawn.csproj", "{5593BCAE-1048-4BA4-9CC2-6A3686A55EBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImprovedCragfield", "ImprovedCragfield\ImprovedCragfield.csproj", "{0FB70E69-C118-4563-93C1-986465C610F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5593BCAE-1048-4BA4-9CC2-6A3686A55EBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5593BCAE-1048-4BA4-9CC2-6A3686A55EBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5593BCAE-1048-4BA4-9CC2-6A3686A55EBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FB70E69-C118-4563-93C1-986465C610F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FB70E69-C118-4563-93C1-986465C610F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FB70E69-C118-4563-93C1-986465C610F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FB70E69-C118-4563-93C1-986465C610F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
