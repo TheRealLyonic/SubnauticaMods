@@ -6,6 +6,7 @@ using Nautilus.Handlers;
 namespace LyonicDevelopment.HeatBladeWarmthBZ
 {
     [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
+    [BepInDependency("com.snmodding.nautilus")]
     public class HeatBladeWarmthPlugin : BaseUnityPlugin
     {
         public static ManualLogSource LOGGER;
