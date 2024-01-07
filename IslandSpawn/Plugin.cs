@@ -18,13 +18,13 @@ namespace LyonicDevelopment.IslandSpawn
         public new static ManualLogSource Logger { get; private set; }
 
         public static CustomPrefab customFabricator;
-        public static SpawnLocation fabSpawnLocation = new SpawnLocation(new Vector3(-804.9f, 78.1f, -1051.96f), new Vector3(0f, 100f, 0f));
+        public static readonly SpawnLocation fabSpawnLocation = new SpawnLocation(new Vector3(-804.9f, 78.1f, -1051.96f), new Vector3(0f, 100f, 0f));
 
         public static CustomPrefab customSolarPanel;
-        public static SpawnLocation panelSpawnLocation = new SpawnLocation(new Vector3(-804.1f, 79.45f, -1053.95f), new Vector3(0f, 240f, 0f));
+        public static readonly SpawnLocation panelSpawnLocation = new SpawnLocation(new Vector3(-804.1f, 79.45f, -1053.95f), new Vector3(0f, 240f, 0f));
 
         public static CustomPrefab powerCollider;
-        public static SpawnLocation colliderSpawnLocation = new SpawnLocation(new Vector3(-804f, 76.87f, -1050.71f), new Vector3(0f, 17.5f, 0f));
+        public static readonly SpawnLocation colliderSpawnLocation = new SpawnLocation(new Vector3(-804f, 76.87f, -1050.71f), new Vector3(0f, 17.5f, 0f));
         
         public static AssetBundle AssetBundle { get; private set; }
         
