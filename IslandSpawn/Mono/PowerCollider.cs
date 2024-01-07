@@ -23,8 +23,8 @@ namespace LyonicDevelopment.IslandSpawn.Mono
         //Code for getting rid of the annoying cargo boxes/stasis rifle fragments
         private IEnumerator Start()
         {
-            //Give cargo boxes time to spawn.
-            yield return new WaitForSeconds(8f);
+            //Give gameobjects time to spawn.
+            yield return new WaitForSeconds(4f);
             
             TechTag[] gameObjects = FindObjectsOfType<TechTag>();
             
@@ -35,7 +35,6 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             {
                 if (gameObjects[i].type == TechType.StarshipCargoCrate)
                 {
-                    Plugin.Logger.LogWarning("Added destructible object...");
                     destroyObjects.Add(gameObjects[i].gameObject.transform.parent.gameObject);
                 }
             }
@@ -57,8 +56,6 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             {
                 Destroy(gameObject);
             }
-            
-            Plugin.Logger.LogWarning("Destroyed object.");
         }
     }
 }

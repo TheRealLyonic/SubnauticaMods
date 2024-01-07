@@ -6,6 +6,7 @@ using LyonicDevelopment.IslandSpawn.Mono;
 using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Handlers;
 using Nautilus.Utility;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace LyonicDevelopment.IslandSpawn
 
         public static CustomPrefab customSolarPanel;
         public static readonly SpawnLocation panelSpawnLocation = new SpawnLocation(new Vector3(-804.1f, 79.45f, -1053.95f), new Vector3(0f, 240f, 0f));
-
+        
         public static CustomPrefab powerCollider;
         public static readonly SpawnLocation colliderSpawnLocation = new SpawnLocation(new Vector3(-804f, 76.87f, -1050.71f), new Vector3(0f, 17.5f, 0f));
         
@@ -44,6 +45,7 @@ namespace LyonicDevelopment.IslandSpawn
             RegisterCustomFabricator();
             RegisterCustomSolarPanel();
             RegisterPowerCollider();
+            RegisterCustomLoot();
             
             Harmony.PatchAll();
             
@@ -101,11 +103,18 @@ namespace LyonicDevelopment.IslandSpawn
                 powerCollider.Info.TechType, LargeWorldEntity.CellLevel.Near);
             
             powerColliderObject.transform.GetChild(0).gameObject.AddComponent<PowerCollider>();
+            powerColliderObject.transform.GetChild(0).gameObject.AddComponent<AsyncPrefabSpawner>();
             
             powerCollider.SetGameObject(powerColliderObject);
             powerCollider.SetSpawns(colliderSpawnLocation);
 
             powerCollider.Register();
+        }
+
+        private static void RegisterCustomLoot()
+        {
+            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.FloatingIslands_AbandonedBase_Outside, 0.2f, 1);
+            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.SandstoneChunk), BiomeType.FloatingIslands_AbandonedBase_Outside, 0.2f, 1);
         }
         
     }
