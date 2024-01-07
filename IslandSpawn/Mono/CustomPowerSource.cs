@@ -4,13 +4,15 @@ namespace LyonicDevelopment.IslandSpawn.Mono
 {
     public class CustomPowerSource : PowerSource
     {
+        private const float MAX_POWER = 100f;
+        
         private new void Start()
         {
-            maxPower = 1000f;
+            maxPower = MAX_POWER;
             
             InvokeRepeating("UpdateConnectionCallback", Random.value, 1f);
             
-            Plugin.Logger.LogWarning("Starting power source now...");
+            Plugin.Logger.LogInfo("Starting power source now...");
         }
 
         private new void UpdateConnectionCallback()
@@ -25,12 +27,12 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             if (customFabricator != null)
             {
                 connectedRelay = customFabricator.GetComponent<CustomPowerRelay>();
-                SetPower(1000f);
+                gameObject.GetComponent<SolarPanel>().relay = connectedRelay;
                 connectedRelay.AddInboundPower(this);
                 return true;
             }
 
-            Plugin.Logger.LogWarning("Custom solar panel couldn't find fabricator!");
+            Plugin.Logger.LogError("Custom solar panel couldn't find fabricator!");
             connectedRelay = null;
             return false;
         }

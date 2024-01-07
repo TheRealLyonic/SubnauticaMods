@@ -21,7 +21,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
                 {
                     inboundPowerSources.Capacity = 1;
                     inboundPowerSources.Add(customSolarPanel.GetComponent<CustomPowerSource>());
-                    Plugin.Logger.LogWarning("Added power source.");
+                    Plugin.Logger.LogInfo("Added power source.");
                 }
                 
                 if (!isPowered)
@@ -37,7 +37,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             }
             else
             {
-                Plugin.Logger.LogWarning("Custom fabricator could not find solar panel.");
+                Plugin.Logger.LogError("Custom fabricator could not find solar panel.");
 
                 if (isPowered)
                 {
