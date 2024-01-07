@@ -14,13 +14,13 @@ namespace LyonicDevelopment.IslandSpawn
         {
             if (PowerCollider.playerInRange)
             {
-                var powerSource = GameObject.Find("CustomFabricator(Clone)").GetComponent<CustomPowerRelay>();
+                var powerRelay = GameObject.Find("CustomFabricator(Clone)").GetComponent<CustomPowerRelay>();
 
-                if (powerSource.inboundPowerSources.Count > 0)
+                if (powerRelay.inboundPowerSources.Count > 0)
                 {
-                    power = Mathf.RoundToInt(powerSource.inboundPowerSources[0].GetPower());
-                    maxPower = Mathf.RoundToInt(powerSource.inboundPowerSources[0].GetMaxPower());
-                    status = powerSource.GetPowerStatus();
+                    power = Mathf.RoundToInt(powerRelay.inboundPowerSources[0].GetPower());
+                    maxPower = Mathf.RoundToInt(powerRelay.inboundPowerSources[0].GetMaxPower());
+                    status = powerRelay.GetPowerStatus();
 
                     __result = true;
                     return false;

@@ -30,10 +30,18 @@ namespace LyonicDevelopment.IslandSpawn.Mono
                     electronicsDisabled = false;
                     isPowered = true;
                     lastPowered = true;
-                
-                    powerStatus = PowerSystem.Status.Normal;
+                    
                     powerUpEvent.Trigger(this);
                 }
+
+                int power = Mathf.RoundToInt(inboundPowerSources[0].GetPower());
+
+                if (power > 20)
+                    powerStatus = PowerSystem.Status.Normal;
+                else if (power > 0)
+                    powerStatus = PowerSystem.Status.Emergency;
+                else
+                    powerStatus = PowerSystem.Status.Offline;
             }
             else
             {
