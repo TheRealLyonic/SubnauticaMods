@@ -45,7 +45,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             }
             else
             {
-                Plugin.Logger.LogError("Custom fabricator could not find solar panel.");
+                Plugin.Logger.LogError("Custom power relay could not find solar panel.");
 
                 if (isPowered)
                 {

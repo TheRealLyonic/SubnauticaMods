@@ -23,6 +23,12 @@ namespace LyonicDevelopment.IslandSpawn
 
         public static CustomPrefab customSolarPanel;
         public static readonly SpawnLocation panelSpawnLocation = new SpawnLocation(new Vector3(-804.1f, 79.45f, -1053.95f), new Vector3(0f, 240f, 0f));
+
+        public static CustomPrefab customRadio;
+        public static readonly SpawnLocation radioSpawnLocation = new SpawnLocation(new Vector3(-804.6f, 77.9f, -1050.7f), new Vector3(0f, 106.26f, 0f));
+
+        public static CustomPrefab customMedCabinet;
+        public static readonly SpawnLocation medCabinetSpawnLocation = new SpawnLocation(new Vector3(-802.36f, 78.1f, -1051.06f), new Vector3(0f, 285f, 0f));
         
         public static CustomPrefab powerCollider;
         public static readonly SpawnLocation colliderSpawnLocation = new SpawnLocation(new Vector3(-804f, 76.87f, -1050.71f), new Vector3(0f, 17.5f, 0f));
@@ -44,6 +50,8 @@ namespace LyonicDevelopment.IslandSpawn
             
             RegisterCustomFabricator();
             RegisterCustomSolarPanel();
+            RegisterCustomRadio();
+            RegisterCustomMedicalCabinet();
             RegisterPowerCollider();
             RegisterCustomLoot();
             
@@ -61,9 +69,9 @@ namespace LyonicDevelopment.IslandSpawn
             gameObjectTemplate.ModifyPrefab += (prefab) =>
             {
                 Destroy(prefab.GetComponent<PowerRelay>());
-                Destroy(prefab.GetComponent<Constructable>());
                 Destroy(prefab.GetComponent<PreventDeconstruction>());
-                
+
+                prefab.AddComponent<PreventDeconstructionAlways>().always = true;
                 prefab.AddComponent<CustomPowerRelay>();
             };
             
@@ -82,8 +90,9 @@ namespace LyonicDevelopment.IslandSpawn
             gameObjectTemplate.ModifyPrefab += (prefab) =>
             {
                 Destroy(prefab.GetComponent<PowerSource>());
-                Destroy(prefab.GetComponent<Constructable>());
-                
+                Destroy(prefab.GetComponent<PreventDeconstruction>());
+
+                prefab.AddComponent<PreventDeconstructionAlways>().always = true;
                 prefab.AddComponent<CustomPowerSource>();
             };
             
@@ -91,6 +100,48 @@ namespace LyonicDevelopment.IslandSpawn
             customSolarPanel.SetSpawns(panelSpawnLocation);
             
             customSolarPanel.Register();
+        }
+
+        private static void RegisterCustomRadio()
+        {
+            customRadio = new CustomPrefab(PrefabInfo.WithTechType("CustomRadio"));
+
+            var gameObjectTemplate = new CloneTemplate(customRadio.Info, TechType.Radio);
+
+            gameObjectTemplate.ModifyPrefab += (prefab) =>
+            {
+                Destroy(prefab.GetComponent<PreventDeconstruction>());
+
+                prefab.GetComponent<LiveMixin>().health = 25;
+                
+                prefab.AddComponent<PreventDeconstructionAlways>().always = true;
+                prefab.AddComponent<CustomPowerRelay>();
+            };
+            
+            customRadio.SetGameObject(gameObjectTemplate);
+            customRadio.SetSpawns(radioSpawnLocation);
+
+            customRadio.Register();
+        }
+
+        private static void RegisterCustomMedicalCabinet()
+        {
+            customMedCabinet = new CustomPrefab(PrefabInfo.WithTechType("CustomMedicalCabinet"));
+
+            var gameObjectTemplate = new CloneTemplate(customMedCabinet.Info, TechType.MedicalCabinet);
+
+            gameObjectTemplate.ModifyPrefab += (prefab) =>
+            {
+                Destroy(prefab.GetComponent<PreventDeconstruction>());
+
+                prefab.AddComponent<PreventDeconstructionAlways>().always = true;
+                prefab.AddComponent<CustomPowerRelay>();
+            };
+            
+            customMedCabinet.SetGameObject(gameObjectTemplate);
+            customMedCabinet.SetSpawns(medCabinetSpawnLocation);
+            
+            customMedCabinet.Register();
         }
 
         private static void RegisterPowerCollider()
@@ -113,8 +164,9 @@ namespace LyonicDevelopment.IslandSpawn
 
         private static void RegisterCustomLoot()
         {
+            //Note that none of the floating island biometypes have valid resource spawns except for the two that are inside and outside of the degasi habitats.
             LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.FloatingIslands_AbandonedBase_Outside, 0.2f, 1);
-            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.SandstoneChunk), BiomeType.FloatingIslands_AbandonedBase_Outside, 0.2f, 1);
+            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.SandstoneChunk), BiomeType.FloatingIslands_AbandonedBase_Outside, 0.1f, 1);
         }
         
     }

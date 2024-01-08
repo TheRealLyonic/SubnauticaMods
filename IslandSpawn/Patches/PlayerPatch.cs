@@ -9,7 +9,7 @@ namespace LyonicDevelopment.IslandSpawn
 
         public static Vector3 SPAWN_POS
         {
-            get { return new Vector3(-793.2f, 81f, -1067.2f); }
+            get { return new Vector3(-804.3f, 78.5f, -1053.5f); }
         }
 
         [HarmonyPatch(nameof(Player.GetRespawnPosition))]

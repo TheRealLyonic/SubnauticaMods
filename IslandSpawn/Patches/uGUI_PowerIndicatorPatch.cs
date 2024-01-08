@@ -1,3 +1,4 @@
+using System;
 using HarmonyLib;
 using LyonicDevelopment.IslandSpawn.Mono;
 using UnityEngine;
@@ -12,20 +13,23 @@ namespace LyonicDevelopment.IslandSpawn
         [HarmonyPrefix]
         public static bool IsPowerEnabled(out int power, out int maxPower, out PowerSystem.Status status, ref bool __result)
         {
-            if (PowerCollider.playerInRange)
+            try
             {
-                var powerRelay = GameObject.Find("CustomFabricator(Clone)").GetComponent<CustomPowerRelay>();
-
-                if (powerRelay.inboundPowerSources.Count > 0)
+                if (PowerCollider.playerInRange)
                 {
-                    power = Mathf.RoundToInt(powerRelay.inboundPowerSources[0].GetPower());
-                    maxPower = Mathf.RoundToInt(powerRelay.inboundPowerSources[0].GetMaxPower());
-                    status = powerRelay.GetPowerStatus();
+                    var powerRelay = GameObject.Find("CustomFabricator(Clone)").GetComponent<CustomPowerRelay>();
 
-                    __result = true;
-                    return false;
+                    if (powerRelay.inboundPowerSources.Count > 0)
+                    {
+                        power = Mathf.RoundToInt(powerRelay.inboundPowerSources[0].GetPower());
+                        maxPower = Mathf.RoundToInt(powerRelay.inboundPowerSources[0].GetMaxPower());
+                        status = powerRelay.GetPowerStatus();
+
+                        __result = true;
+                        return false;
+                    }
                 }
-            }
+            }catch(NullReferenceException){}
             
             power = 0;
             maxPower = 0;

@@ -24,7 +24,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
         private IEnumerator Start()
         {
             //Give gameobjects time to spawn.
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(8f);
             
             TechTag[] gameObjects = FindObjectsOfType<TechTag>();
             
