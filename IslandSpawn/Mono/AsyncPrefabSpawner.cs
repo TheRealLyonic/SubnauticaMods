@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UWE;
 
@@ -6,35 +8,40 @@ namespace LyonicDevelopment.IslandSpawn
 {
     public class AsyncPrefabSpawner : MonoBehaviour
     {
+        private static List<Tuple<Vector3, Quaternion>> crashSpawns = new List<Tuple<Vector3, Quaternion>>
+        {
+            Tuple.Create(new Vector3(-660.66f, -11.3f, -1026.17f), new Quaternion(0.43f, 0f, 0f, 0.90f)),
+            Tuple.Create(new Vector3(-688.64f, -10f, -993.64f), new Quaternion(0.56f, 0f, 0f, 0.83f)),
+            Tuple.Create(new Vector3(-689.87f, -13.12f, -984.8f), new Quaternion(0f, 0f, -0.23f, 0.97f)),
+            Tuple.Create(new Vector3(-662.3f, -14.8f, -1012.82f), new Quaternion(0f, 0f, -0.23f, 0.97f)),
+            Tuple.Create(new Vector3(-731.8f, -12.49f, -948.19f), new Quaternion(0f, 0f, -0.56f, 0.83f))
+        };
+        
         private IEnumerator Start()
         {
             yield return new WaitForSeconds(4f);
             
-            CoroutineHost.StartCoroutine(RegisterFirstAidKit());
+            CoroutineHost.StartCoroutine(RegisterCrashFish());
         }
 
-        private static IEnumerator RegisterFirstAidKit()
+        private static IEnumerator RegisterCrashFish()
         {
-            /*
-            Why is this check necessary? Don't ask me...At one point during testing, for whatever reason,
-            instead of spawning one first aid kit, this code spawned about 4 of them. Couldn't recreate the issue,
-            but hopefully, adding this extra check here will fix the problem.
-            */
-            if (GameObject.Find("DisinfectedWater(Clone)") != null && GameObject.Find("FirstAidKit(Clone)") == null)
+            //Another check that is sadly necessary...Lest we receive endless crashfish..
+            if (GameObject.Find("CrashHome(Clone)") != null)
             {
-                var task = PrefabDatabase.GetPrefabAsync(CraftData.GetClassIdForTechType(TechType.FirstAidKit));
-
-                yield return task;
-
-                task.TryGetPrefab(out var prefab);
-                
-                Instantiate(prefab, new Vector3(-804.51f, 77.08f, -1055.75f), new Quaternion(0f, 10.41f, 0f, 0f));
-
-                Destroy(GameObject.Find("DisinfectedWater(Clone)"));
+                Plugin.Logger.LogWarning("Tried spawning multiple crash-home instances...");
+                yield break;
             }
-            else
+            
+            var task = PrefabDatabase.GetPrefabAsync(CraftData.GetClassIdForTechType(TechType.CrashHome));
+
+            yield return task;
+
+            task.TryGetPrefab(out var prefab);
+
+            foreach (var spawnLocation in crashSpawns)
             {
-                Plugin.Logger.LogWarning("Tried to spawn first aid kit more than once...");
+                Instantiate(prefab, spawnLocation.Item1, spawnLocation.Item2);
             }
         }
         
