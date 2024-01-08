@@ -32,7 +32,8 @@ namespace LyonicDevelopment.IslandSpawn.Mono
                 return true;
             }
 
-            Plugin.Logger.LogError("Custom solar panel couldn't find fabricator!");
+            Plugin.Logger.LogError("Custom solar panel couldn't find electronics!");
+            
             connectedRelay = null;
             return false;
         }

@@ -14,22 +14,23 @@ namespace LyonicDevelopment.IslandSpawn
 {
     [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
     [BepInDependency("com.snmodding.nautilus")]
+    [BepInDependency("Esper89.TerrainPatcher")]
     public class Plugin : BaseUnityPlugin
     {
         public new static ManualLogSource Logger { get; private set; }
 
         public static CustomPrefab customFabricator;
-        public static readonly SpawnLocation fabSpawnLocation = new SpawnLocation(new Vector3(-804.9f, 78.1f, -1051.96f), new Vector3(0f, 100f, 0f));
+        public static readonly SpawnLocation fabricatorSpawnLocation = new SpawnLocation(new Vector3(-804.9f, 78.1f, -1051.96f), new Vector3(0f, 100f, 0f));
 
         public static CustomPrefab customSolarPanel;
-        public static readonly SpawnLocation panelSpawnLocation = new SpawnLocation(new Vector3(-804.1f, 79.45f, -1053.95f), new Vector3(0f, 240f, 0f));
+        public static readonly SpawnLocation solarPanelSpawnLocation = new SpawnLocation(new Vector3(-804.1f, 79.45f, -1053.95f), new Vector3(0f, 240f, 0f));
 
         public static CustomPrefab customRadio;
         public static readonly SpawnLocation radioSpawnLocation = new SpawnLocation(new Vector3(-804.6f, 77.9f, -1050.7f), new Vector3(0f, 106.26f, 0f));
 
         public static CustomPrefab customMedCabinet;
         public static readonly SpawnLocation medCabinetSpawnLocation = new SpawnLocation(new Vector3(-802.36f, 78.1f, -1051.06f), new Vector3(0f, 285f, 0f));
-        
+
         public static CustomPrefab powerCollider;
         public static readonly SpawnLocation colliderSpawnLocation = new SpawnLocation(new Vector3(-804f, 76.87f, -1050.71f), new Vector3(0f, 17.5f, 0f));
         
@@ -60,8 +61,8 @@ namespace LyonicDevelopment.IslandSpawn
             Logger.LogInfo($"{PLUGIN_NAME} v{PLUGIN_VERSION} loaded.");
         }
 
-        private static void RegisterCustomFabricator()
-        {
+        public static void RegisterCustomFabricator()
+        { 
             customFabricator = new CustomPrefab(PrefabInfo.WithTechType("CustomFabricator"));
             
             var gameObjectTemplate = new CloneTemplate(customFabricator.Info, TechType.Fabricator);
@@ -71,20 +72,21 @@ namespace LyonicDevelopment.IslandSpawn
                 Destroy(prefab.GetComponent<PowerRelay>());
                 Destroy(prefab.GetComponent<PreventDeconstruction>());
 
+                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
                 prefab.AddComponent<PreventDeconstructionAlways>().always = true;
                 prefab.AddComponent<CustomPowerRelay>();
             };
             
             customFabricator.SetGameObject(gameObjectTemplate);
-            customFabricator.SetSpawns(fabSpawnLocation);
+            customFabricator.SetSpawns(fabricatorSpawnLocation);
             
             customFabricator.Register();
         }
 
-        private static void RegisterCustomSolarPanel()
+        public static void RegisterCustomSolarPanel()
         {
             customSolarPanel = new CustomPrefab(PrefabInfo.WithTechType("CustomSolarPanel"));
-
+            
             var gameObjectTemplate = new CloneTemplate(customSolarPanel.Info, TechType.SolarPanel);
 
             gameObjectTemplate.ModifyPrefab += (prefab) =>
@@ -97,15 +99,15 @@ namespace LyonicDevelopment.IslandSpawn
             };
             
             customSolarPanel.SetGameObject(gameObjectTemplate);
-            customSolarPanel.SetSpawns(panelSpawnLocation);
+            customSolarPanel.SetSpawns(solarPanelSpawnLocation);
             
             customSolarPanel.Register();
         }
 
-        private static void RegisterCustomRadio()
+        public static void RegisterCustomRadio()
         {
             customRadio = new CustomPrefab(PrefabInfo.WithTechType("CustomRadio"));
-
+            
             var gameObjectTemplate = new CloneTemplate(customRadio.Info, TechType.Radio);
 
             gameObjectTemplate.ModifyPrefab += (prefab) =>
@@ -113,7 +115,8 @@ namespace LyonicDevelopment.IslandSpawn
                 Destroy(prefab.GetComponent<PreventDeconstruction>());
 
                 prefab.GetComponent<LiveMixin>().health = 25;
-                
+
+                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
                 prefab.AddComponent<PreventDeconstructionAlways>().always = true;
                 prefab.AddComponent<CustomPowerRelay>();
             };
@@ -124,16 +127,17 @@ namespace LyonicDevelopment.IslandSpawn
             customRadio.Register();
         }
 
-        private static void RegisterCustomMedicalCabinet()
+        public static void RegisterCustomMedicalCabinet()
         {
             customMedCabinet = new CustomPrefab(PrefabInfo.WithTechType("CustomMedicalCabinet"));
-
+            
             var gameObjectTemplate = new CloneTemplate(customMedCabinet.Info, TechType.MedicalCabinet);
 
             gameObjectTemplate.ModifyPrefab += (prefab) =>
             {
                 Destroy(prefab.GetComponent<PreventDeconstruction>());
 
+                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
                 prefab.AddComponent<PreventDeconstructionAlways>().always = true;
                 prefab.AddComponent<CustomPowerRelay>();
             };
@@ -144,10 +148,10 @@ namespace LyonicDevelopment.IslandSpawn
             customMedCabinet.Register();
         }
 
-        private static void RegisterPowerCollider()
+        public static void RegisterPowerCollider()
         {
             powerCollider = new CustomPrefab(PrefabInfo.WithTechType("PowerCollider"));
-
+            
             GameObject powerColliderObject = AssetBundle.LoadAsset<GameObject>("PowerCollider");
             
             PrefabUtils.AddBasicComponents(powerColliderObject, powerCollider.Info.ClassID, 

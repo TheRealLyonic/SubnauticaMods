@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using HarmonyLib;
 using Nautilus.Utility;
 using UnityEngine;
 using UWE;
+using Object = UnityEngine.Object;
 
 namespace LyonicDevelopment.IslandSpawn
 {
@@ -34,7 +36,6 @@ namespace LyonicDevelopment.IslandSpawn
             
             Player.main.SetPosition(new Vector3(PlayerPatch.SPAWN_POS.x, PlayerPatch.SPAWN_POS.y + 20f, PlayerPatch.SPAWN_POS.z));
 
-            Player.main.rigidBody.useGravity = false;
             Player.main.cinematicModeActive = true;
             
             CoroutineHost.StartCoroutine(SpawnPlayer());
@@ -47,16 +48,15 @@ namespace LyonicDevelopment.IslandSpawn
             GameObject powerCollider = GameObject.Find("PowerCollider");
 
             yield return powerCollider;
-            
+
             yield return new WaitForSeconds(3f);
-            
+
             Player.main.SetPosition(PlayerPatch.SPAWN_POS);
 
-            Player.main.rigidBody.useGravity = true;
             Player.main.cinematicModeActive = false;
-            
+
             playerSpawned = true;
-            
+
             blackUIPanel.SetActive(false);
         }
 
