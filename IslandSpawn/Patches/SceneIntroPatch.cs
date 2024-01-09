@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using HarmonyLib;
 using Nautilus.Utility;
@@ -49,11 +48,19 @@ namespace LyonicDevelopment.IslandSpawn
 
             yield return powerCollider;
 
-            yield return new WaitForSeconds(3f);
+            yield return LargeWorldStreamer.main.IsWorldSettled();
+
+            Player.main.oxygenMgr.AddOxygen(45f);
+            
+            if(!blackUIPanel.activeSelf)
+                blackUIPanel.SetActive(true);
+
+            yield return new WaitForSeconds(10f);
 
             Player.main.SetPosition(PlayerPatch.SPAWN_POS);
 
             Player.main.cinematicModeActive = false;
+            Player.main.oxygenMgr.enabled = true;
 
             playerSpawned = true;
 

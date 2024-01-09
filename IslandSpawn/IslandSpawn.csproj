@@ -320,7 +320,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Mono\AsyncPrefabSpawner.cs" />
+        <Compile Include="Mono\VanillaPrefabSpawner.cs" />
         <Compile Include="Mono\CustomPowerRelay.cs" />
         <Compile Include="Mono\CustomPowerSource.cs" />
         <Compile Include="Mono\PowerCollider.cs" />

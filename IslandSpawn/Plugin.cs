@@ -158,7 +158,7 @@ namespace LyonicDevelopment.IslandSpawn
                 powerCollider.Info.TechType, LargeWorldEntity.CellLevel.Near);
             
             powerColliderObject.transform.GetChild(0).gameObject.AddComponent<PowerCollider>();
-            powerColliderObject.transform.GetChild(0).gameObject.AddComponent<AsyncPrefabSpawner>();
+            powerColliderObject.transform.GetChild(0).gameObject.AddComponent<VanillaPrefabSpawner>();
             
             powerCollider.SetGameObject(powerColliderObject);
             powerCollider.SetSpawns(colliderSpawnLocation);
