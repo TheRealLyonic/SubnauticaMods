@@ -27,11 +27,11 @@ namespace LyonicDevelopment.IslandSpawn
             Tuple.Create(new Vector3(-735.7f, -30.0f, -993f), new Quaternion(0f, -0.87f, 0f, 0.5f))
         };
         
-        private static List<Tuple<String, String, List<Tuple<Vector3, Quaternion>>, bool>> vanillaItems =
-            new List<Tuple<string, string, List<Tuple<Vector3, Quaternion>>, bool>>
+        private static List<Tuple<String, String, List<Tuple<Vector3, Quaternion>>>> vanillaItems =
+            new List<Tuple<string, string, List<Tuple<Vector3, Quaternion>>>>
             {
-                Tuple.Create(CraftData.GetClassIdForTechType(TechType.CrashHome), "CrashHome(Clone)", crashSpawns, false),
-                Tuple.Create("70eb6270-bf5e-4d6a-8182-484ffcfd8de6", "Coral_reef_jeweled_disk_red_01_01(Clone)", coralSpawns, false)
+                Tuple.Create(CraftData.GetClassIdForTechType(TechType.CrashHome), "CrashHome(Clone)", crashSpawns),
+                Tuple.Create("70eb6270-bf5e-4d6a-8182-484ffcfd8de6", "Coral_reef_jeweled_disk_red_01_01(Clone)", coralSpawns)
             };
         
         private IEnumerator Start()
