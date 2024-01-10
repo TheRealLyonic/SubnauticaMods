@@ -31,16 +31,16 @@ namespace LyonicDevelopment.IslandSpawn
 
         private static IEnumerator SpawnPlayer()
         {
-            GameObject powerCollider = GameObject.Find("PowerCollider");
+            var sceneLoading = GameObject.FindObjectOfType<uGUI_SceneLoading>();
 
-            yield return powerCollider;
-
+            yield return !sceneLoading.isLoading;
+            
             InitBlackPanel();
             
             yield return LargeWorldStreamer.main.IsWorldSettled();
 
             Player.main.oxygenMgr.AddOxygen(45f);
-
+            
             yield return new WaitForSeconds(10f);
 
             Player.main.SetPosition(PlayerPatch.SPAWN_POS);
