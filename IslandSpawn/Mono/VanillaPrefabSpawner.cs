@@ -30,8 +30,8 @@ namespace LyonicDevelopment.IslandSpawn
         private static List<Tuple<String, String, List<Tuple<Vector3, Quaternion>>>> vanillaItems =
             new List<Tuple<string, string, List<Tuple<Vector3, Quaternion>>>>
             {
-                Tuple.Create(CraftData.GetClassIdForTechType(TechType.CrashHome), "CrashHome(Clone)", crashSpawns),
-                Tuple.Create("70eb6270-bf5e-4d6a-8182-484ffcfd8de6", "Coral_reef_jeweled_disk_red_01_01(Clone)", coralSpawns)
+                Tuple.Create(CraftData.GetClassIdForTechType(TechType.CrashHome), "Lyonic_CrashHome(Clone)", crashSpawns),
+                Tuple.Create("70eb6270-bf5e-4d6a-8182-484ffcfd8de6", "Lyonic_TableCoral(Clone)", coralSpawns)
             };
         
         private IEnumerator Start()
@@ -49,13 +49,19 @@ namespace LyonicDevelopment.IslandSpawn
 
         private static IEnumerator RegisterVanillaItem(string classID, string prefabName, List<Tuple<Vector3, Quaternion>> spawnLocations)
         {
+            if (GameObject.Find(prefabName) != null)
+            {
+                Plugin.Logger.LogWarning($"Tried spawning multiple {prefabName} instances...");
+                yield break;
+            }
+            
             var task = PrefabDatabase.GetPrefabAsync(classID);
 
             yield return task;
-
-            yield return new WaitForSeconds(7f);
             
             task.TryGetPrefab(out var prefab);
+
+            prefab.name = prefabName.Remove(prefabName.Length - 7, 7); //Removes the (Clone) from the string.
 
             foreach (var spawnLocation in spawnLocations)
             {
