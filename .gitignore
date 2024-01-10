@@ -20,6 +20,9 @@
 **/.idea/**/*.iml
 **/.idea/**/contentModel.xml
 **/.idea/**/modules.xml
+**/packages
+**/Subnautica Mods.sln
+**/suget.config
 
 *.suo
 *.user
