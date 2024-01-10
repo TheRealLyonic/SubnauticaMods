@@ -24,6 +24,9 @@
 **/Subnautica Mods.sln
 **/nuget.config
 **/project_icon.svg
+**/.idea
+**/.idea/projectSettingsUpdater.xml
+**/.idea/workspace.xml
 
 *.suo
 *.user
