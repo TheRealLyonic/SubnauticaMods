@@ -24,7 +24,8 @@ namespace LyonicDevelopment.IslandSpawn
         {
             Tuple.Create(new Vector3(-735.7f, -29.3f, -993f), new Quaternion(0f, -0.87f, 0f, 0.5f)),
             Tuple.Create(new Vector3(-735.7f, -29.6f, -993f), new Quaternion(0f, -0.87f, 0f, 0.5f)),
-            Tuple.Create(new Vector3(-735.7f, -30.0f, -993f), new Quaternion(0f, -0.87f, 0f, 0.5f))
+            Tuple.Create(new Vector3(-735.7f, -30.0f, -993f), new Quaternion(0f, -0.87f, 0f, 0.5f)),
+            Tuple.Create(new Vector3(-756.7f, -27.9f, -951f), new Quaternion(0f, -0.87f, 0f, 0.5f))
         };
         
         private static List<Tuple<String, String, List<Tuple<Vector3, Quaternion>>>> vanillaItems =

@@ -28,6 +28,14 @@
 **/.idea/projectSettingsUpdater.xml
 **/.idea/workspace.xml
 
+# Project files that should not be included
+**/IslandSpawn/bin
+**/IslandSpawn/obj
+**/IslandSpawn/Properties
+**/IslandSpawn/packages.config
+**/IslandSpawn/App.config
+**/IslandSpawn/packages
+
 *.suo
 *.user
 .vs/

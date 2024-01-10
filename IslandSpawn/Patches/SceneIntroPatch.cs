@@ -21,6 +21,9 @@ namespace LyonicDevelopment.IslandSpawn
         {
             __instance.Stop(true);
 
+            Player.main.SetPosition(new Vector3(PlayerPatch.SPAWN_POS.x, PlayerPatch.SPAWN_POS.y + 20f, PlayerPatch.SPAWN_POS.z));
+            Player.main.cinematicModeActive = true;
+            
             blackUIPanel = Object.Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("BlackPanel"));
 
             PrefabUtils.AddBasicComponents(blackUIPanel, "BlackUIPanel", TechType.None, LargeWorldEntity.CellLevel.Near);
@@ -31,9 +34,6 @@ namespace LyonicDevelopment.IslandSpawn
             blackUIPanel.transform.localPosition = new Vector3(0f, 0f, 0f);
             blackUIPanel.transform.localScale = new Vector3(2000000f, 2000000f, 2000000f);
             
-            Player.main.SetPosition(new Vector3(PlayerPatch.SPAWN_POS.x, PlayerPatch.SPAWN_POS.y + 20f, PlayerPatch.SPAWN_POS.z));
-
-            Player.main.cinematicModeActive = true;
             
             blackUIPanel.SetActive(true);
             
@@ -57,7 +57,6 @@ namespace LyonicDevelopment.IslandSpawn
             Player.main.SetPosition(PlayerPatch.SPAWN_POS);
 
             Player.main.cinematicModeActive = false;
-            Player.main.oxygenMgr.enabled = true;
 
             playerSpawned = true;
 
