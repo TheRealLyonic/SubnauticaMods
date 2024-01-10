@@ -40,9 +40,10 @@ namespace LyonicDevelopment.IslandSpawn
 
             foreach (var vanillaItem in vanillaItems)
             {
+                Plugin.Logger.LogInfo($"Spawning {vanillaItem.Item2} instances...");
+                
                 CoroutineHost.StartCoroutine(RegisterVanillaItem(vanillaItem.Item1, vanillaItem.Item2,
                     vanillaItem.Item3));
-                Plugin.Logger.LogInfo($"Spawning {vanillaItem.Item2}...");
             }
         }
 
@@ -58,30 +59,8 @@ namespace LyonicDevelopment.IslandSpawn
 
             foreach (var spawnLocation in spawnLocations)
             {
-
-                if (CheckIfExists(prefabName, spawnLocation.Item1))
-                {
-                    Plugin.Logger.LogWarning($"Tried spawning multiple {prefabName} instances...");
-                    yield break;
-                }
-                
                 Instantiate(prefab, spawnLocation.Item1, spawnLocation.Item2);
             }
-        }
-
-        private static bool CheckIfExists(string prefabName, Vector3 spawnPos)
-        {
-            Vector3 rayOrigin = new Vector3(spawnPos.x, spawnPos.y + 0.1f, spawnPos.z);
-
-            Physics.Raycast(new Ray(rayOrigin, Vector3.up), out var hit, 2f);
-
-            if (hit.collider == null)
-                return false;
-
-            if (hit.collider.gameObject.name == prefabName)
-                return true;
-
-            return false;
         }
         
     }
