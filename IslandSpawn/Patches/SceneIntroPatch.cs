@@ -41,6 +41,13 @@ namespace LyonicDevelopment.IslandSpawn
 
             Player.main.oxygenMgr.AddOxygen(45f);
             
+            //Yeah no clue why this is needed, but this panel decides to delete itself sometimes, and DontDestroyOnLoad does not fix the problem.
+            if (GameObject.Find("Lyonic_BlackUIPanel") == null)
+            {
+                Plugin.Logger.LogWarning("Fixing broken BlackUIPanel...");
+                InitBlackPanel();
+            }
+            
             yield return new WaitForSeconds(10f);
 
             Player.main.SetPosition(PlayerPatch.SPAWN_POS);
