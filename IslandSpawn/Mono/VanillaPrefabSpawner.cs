@@ -25,7 +25,25 @@ namespace LyonicDevelopment.IslandSpawn
             Tuple.Create(new Vector3(-735.7f, -29.3f, -993f), new Quaternion(0f, -0.87f, 0f, 0.5f)),
             Tuple.Create(new Vector3(-735.7f, -29.6f, -993f), new Quaternion(0f, -0.87f, 0f, 0.5f)),
             Tuple.Create(new Vector3(-735.7f, -30.0f, -993f), new Quaternion(0f, -0.87f, 0f, 0.5f)),
-            Tuple.Create(new Vector3(-756.7f, -27.9f, -951f), new Quaternion(0f, -0.87f, 0f, 0.5f))
+            
+            Tuple.Create(new Vector3(-756f, -27.9f, -951f), new Quaternion(0f, -0.57f, 0f, 0.82f)),
+            Tuple.Create(new Vector3(-756f, -28.2f, -951f), new Quaternion(0f, -0.57f, 0f, 0.82f)),
+            Tuple.Create(new Vector3(-755.9f, -28.5f, -951f), new Quaternion(0f, -0.57f, 0f, 0.82f)),
+            
+            Tuple.Create(new Vector3(-755.5f, -27.9f, -949.5f), new Quaternion(0f, -0.57f, 0f, 0.82f)),
+            Tuple.Create(new Vector3(-755.5f, -28.2f, -949.5f), new Quaternion(0f, -0.57f, 0f, 0.82f)),
+            Tuple.Create(new Vector3(-755.4f, -28.5f, -949.5f), new Quaternion(0f, -0.57f, 0f, 0.82f)),
+            
+            Tuple.Create(new Vector3(-859.9f, -39.1f, -1038.6f), new Quaternion(0f, 0.14f, 0f, 0.99f)),
+
+            Tuple.Create(new Vector3(-860.3f, -40.6f, -1038.6f), new Quaternion(0f, 0.14f, 0f, 0.99f)),
+            Tuple.Create(new Vector3(-860.3f, -40.9f, -1038.6f), new Quaternion(0f, 0.14f, 0f, 0.99f)),
+            Tuple.Create(new Vector3(-860.3f, -41.2f, -1038.65f), new Quaternion(0f, 0.14f, 0f, 0.99f)),
+            
+            Tuple.Create(new Vector3(-762f, -44.0f, -1036.75f), new Quaternion(0f, 0f, 0f, 1f)),
+            Tuple.Create(new Vector3(-762f, -44.3f, -1036.75f), new Quaternion(0f, 0f, 0f, 1f)),
+            Tuple.Create(new Vector3(-762f, -44.6f, -1036.75f), new Quaternion(0f, 0f, 0f, 1f)),
+            Tuple.Create(new Vector3(-762f, -44.9f, -1036.8f), new Quaternion(0f, 0f, 0f, 1f))
         };
         
         private static List<Tuple<String, String, List<Tuple<Vector3, Quaternion>>>> vanillaItems =
