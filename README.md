@@ -15,6 +15,7 @@ There aren't many of them at the moment, but provided my motivation stays alive,
 ## Subnautica
 * [Improved Reaper](https://github.com/TheRealLyonic/SubnauticaMods/tree/main/ImprovedReaper) **(Allows the player to alter some of the properties of the Reaper Leviathan. A largely outdated mod, replaced entirely by the Improved Cragfield mod, but left separate for download as a result of popular request)**
 * [Improved Cragfield](https://github.com/TheRealLyonic/SubnauticaMods/tree/main/ImprovedCragfield) **(Adds new terrain, extra resources, and a few more Reaper spawns to the Cragfields, aiming to make the neglected biome more interesting. Special thanks to Mayonnaise in the Subnautica Modding Discord for coming up with the idea for this mod, it would not exist without them!)**
+* [Island Spawn](https://github.com/TheRealLyonic/SubnauticaMods/tree/main/IslandSpawn) **(Spawns the player inside one of the Degasi habitats on the first floating island. The lifepod is removed from the game, and basic survival tools/resources are added across the island, so the player won't have to make the trip to the safe-shallows to get started with their playthrough. Overall, the goal of this mod is to let the player have an average playthrough while spawning on the degasi island!)**
 
 ## Subnautica: Below Zero
 * [Heat Blade Warmth](https://github.com/TheRealLyonic/SubnauticaMods/tree/main/HeatBladeWarmthBZ) **(Adds new functionality to the Thermoblade in Below Zero, allowing the player to trigger an animation and warm themselves up, at the cost of some health)**
