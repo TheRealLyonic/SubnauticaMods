@@ -1,8 +1,0 @@
-<Project>
-
-  <Target Name="SkipBepinRefs" AfterTargets="ResolveReferences">
-    <ItemGroup>
-    </ItemGroup>
-  </Target>
-
-</Project>
