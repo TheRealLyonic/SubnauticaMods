@@ -1,9 +1,0 @@
-﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">C:\Program Files\JetBrains\JetBrains Rider 2023.3.2\tools\MSBuild\Current\Bin\amd64\MSBuild.exe</s:String>
-	
-	<s:Boolean x:Key="/Default/Environment/Hierarchy/Build/BuildTool/RecentBuildToolPaths/=C_003A_005CUsers_005Crwbyf_005CAppData_005CLocal_005CJetBrains_005CBuildTools_005CJetMSBuild_005CMSBuild_005C15_002E0_005CBin_005CMSBuild_002Eexe/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=0fb70e69_002Dc118_002D4563_002D93c1_002D986465c610f8_0023ImprovedCragfield/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=76e79ef2_002D0ae9_002D43c4_002Db38e_002D509dfb8930a2_0023HeatBladeWarmthBZ/@EntryIndexedValue">True</s:Boolean>
-	
-	
-	</wpf:ResourceDictionary>
