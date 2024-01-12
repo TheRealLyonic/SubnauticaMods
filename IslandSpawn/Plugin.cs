@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -54,6 +55,7 @@ namespace LyonicDevelopment.IslandSpawn
             RegisterCustomRadio();
             RegisterCustomMedicalCabinet();
             RegisterPowerCollider();
+            RegisterVanillaSpawns();
             RegisterCustomLoot();
             
             Harmony.PatchAll();
@@ -158,12 +160,54 @@ namespace LyonicDevelopment.IslandSpawn
                 powerCollider.Info.TechType, LargeWorldEntity.CellLevel.Near);
             
             powerColliderObject.transform.GetChild(0).gameObject.AddComponent<PowerCollider>();
-            powerColliderObject.transform.GetChild(0).gameObject.AddComponent<VanillaPrefabSpawner>();
             
             powerCollider.SetGameObject(powerColliderObject);
             powerCollider.SetSpawns(colliderSpawnLocation);
 
             powerCollider.Register();
+        }
+
+        private static void RegisterVanillaSpawns()
+        {
+            string tableCoralID = "70eb6270-bf5e-4d6a-8182-484ffcfd8de6";
+            
+            var vanillaSpawnInfo = new List<SpawnInfo>
+            {
+                //Crash homes
+                new SpawnInfo(TechType.CrashHome, new Vector3(-660.66f, -11.3f, -1026.17f), new Quaternion(0.43f, 0f, 0f, 0.90f)),
+                new SpawnInfo(TechType.CrashHome, new Vector3(-688.64f, -10f, -993.64f), new Quaternion(0.56f, 0f, 0f, 0.83f)),
+                new SpawnInfo(TechType.CrashHome, new Vector3(-689.87f, -13.12f, -984.8f), new Quaternion(0f, 0f, -0.23f, 0.97f)),
+                new SpawnInfo(TechType.CrashHome, new Vector3(-662.3f, -14.8f, -1012.82f), new Quaternion(0f, 0f, -0.23f, 0.97f)),
+                new SpawnInfo(TechType.CrashHome, new Vector3(-731.8f, -12.49f, -948.19f), new Quaternion(0f, 0f, -0.56f, 0.83f)),
+                new SpawnInfo(TechType.CrashHome, new Vector3(-778.65f, -7.07f, -977.25f), new Quaternion(0.47f, 0f, 0f, 0.88f)),
+                new SpawnInfo(TechType.CrashHome, new Vector3(-830.28f, -14.3f, -1007.15f), new Quaternion(0.56f, 0f, 0f, 0.83f)),
+                
+                //Table coral - Batch 1
+                new SpawnInfo(tableCoralID, new Vector3(-735.7f, -29.3f, -993f), new Quaternion(0f, -0.87f, 0f, 0.5f)),
+                new SpawnInfo(tableCoralID, new Vector3(-735.7f, -29.6f, -993f), new Quaternion(0f, -0.87f, 0f, 0.5f)),
+                new SpawnInfo(tableCoralID, new Vector3(-735.7f, -30.0f, -993f), new Quaternion(0f, -0.87f, 0f, 0.5f)),
+                //Table coral - Batch 2
+                new SpawnInfo(tableCoralID, new Vector3(-756f, -27.9f, -951f), new Quaternion(0f, -0.57f, 0f, 0.82f)),
+                new SpawnInfo(tableCoralID, new Vector3(-756f, -28.2f, -951f), new Quaternion(0f, -0.57f, 0f, 0.82f)),
+                new SpawnInfo(tableCoralID, new Vector3(-755.9f, -28.5f, -951f), new Quaternion(0f, -0.57f, 0f, 0.82f)),
+                //Table coral - Batch 3
+                new SpawnInfo(tableCoralID, new Vector3(-755.5f, -27.9f, -949.5f), new Quaternion(0f, -0.57f, 0f, 0.82f)),
+                new SpawnInfo(tableCoralID, new Vector3(-755.5f, -28.2f, -949.5f), new Quaternion(0f, -0.57f, 0f, 0.82f)),
+                new SpawnInfo(tableCoralID, new Vector3(-755.4f, -28.5f, -949.5f), new Quaternion(0f, -0.57f, 0f, 0.82f)),
+                //Table coral - Batch 4 (Up)
+                new SpawnInfo(tableCoralID, new Vector3(-859.9f, -39.1f, -1038.6f), new Quaternion(0f, 0.14f, 0f, 0.99f)),
+                //Table coral - Batch 4 (Main)
+                new SpawnInfo(tableCoralID, new Vector3(-860.3f, -40.6f, -1038.6f), new Quaternion(0f, 0.14f, 0f, 0.99f)),
+                new SpawnInfo(tableCoralID, new Vector3(-860.3f, -40.9f, -1038.6f), new Quaternion(0f, 0.14f, 0f, 0.99f)),
+                new SpawnInfo(tableCoralID, new Vector3(-860.3f, -41.2f, -1038.65f), new Quaternion(0f, 0.14f, 0f, 0.99f)),
+                //Table coral - Batch 5
+                new SpawnInfo(tableCoralID, new Vector3(-762f, -44.0f, -1036.75f), new Quaternion(0f, 0f, 0f, 1f)),
+                new SpawnInfo(tableCoralID, new Vector3(-762f, -44.3f, -1036.75f), new Quaternion(0f, 0f, 0f, 1f)),
+                new SpawnInfo(tableCoralID, new Vector3(-762f, -44.6f, -1036.75f), new Quaternion(0f, 0f, 0f, 1f)),
+                new SpawnInfo(tableCoralID, new Vector3(-762f, -44.9f, -1036.8f), new Quaternion(0f, 0f, 0f, 1f))
+            };
+            
+            CoordinatedSpawnsHandler.RegisterCoordinatedSpawns(vanillaSpawnInfo);
         }
 
         private static void RegisterCustomLoot()
