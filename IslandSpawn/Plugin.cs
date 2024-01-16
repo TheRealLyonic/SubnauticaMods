@@ -77,6 +77,16 @@ namespace LyonicDevelopment.IslandSpawn
                 prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
                 prefab.AddComponent<PreventDeconstructionAlways>().always = true;
                 prefab.AddComponent<CustomPowerRelay>();
+                
+                foreach (var renderer in prefab.GetComponentsInChildren<Renderer>(true))
+                {
+                    foreach (var material in renderer.materials)
+                    {
+                        material.SetTexture("_MainTex", AssetBundle.LoadAsset<Texture2D>("Fabricator_Color"));
+                        
+                        material.SetTexture("_Illum", AssetBundle.LoadAsset<Texture2D>("Fabricator_Illum"));
+                    }
+                }
             };
             
             customFabricator.SetGameObject(gameObjectTemplate);
@@ -98,6 +108,14 @@ namespace LyonicDevelopment.IslandSpawn
 
                 prefab.AddComponent<PreventDeconstructionAlways>().always = true;
                 prefab.AddComponent<CustomPowerSource>();
+                
+                foreach (var renderer in prefab.GetComponentsInChildren<Renderer>(true))
+                {
+                    foreach (var material in renderer.materials)
+                    {
+                        material.SetTexture("_MainTex", AssetBundle.LoadAsset<Texture2D>("Solar_Panel_Color"));
+                    }
+                }
             };
             
             customSolarPanel.SetGameObject(gameObjectTemplate);
@@ -121,6 +139,12 @@ namespace LyonicDevelopment.IslandSpawn
                 prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
                 prefab.AddComponent<PreventDeconstructionAlways>().always = true;
                 prefab.AddComponent<CustomPowerRelay>();
+
+                foreach (var material in prefab.GetComponentsInChildren<Renderer>(true)[0].materials)
+                {
+                    material.SetTexture("_MainTex", AssetBundle.LoadAsset<Texture2D>("Radio_Color"));
+                    material.SetTexture("_Illum", AssetBundle.LoadAsset<Texture2D>("Radio_Illum"));
+                }
             };
             
             customRadio.SetGameObject(gameObjectTemplate);
@@ -142,6 +166,12 @@ namespace LyonicDevelopment.IslandSpawn
                 prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
                 prefab.AddComponent<PreventDeconstructionAlways>().always = true;
                 prefab.AddComponent<CustomPowerRelay>();
+                
+                foreach (var material in prefab.GetComponentsInChildren<Renderer>(true)[0].materials)
+                {
+                    material.SetTexture("_MainTex", AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Color"));
+                    material.SetTexture("_Illum", AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Illum"));
+                }
             };
             
             customMedCabinet.SetGameObject(gameObjectTemplate);
