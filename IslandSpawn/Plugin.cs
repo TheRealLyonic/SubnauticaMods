@@ -83,7 +83,7 @@ namespace LyonicDevelopment.IslandSpawn
                     foreach (var material in renderer.materials)
                     {
                         material.SetTexture("_MainTex", AssetBundle.LoadAsset<Texture2D>("Fabricator_Color"));
-                        
+                        material.SetTexture("_SpecTex", AssetBundle.LoadAsset<Texture2D>("Fabricator_Color"));
                         material.SetTexture("_Illum", AssetBundle.LoadAsset<Texture2D>("Fabricator_Illum"));
                     }
                 }
@@ -114,6 +114,7 @@ namespace LyonicDevelopment.IslandSpawn
                     foreach (var material in renderer.materials)
                     {
                         material.SetTexture("_MainTex", AssetBundle.LoadAsset<Texture2D>("Solar_Panel_Color"));
+                        material.SetTexture("_SpecTex", AssetBundle.LoadAsset<Texture2D>("Solar_Panel_Color"));
                     }
                 }
             };
@@ -143,6 +144,7 @@ namespace LyonicDevelopment.IslandSpawn
                 foreach (var material in prefab.GetComponentsInChildren<Renderer>(true)[0].materials)
                 {
                     material.SetTexture("_MainTex", AssetBundle.LoadAsset<Texture2D>("Radio_Color"));
+                    material.SetTexture("_SpecTex", AssetBundle.LoadAsset<Texture2D>("Radio_Color"));
                     material.SetTexture("_Illum", AssetBundle.LoadAsset<Texture2D>("Radio_Illum"));
                 }
             };
@@ -170,6 +172,7 @@ namespace LyonicDevelopment.IslandSpawn
                 foreach (var material in prefab.GetComponentsInChildren<Renderer>(true)[0].materials)
                 {
                     material.SetTexture("_MainTex", AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Color"));
+                    material.SetTexture("_SpecTex", AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Color"));
                     material.SetTexture("_Illum", AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Illum"));
                 }
             };
