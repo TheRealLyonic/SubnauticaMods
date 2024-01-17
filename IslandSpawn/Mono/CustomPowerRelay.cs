@@ -4,6 +4,15 @@ namespace LyonicDevelopment.IslandSpawn.Mono
 {
     public class CustomPowerRelay : PowerRelay
     {
+        public static GameObject powerRelayObject;
+        public static bool exists;
+
+        public virtual void Start()
+        {
+            exists = true;
+            powerRelayObject = gameObject;
+            base.Start();
+        }
         
         protected new virtual void UpdatePowerState()
         {
@@ -13,14 +22,12 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             if (isDirty)
                 isDirty = false;
             
-            GameObject customSolarPanel = GameObject.Find("CustomSolarPanel(Clone)");
-
-            if (customSolarPanel != null)
+            if (CustomPowerSource.exists)
             {
                 if (inboundPowerSources.Count == 0)
                 {
                     inboundPowerSources.Capacity = 1;
-                    inboundPowerSources.Add(customSolarPanel.GetComponent<CustomPowerSource>());
+                    inboundPowerSources.Add(CustomPowerSource.powerSourceObject.GetComponent<CustomPowerSource>());
                     Plugin.Logger.LogInfo("Added power source.");
                 }
                 
@@ -45,7 +52,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             }
             else
             {
-                Plugin.Logger.LogError("Custom power relay could not find solar panel.");
+                Plugin.Logger.LogError("Custom power relay could not connect to power source.");
 
                 if (isPowered)
                 {

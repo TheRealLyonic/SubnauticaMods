@@ -17,7 +17,7 @@ namespace LyonicDevelopment.IslandSpawn
             {
                 if (PowerCollider.playerInRange)
                 {
-                    var powerRelay = GameObject.Find("CustomFabricator(Clone)").GetComponent<CustomPowerRelay>();
+                    var powerRelay = CustomPowerRelay.powerRelayObject.GetComponent<CustomPowerRelay>();
 
                     if (powerRelay.inboundPowerSources.Count > 0)
                     {

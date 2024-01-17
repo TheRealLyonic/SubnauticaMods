@@ -35,18 +35,13 @@ namespace LyonicDevelopment.IslandSpawn
 
             yield return !sceneLoading.isLoading;
             
+            Plugin.Logger.LogWarning("Initializing black panel...");
+            
             InitBlackPanel();
             
             yield return LargeWorldStreamer.main.IsWorldSettled();
 
             Player.main.oxygenMgr.AddOxygen(45f);
-            
-            //Yeah no clue why this is needed, but this panel decides to delete itself sometimes, and DontDestroyOnLoad does not fix the problem.
-            if (GameObject.Find("Lyonic_BlackUIPanel") == null)
-            {
-                Plugin.Logger.LogWarning("Fixing broken BlackUIPanel...");
-                InitBlackPanel();
-            }
             
             yield return new WaitForSeconds(10f);
 
@@ -64,10 +59,24 @@ namespace LyonicDevelopment.IslandSpawn
             blackUIPanel = Object.Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("BlackPanel"));
             
             PrefabUtils.AddBasicComponents(blackUIPanel, "BlackUIPanel", TechType.None, LargeWorldEntity.CellLevel.Near);
-            
-            blackUIPanel.transform.parent = GameObject.Find("ScreenCanvas").transform;
 
+            GameObject canvasObject = null;
+            foreach(var canvas in GameObject.FindObjectsOfType<uGUI_CanvasScaler>())
+            {
+                if (canvas.gameObject.name == "ScreenCanvas")
+                {
+                    canvasObject = canvas.gameObject;
+                    break;
+                }
+            }
+            
             blackUIPanel.name = "Lyonic_BlackUIPanel";
+            
+            if(canvasObject != null)
+                blackUIPanel.transform.parent = canvasObject.transform;
+            else
+                Plugin.Logger.LogWarning("Failed to find the ScreenCanvas object.");
+            
             blackUIPanel.transform.position = new Vector3(0f, 0f, 0f);
             blackUIPanel.transform.localPosition = new Vector3(0f, 0f, 0f);
             blackUIPanel.transform.localScale = new Vector3(2000000f, 2000000f, 2000000f);
