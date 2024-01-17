@@ -83,7 +83,7 @@ namespace LyonicDevelopment.IslandSpawn
                     foreach (var material in renderer.materials)
                     {
                         material.SetTexture("_MainTex", AssetBundle.LoadAsset<Texture2D>("Fabricator_Color"));
-                        material.SetTexture("_SpecTex", AssetBundle.LoadAsset<Texture2D>("Fabricator_Color"));
+                        material.SetTexture("_SpecTex", AssetBundle.LoadAsset<Texture2D>("Fabricator_Spec"));
                         material.SetTexture("_Illum", AssetBundle.LoadAsset<Texture2D>("Fabricator_Illum"));
                     }
                 }
@@ -169,11 +169,11 @@ namespace LyonicDevelopment.IslandSpawn
                 prefab.AddComponent<PreventDeconstructionAlways>().always = true;
                 prefab.AddComponent<CustomPowerRelay>();
                 
-                foreach (var material in prefab.GetComponentsInChildren<Renderer>(true)[0].materials)
+                for (int i = 0; i < 2; i++)
                 {
-                    material.SetTexture("_MainTex", AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Color"));
-                    material.SetTexture("_SpecTex", AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Color"));
-                    material.SetTexture("_Illum", AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Illum"));
+                    prefab.GetComponentsInChildren<Renderer>()[i].materials[0].SetTexture("_MainTex", AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Color"));
+                    prefab.GetComponentsInChildren<Renderer>()[i].materials[0].SetTexture("_SpecTex", AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Spec"));
+                    prefab.GetComponentsInChildren<Renderer>()[i].materials[0].SetTexture("_Illum", AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Illum"));
                 }
             };
             
