@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using HarmonyLib;
+using Nautilus.Handlers;
 using Nautilus.Utility;
 using UnityEngine;
 using UWE;
@@ -33,7 +35,10 @@ namespace LyonicDevelopment.IslandSpawn
         {
             var sceneLoading = GameObject.FindObjectOfType<uGUI_SceneLoading>();
 
-            yield return !sceneLoading.isLoading;
+            if(sceneLoading != null)
+                yield return !sceneLoading.isLoading;
+            else
+                Plugin.Logger.LogWarning("Scene loader is null!");
             
             Plugin.Logger.LogInfo("Initializing black panel...");
             

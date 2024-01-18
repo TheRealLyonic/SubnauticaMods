@@ -57,6 +57,7 @@ namespace LyonicDevelopment.IslandSpawn
             RegisterPowerCollider();
             RegisterVanillaSpawns();
             RegisterCustomLoot();
+            RegisterCustomPDAEntries();
             
             Harmony.PatchAll();
             
@@ -245,9 +246,28 @@ namespace LyonicDevelopment.IslandSpawn
 
         private static void RegisterCustomLoot()
         {
+            //The GetClassIdForTechType method won't work with these objects, despite them having their own techtypes.
+            string beaconFragmentClassID = "a50c91eb-f7cf-4fbf-8157-0aa8d444820c";
+            string gravtrapFragmentClassID = "6e4f85c2-ad1d-4d0a-b20c-1158204ee424";
+            
             //Note that none of the floating island biometypes have valid resource spawns except for the two that are inside and outside of the degasi habitats.
-            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.FloatingIslands_AbandonedBase_Outside, 0.2f, 1);
-            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.SandstoneChunk), BiomeType.FloatingIslands_AbandonedBase_Outside, 0.1f, 1);
+            LootDistributionHandler.EditLootDistributionData(beaconFragmentClassID, BiomeType.FloatingIslands_AbandonedBase_Outside, 0.08f, 1);
+            LootDistributionHandler.EditLootDistributionData(gravtrapFragmentClassID, BiomeType.FloatingIslands_AbandonedBase_Outside, 0.07f, 1);
+            //The sparse reef is just below the floating island; Good place for fragments + Additional loot spawns?
+            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.SparseReef_Spike, 0.2f, 1);
+            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.SandstoneChunk), BiomeType.SparseReef_Spike, 0.1f, 1);
+            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.SparseReef_Wall, 0.2f, 1);
+            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.SeaglideFragment), BiomeType.SparseReef_Sand, 0.4f, 1);
+        }
+
+        private static void RegisterCustomPDAEntries()
+        {
+            string islandScanDesc = "Short range scans reveal multiple tunnel-systems running through the interior of this island. There appear to be small,"
+                + " underwater access points located below the island's beaches. Whether these tunnels were made naturally, or artificially, is unclear.";
+            
+            PDAHandler.AddEncyclopediaEntry("islandScan", "PlanetaryGeology", "Island Scan Data", islandScanDesc, AssetBundle.LoadAsset<Texture2D>("island_databank_hint"));
+            
+            StoryGoalHandler.RegisterBiomeGoal("islandScan", Story.GoalType.Encyclopedia, "FloatingIsland", 10f);
         }
         
     }
