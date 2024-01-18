@@ -203,6 +203,7 @@ namespace LyonicDevelopment.IslandSpawn
 
         private static void RegisterVanillaSpawns()
         {
+            string acidMushroomID = "fc7c1098-13af-417a-8038-0053b65498e5";
             string tableCoralID = "70eb6270-bf5e-4d6a-8182-484ffcfd8de6";
             
             var vanillaSpawnInfo = new List<SpawnInfo>
@@ -215,6 +216,19 @@ namespace LyonicDevelopment.IslandSpawn
                 new SpawnInfo(TechType.CrashHome, new Vector3(-731.8f, -12.49f, -948.19f), new Quaternion(0f, 0f, -0.56f, 0.83f)),
                 new SpawnInfo(TechType.CrashHome, new Vector3(-778.65f, -7.07f, -977.25f), new Quaternion(0.47f, 0f, 0f, 0.88f)),
                 new SpawnInfo(TechType.CrashHome, new Vector3(-830.28f, -14.3f, -1007.15f), new Quaternion(0.56f, 0f, 0f, 0.83f)),
+                
+                //Fragments
+                new SpawnInfo(TechType.SeaglideFragment, new Vector3(-827.46f, -15.65f, -1000.44f), new Quaternion(0f, 0f, 0.01f, 1f)),
+                new SpawnInfo(TechType.SeaglideFragment, new Vector3(-771.19f, -8.03f, -964.03f), new Quaternion(0f, 0f, -0.04f, 1f)),
+                
+                //Acid mushrooms
+                new SpawnInfo(acidMushroomID, new Vector3(-804.6f, -7.8f, -1002.5f), new Quaternion(0.56f, 0.56f, 0f, -0.83f)),
+                new SpawnInfo(acidMushroomID, new Vector3(-805.1f, -8f, -1003.25f), new Quaternion(0.56f, 0.56f, 0f, -0.83f)),
+                new SpawnInfo(acidMushroomID, new Vector3(-805.3f, -8f, -1004.2f), new Quaternion(0.56f, 0.56f, 0f, -0.83f)),
+                new SpawnInfo(acidMushroomID, new Vector3(-803.9f, -7.12f, -1004.6f), new Quaternion(-0.68f, 0f, 0f, 0.73f)),
+                new SpawnInfo(acidMushroomID, new Vector3(-803.5f, -7.35f, -1002.15f), new Quaternion(-0.68f, 0f, 0f, 0.73f)),
+                
+                //TODO: Add creepvine spawns + More titanium & copper sources so seaglide construction is realistic
                 
                 //Table coral - Batch 1
                 new SpawnInfo(tableCoralID, new Vector3(-735.7f, -29.3f, -993f), new Quaternion(0f, -0.87f, 0f, 0.5f)),
@@ -251,13 +265,13 @@ namespace LyonicDevelopment.IslandSpawn
             string gravtrapFragmentClassID = "6e4f85c2-ad1d-4d0a-b20c-1158204ee424";
             
             //Note that none of the floating island biometypes have valid resource spawns except for the two that are inside and outside of the degasi habitats.
+            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.FloatingIslands_AbandonedBase_Outside, 0.09f, 1);
             LootDistributionHandler.EditLootDistributionData(beaconFragmentClassID, BiomeType.FloatingIslands_AbandonedBase_Outside, 0.08f, 1);
             LootDistributionHandler.EditLootDistributionData(gravtrapFragmentClassID, BiomeType.FloatingIslands_AbandonedBase_Outside, 0.07f, 1);
             //The sparse reef is just below the floating island; Good place for fragments + Additional loot spawns?
             LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.SparseReef_Spike, 0.2f, 1);
             LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.SandstoneChunk), BiomeType.SparseReef_Spike, 0.1f, 1);
             LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.SparseReef_Wall, 0.2f, 1);
-            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.SeaglideFragment), BiomeType.SparseReef_Sand, 0.4f, 1);
         }
 
         private static void RegisterCustomPDAEntries()
