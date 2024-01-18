@@ -21,7 +21,7 @@ namespace LyonicDevelopment.IslandSpawn
         public new static ManualLogSource Logger { get; private set; }
 
         public static CustomPrefab customFabricator;
-        public static readonly SpawnLocation fabricatorSpawnLocation = new SpawnLocation(new Vector3(-804.9f, 78.1f, -1051.96f), new Vector3(0f, 100f, 0f));
+        public static readonly SpawnLocation fabricatorSpawnLocation = new SpawnLocation(new Vector3(-804.82f, 78.1f, -1051.96f), new Vector3(0f, 106f, 0f));
 
         public static CustomPrefab customSolarPanel;
         public static readonly SpawnLocation solarPanelSpawnLocation = new SpawnLocation(new Vector3(-804.1f, 79.45f, -1053.95f), new Vector3(0f, 240f, 0f));

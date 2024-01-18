@@ -40,7 +40,7 @@ namespace LyonicDevelopment.IslandSpawn
             InitBlackPanel();
             
             yield return LargeWorldStreamer.main.IsWorldSettled();
-
+            
             Player.main.oxygenMgr.AddOxygen(45f);
             
             yield return new WaitForSeconds(10f);
@@ -60,15 +60,7 @@ namespace LyonicDevelopment.IslandSpawn
             
             PrefabUtils.AddBasicComponents(blackUIPanel, "BlackUIPanel", TechType.None, LargeWorldEntity.CellLevel.Near);
 
-            GameObject canvasObject = null;
-            foreach(var canvas in GameObject.FindObjectsOfType<uGUI_CanvasScaler>())
-            {
-                if (canvas.gameObject.name == "ScreenCanvas")
-                {
-                    canvasObject = canvas.gameObject;
-                    break;
-                }
-            }
+            GameObject canvasObject = GameObject.FindObjectOfType<uGUI_CanvasScaler>().gameObject;
             
             blackUIPanel.name = "Lyonic_BlackUIPanel";
             
