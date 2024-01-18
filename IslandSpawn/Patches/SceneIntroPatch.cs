@@ -35,7 +35,7 @@ namespace LyonicDevelopment.IslandSpawn
 
             yield return !sceneLoading.isLoading;
             
-            Plugin.Logger.LogWarning("Initializing black panel...");
+            Plugin.Logger.LogInfo("Initializing black panel...");
             
             InitBlackPanel();
             
@@ -73,13 +73,12 @@ namespace LyonicDevelopment.IslandSpawn
             blackUIPanel.name = "Lyonic_BlackUIPanel";
             
             if(canvasObject != null)
-                blackUIPanel.transform.parent = canvasObject.transform;
+                blackUIPanel.transform.SetParent(canvasObject.transform);
             else
                 Plugin.Logger.LogWarning("Failed to find the ScreenCanvas object.");
             
             blackUIPanel.transform.position = new Vector3(0f, 0f, 0f);
             blackUIPanel.transform.localPosition = new Vector3(0f, 0f, 0f);
-            blackUIPanel.transform.localScale = new Vector3(2000000f, 2000000f, 2000000f);
             
             blackUIPanel.SetActive(true);
         }
