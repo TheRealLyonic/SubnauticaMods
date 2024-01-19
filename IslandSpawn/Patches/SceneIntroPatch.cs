@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using HarmonyLib;
-using Nautilus.Handlers;
 using Nautilus.Utility;
 using UnityEngine;
 using UWE;
@@ -26,7 +25,7 @@ namespace LyonicDevelopment.IslandSpawn
             Player.main.SetPosition(new Vector3(PlayerPatch.SPAWN_POS.x, PlayerPatch.SPAWN_POS.y + 20f, PlayerPatch.SPAWN_POS.z));
             Player.main.cinematicModeActive = true;
             
-            //Might need to change this to run in a monobehavior...May be the only way to fix the blackscreen bug!
+            //Bug! Might need to change this to run in a monobehavior...May be the only way to fix the blackscreen
             CoroutineHost.StartCoroutine(SpawnPlayer());
 
             return false;
