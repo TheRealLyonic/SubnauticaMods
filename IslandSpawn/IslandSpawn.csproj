@@ -326,7 +326,6 @@
         <Compile Include="Mono\CustomPowerRelay.cs" />
         <Compile Include="Mono\CustomPowerSource.cs" />
         <Compile Include="Mono\PowerCollider.cs" />
-        <Compile Include="Mono\PreventDeconstructionAlways.cs" />
         <Compile Include="Patches\EscapePodPatch.cs" />
         <Compile Include="Patches\PlayerPatch.cs" />
         <Compile Include="Patches\SceneIntroPatch.cs" />

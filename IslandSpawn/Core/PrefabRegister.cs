@@ -35,7 +35,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
 
         private static void RegisterCustomSolarPanel()
         {
-            customSolarPanel = new CustomPrefab(PrefabInfo.WithTechType("CustomSolarPanel"));
+            customSolarPanel = new CustomPrefab(PrefabInfo.WithTechType("CustomSolarPanel", "Rusted Solar Panel", ""));
             
             var gameObjectTemplate = new CloneTemplate(customSolarPanel.Info, TechType.SolarPanel);
 
@@ -44,7 +44,9 @@ namespace LyonicDevelopment.IslandSpawn.Core
                 GameObject.Destroy(prefab.GetComponent<PowerSource>());
                 GameObject.Destroy(prefab.GetComponent<PreventDeconstruction>());
 
-                prefab.AddComponent<PreventDeconstructionAlways>().always = true;
+                prefab.GetComponent<Constructable>().deconstructionAllowed = false;
+                prefab.GetComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Medium;
+                
                 prefab.AddComponent<CustomPowerSource>();
                 
                 foreach (var renderer in prefab.GetComponentsInChildren<Renderer>(true))
@@ -65,7 +67,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
         
         private static void RegisterCustomFabricator()
         {
-            customFabricator = new CustomPrefab(PrefabInfo.WithTechType("CustomFabricator"));
+            customFabricator = new CustomPrefab(PrefabInfo.WithTechType("CustomFabricator", "Rusted Fabricator", ""));
             
             var gameObjectTemplate = new CloneTemplate(customFabricator.Info, TechType.Fabricator);
 
@@ -74,8 +76,10 @@ namespace LyonicDevelopment.IslandSpawn.Core
                 GameObject.Destroy(prefab.GetComponent<PowerRelay>());
                 GameObject.Destroy(prefab.GetComponent<PreventDeconstruction>());
 
-                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
-                prefab.AddComponent<PreventDeconstructionAlways>().always = true;
+                prefab.GetComponent<Constructable>().deconstructionAllowed = false;
+                prefab.GetComponent<Constructable>().techType = TechType.Fabricator;
+                
+                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Medium;
                 prefab.AddComponent<CustomPowerRelay>();
                 
                 foreach (var renderer in prefab.GetComponentsInChildren<Renderer>(true))
@@ -97,7 +101,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
 
         private static void RegisterCustomRadio()
         {
-            customRadio = new CustomPrefab(PrefabInfo.WithTechType("CustomRadio"));
+            customRadio = new CustomPrefab(PrefabInfo.WithTechType("CustomRadio", "Rusted Radio", ""));
             
             var gameObjectTemplate = new CloneTemplate(customRadio.Info, TechType.Radio);
 
@@ -106,11 +110,11 @@ namespace LyonicDevelopment.IslandSpawn.Core
                 GameObject.Destroy(prefab.GetComponent<PreventDeconstruction>());
 
                 prefab.GetComponent<LiveMixin>().health = 25;
-
-                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
-                prefab.AddComponent<PreventDeconstructionAlways>().always = true;
+                prefab.GetComponent<Constructable>().deconstructionAllowed = false;
+                
+                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Medium;
                 prefab.AddComponent<CustomPowerRelay>();
-
+                
                 foreach (var material in prefab.GetComponentsInChildren<Renderer>(true)[0].materials)
                 {
                     material.SetTexture("_MainTex", Plugin.AssetBundle.LoadAsset<Texture2D>("Radio_Color"));
@@ -127,7 +131,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
 
         private static void RegisterCustomMedCabinet()
         {
-            customMedCabinet = new CustomPrefab(PrefabInfo.WithTechType("CustomMedicalCabinet"));
+            customMedCabinet = new CustomPrefab(PrefabInfo.WithTechType("CustomMedCabinet", "Rusted Medkit Fabricator", ""));
             
             var gameObjectTemplate = new CloneTemplate(customMedCabinet.Info, TechType.MedicalCabinet);
 
@@ -135,8 +139,9 @@ namespace LyonicDevelopment.IslandSpawn.Core
             {
                 GameObject.Destroy(prefab.GetComponent<PreventDeconstruction>());
 
-                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
-                prefab.AddComponent<PreventDeconstructionAlways>().always = true;
+                prefab.GetComponent<Constructable>().deconstructionAllowed = false;
+                
+                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Medium;
                 prefab.AddComponent<CustomPowerRelay>();
                 
                 for (int i = 0; i < 2; i++)
@@ -160,7 +165,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
             GameObject powerColliderObject = Plugin.AssetBundle.LoadAsset<GameObject>("PowerCollider");
             
             PrefabUtils.AddBasicComponents(powerColliderObject, powerCollider.Info.ClassID, 
-                powerCollider.Info.TechType, LargeWorldEntity.CellLevel.Near);
+                powerCollider.Info.TechType, LargeWorldEntity.CellLevel.Medium);
             
             powerColliderObject.transform.GetChild(0).gameObject.AddComponent<PowerCollider>();
             

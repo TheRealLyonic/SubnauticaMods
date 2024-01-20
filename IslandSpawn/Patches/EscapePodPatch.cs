@@ -11,7 +11,7 @@ namespace LyonicDevelopment.IslandSpawn
         [HarmonyPostfix]
         public static void Update_Postfix(EscapePod __instance)
         {
-            if(SceneIntroPatch.playerSpawned)
+            if(!GameObject.FindObjectOfType<uGUI_SceneLoading>().isLoading)
                 Object.Destroy(__instance.gameObject);
         }
         
