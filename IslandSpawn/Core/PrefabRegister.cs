@@ -53,8 +53,8 @@ namespace LyonicDevelopment.IslandSpawn.Core
                 {
                     foreach (var material in renderer.materials)
                     {
-                        material.SetTexture("_MainTex", Plugin.AssetBundle.LoadAsset<Texture2D>("Solar_Panel_Color"));
-                        material.SetTexture("_SpecTex", Plugin.AssetBundle.LoadAsset<Texture2D>("Solar_Panel_Color"));
+                        material.SetTexture(ShaderPropertyID._MainTex, Plugin.AssetBundle.LoadAsset<Texture2D>("Solar_Panel_Color"));
+                        material.SetTexture(ShaderPropertyID._SpecTex, Plugin.AssetBundle.LoadAsset<Texture2D>("Solar_Panel_Color"));
                     }
                 }
             };
@@ -86,9 +86,9 @@ namespace LyonicDevelopment.IslandSpawn.Core
                 {
                     foreach (var material in renderer.materials)
                     {
-                        material.SetTexture("_MainTex", Plugin.AssetBundle.LoadAsset<Texture2D>("Fabricator_Color"));
-                        material.SetTexture("_SpecTex", Plugin.AssetBundle.LoadAsset<Texture2D>("Fabricator_Spec"));
-                        material.SetTexture("_Illum", Plugin.AssetBundle.LoadAsset<Texture2D>("Fabricator_Illum"));
+                        material.SetTexture(ShaderPropertyID._MainTex, Plugin.AssetBundle.LoadAsset<Texture2D>("Fabricator_Color"));
+                        material.SetTexture(ShaderPropertyID._SpecTex, Plugin.AssetBundle.LoadAsset<Texture2D>("Fabricator_Spec"));
+                        material.SetTexture(ShaderPropertyID._Illum, Plugin.AssetBundle.LoadAsset<Texture2D>("Fabricator_Illum"));
                     }
                 }
             };
@@ -117,9 +117,9 @@ namespace LyonicDevelopment.IslandSpawn.Core
                 
                 foreach (var material in prefab.GetComponentsInChildren<Renderer>(true)[0].materials)
                 {
-                    material.SetTexture("_MainTex", Plugin.AssetBundle.LoadAsset<Texture2D>("Radio_Color"));
-                    material.SetTexture("_SpecTex", Plugin.AssetBundle.LoadAsset<Texture2D>("Radio_Color"));
-                    material.SetTexture("_Illum", Plugin.AssetBundle.LoadAsset<Texture2D>("Radio_Illum"));
+                    material.SetTexture(ShaderPropertyID._MainTex, Plugin.AssetBundle.LoadAsset<Texture2D>("Radio_Color"));
+                    material.SetTexture(ShaderPropertyID._SpecTex, Plugin.AssetBundle.LoadAsset<Texture2D>("Radio_Color"));
+                    material.SetTexture(ShaderPropertyID._Illum, Plugin.AssetBundle.LoadAsset<Texture2D>("Radio_Illum"));
                 }
             };
             
@@ -146,9 +146,9 @@ namespace LyonicDevelopment.IslandSpawn.Core
                 
                 for (int i = 0; i < 2; i++)
                 {
-                    prefab.GetComponentsInChildren<Renderer>()[i].materials[0].SetTexture("_MainTex", Plugin.AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Color"));
-                    prefab.GetComponentsInChildren<Renderer>()[i].materials[0].SetTexture("_SpecTex", Plugin.AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Spec"));
-                    prefab.GetComponentsInChildren<Renderer>()[i].materials[0].SetTexture("_Illum", Plugin.AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Illum"));
+                    prefab.GetComponentsInChildren<Renderer>()[i].materials[0].SetTexture(ShaderPropertyID._MainTex, Plugin.AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Color"));
+                    prefab.GetComponentsInChildren<Renderer>()[i].materials[0].SetTexture(ShaderPropertyID._SpecTex, Plugin.AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Spec"));
+                    prefab.GetComponentsInChildren<Renderer>()[i].materials[0].SetTexture(ShaderPropertyID._Illum, Plugin.AssetBundle.LoadAsset<Texture2D>("Medical_Cabinet_Illum"));
                 }
             };
             
