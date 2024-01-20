@@ -59,6 +59,8 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             blackUIPanel.SetActive(true);
             
             yield return new WaitUntil(() => LargeWorldStreamer.main.IsWorldSettled());
+
+            CoroutineHost.StartCoroutine(CheckBlackScreen(screenCanvas));
             
             Player.main.oxygenMgr.AddOxygen(45f); //Do this to stop the player from dying...No other way to fix this??
 
@@ -71,6 +73,29 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             playerSpawned = true;
                 
             blackUIPanel.SetActive(false);
+        }
+
+        private IEnumerator CheckBlackScreen(GameObject screenCanvas)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Plugin.Logger.LogInfo("Checking Panel...");
+                
+                if (blackUIPanel == null)
+                {
+                    Plugin.Logger.LogWarning("BlackUIPanel failed, trying to fix...");
+                
+                    blackUIPanel = Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("BlackPanel"));
+                    PrefabUtils.AddBasicComponents(blackUIPanel, "BlackUIPanel", TechType.None, LargeWorldEntity.CellLevel.Near);
+                
+                    blackUIPanel.name = "Lyonic_BlackUIPanel";
+                    blackUIPanel.transform.SetParent(screenCanvas.transform);
+                    blackUIPanel.transform.localPosition = new Vector3(0f, 0f, 0f);
+                    blackUIPanel.SetActive(true);
+                }
+                
+                yield return new WaitForSeconds(1f);
+            }
         }
         
     }

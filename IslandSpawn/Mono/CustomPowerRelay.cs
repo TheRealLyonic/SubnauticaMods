@@ -11,7 +11,24 @@ namespace LyonicDevelopment.IslandSpawn.Mono
         {
             exists = true;
             powerRelayObject = gameObject;
-            base.Start();
+            
+            InvokeRepeating("UpdatePowerState", Random.value, 0.5f);
+            InvokeRepeating("MonitorCurrentConnection", Random.value, 1f);
+
+            lastCanConnect = CanMakeConnection();
+
+            StartCoroutine(UpdateConnectionAsync());
+            constructable = GetComponent<Constructable>();
+            
+            RegisterRelay(this);
+            
+            UpdatePowerState();
+
+            if (WaitScreen.IsWaiting)
+            {
+                lastPowered = isPowered = true;
+                powerStatus = PowerSystem.Status.Normal;
+            }
         }
         
         protected new virtual void UpdatePowerState()
