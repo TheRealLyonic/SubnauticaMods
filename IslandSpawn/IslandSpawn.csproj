@@ -325,11 +325,13 @@
         <Compile Include="Core\StoryManager.cs" />
         <Compile Include="Mono\CustomPowerRelay.cs" />
         <Compile Include="Mono\CustomPowerSource.cs" />
+        <Compile Include="Mono\PlayerSpawner.cs" />
         <Compile Include="Mono\PowerCollider.cs" />
         <Compile Include="Patches\EscapePodPatch.cs" />
         <Compile Include="Patches\PlayerPatch.cs" />
         <Compile Include="Patches\SceneIntroPatch.cs" />
         <Compile Include="Patches\SolarPanelPatch.cs" />
+        <Compile Include="Patches\uGUI_MainMenuPatch.cs" />
         <Compile Include="Patches\uGUI_PowerIndicatorPatch.cs" />
         <Compile Include="Plugin.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>

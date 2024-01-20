@@ -1,4 +1,5 @@
 using HarmonyLib;
+using LyonicDevelopment.IslandSpawn.Mono;
 using UnityEngine;
 
 namespace LyonicDevelopment.IslandSpawn
@@ -10,6 +11,13 @@ namespace LyonicDevelopment.IslandSpawn
         public static Vector3 SPAWN_POS
         {
             get { return new Vector3(-804.3f, 78.5f, -1053.5f); }
+        }
+
+        [HarmonyPatch(nameof(Player.Awake))]
+        [HarmonyPostfix]
+        public static void Awake_Postfix()
+        {
+            Player.main.gameObject.EnsureComponent<PlayerSpawner>();
         }
 
         [HarmonyPatch(nameof(Player.GetRespawnPosition))]
