@@ -35,7 +35,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
 
         private static void RegisterCustomSolarPanel()
         {
-            customSolarPanel = new CustomPrefab(PrefabInfo.WithTechType("CustomSolarPanel", "Rusted Solar Panel", ""));
+            customSolarPanel = new CustomPrefab(PrefabInfo.WithTechType("CustomSolarPanel", "Solar Panel", ""));
             
             var gameObjectTemplate = new CloneTemplate(customSolarPanel.Info, TechType.SolarPanel);
 
@@ -67,7 +67,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
         
         private static void RegisterCustomFabricator()
         {
-            customFabricator = new CustomPrefab(PrefabInfo.WithTechType("CustomFabricator", "Rusted Fabricator", ""));
+            customFabricator = new CustomPrefab(PrefabInfo.WithTechType("CustomFabricator", "Fabricator", ""));
             
             var gameObjectTemplate = new CloneTemplate(customFabricator.Info, TechType.Fabricator);
 
@@ -101,7 +101,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
 
         private static void RegisterCustomRadio()
         {
-            customRadio = new CustomPrefab(PrefabInfo.WithTechType("CustomRadio", "Rusted Radio", ""));
+            customRadio = new CustomPrefab(PrefabInfo.WithTechType("CustomRadio", "Radio", ""));
             
             var gameObjectTemplate = new CloneTemplate(customRadio.Info, TechType.Radio);
 
@@ -109,7 +109,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
             {
                 GameObject.Destroy(prefab.GetComponent<PreventDeconstruction>());
 
-                prefab.GetComponent<LiveMixin>().health = 25;
+                prefab.GetComponent<LiveMixin>().health = 20;
                 prefab.GetComponent<Constructable>().deconstructionAllowed = false;
                 
                 prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Medium;
@@ -131,7 +131,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
 
         private static void RegisterCustomMedCabinet()
         {
-            customMedCabinet = new CustomPrefab(PrefabInfo.WithTechType("CustomMedCabinet", "Rusted Medkit Fabricator", ""));
+            customMedCabinet = new CustomPrefab(PrefabInfo.WithTechType("CustomMedCabinet", "Medical Kit Fabricator", ""));
             
             var gameObjectTemplate = new CloneTemplate(customMedCabinet.Info, TechType.MedicalCabinet);
 
