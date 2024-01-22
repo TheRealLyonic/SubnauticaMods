@@ -327,6 +327,7 @@
         <Compile Include="Mono\CustomPowerSource.cs" />
         <Compile Include="Mono\PlayerSpawner.cs" />
         <Compile Include="Mono\PowerCollider.cs" />
+        <Compile Include="Mono\PrefabDestroyer.cs" />
         <Compile Include="Patches\BiomeGoalTrackerPatch.cs" />
         <Compile Include="Patches\EscapePodPatch.cs" />
         <Compile Include="Patches\PlayerPatch.cs" />

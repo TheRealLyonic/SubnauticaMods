@@ -23,7 +23,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
 
         public static CustomPrefab powerCollider { get; private set; }
         public static readonly SpawnLocation colliderSpawnLocation = new SpawnLocation(new Vector3(-804f, 76.87f, -1050.71f), new Vector3(0f, 17.5f, 0f));
-
+        
         public static void RegisterPrefabs()
         {
             RegisterCustomSolarPanel();
@@ -168,6 +168,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
                 powerCollider.Info.TechType, LargeWorldEntity.CellLevel.Medium);
             
             powerColliderObject.transform.GetChild(0).gameObject.AddComponent<PowerCollider>();
+            powerColliderObject.transform.GetChild(0).gameObject.AddComponent<PrefabDestroyer>();
             
             powerCollider.SetGameObject(powerColliderObject);
             powerCollider.SetSpawns(colliderSpawnLocation);

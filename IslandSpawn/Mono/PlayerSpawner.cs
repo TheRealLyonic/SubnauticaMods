@@ -12,6 +12,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
 
         private uGUI_SceneLoading sceneLoader; 
         private GameObject blackUIPanel;
+        private int secondsToLoad = 14;
         
         public void Start()
         {
@@ -26,9 +27,12 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             DontDestroyOnLoad(blackUIPanel);
             
             sceneLoader = FindObjectOfType<uGUI_SceneLoading>();
-            
+
             if (isNewGame)
+            {
+                playerSpawned = false;
                 CoroutineHost.StartCoroutine(SpawnPlayerOnIsland());
+            }
         }
 
         private IEnumerator SpawnPlayerOnIsland()
@@ -64,7 +68,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             
             Player.main.oxygenMgr.AddOxygen(45f); //Do this to stop the player from dying...No other way to fix this??
 
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(secondsToLoad);
             
             Player.main.SetPosition(PlayerPatch.SPAWN_POS);
 
@@ -77,7 +81,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
 
         private IEnumerator CheckBlackScreen(GameObject screenCanvas)
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < secondsToLoad; i++)
             {
                 Plugin.Logger.LogInfo("Checking Panel...");
                 
