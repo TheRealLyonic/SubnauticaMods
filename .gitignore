@@ -36,6 +36,13 @@
 **/IslandSpawn/App.config
 **/IslandSpawn/packages
 
+**/ImprovedCragfield/bin
+**/ImprovedCragfield/obj
+**/ImprovedCragfield/Properties
+**/ImprovedCragfield/packages.config
+**/ImprovedCragfield/App.config
+**/ImprovedCragfield/packages
+
 *.suo
 *.user
 .vs/
