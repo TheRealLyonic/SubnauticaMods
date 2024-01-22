@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Nautilus.Handlers;
 using UnityEngine;
-using Random = System.Random;
 
 namespace LyonicDevelopment.IslandSpawn.Core
 {
