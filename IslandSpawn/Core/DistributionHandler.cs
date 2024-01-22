@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Nautilus.Handlers;
 using UnityEngine;
+using Random = System.Random;
 
 namespace LyonicDevelopment.IslandSpawn.Core
 {
@@ -11,11 +13,28 @@ namespace LyonicDevelopment.IslandSpawn.Core
         private static string gravtrapFragment = "6e4f85c2-ad1d-4d0a-b20c-1158204ee424";
         private static string acidMushroom = "fc7c1098-13af-417a-8038-0053b65498e5";
         private static string tableCoral = "70eb6270-bf5e-4d6a-8182-484ffcfd8de6";
-
+        
+        private static List<Tuple<Vector3, Vector3>> potentialScrapSpawnLocations = new List<Tuple<Vector3, Vector3>>
+        {
+            Tuple.Create(new Vector3(-736.03f, 35.84f, -1081.63f), new Vector3(0f, 0f, 0f)),
+            Tuple.Create(new Vector3(-775.43f, 14.17f, -1110.16f), new Vector3(0f, 0f, 334.46f)),
+            Tuple.Create(new Vector3(-730.57f, 37.07f, -1101.94f), new Vector3(0f, 0f, 4f)),
+            Tuple.Create(new Vector3(-742.54f, 24.24f, -1104.27f), new Vector3(0f, 0f, 14.96f)),
+            Tuple.Create(new Vector3(-726.15f, 44.92f, -1141.43f), new Vector3(0f, 0f, 0f)),
+            Tuple.Create(new Vector3(-769.97f, 13.02f, -1105.8f), new Vector3(0f, 0f, 0f)),
+            Tuple.Create(new Vector3(-754.56f, 31.13f, -1084.49f), new Vector3(0f, 0f, 0f)),
+            Tuple.Create(new Vector3(-724.21f, 38.13f, -1088.56f), new Vector3(0f, 0f, 0f)),
+            Tuple.Create(new Vector3(-794.66f, 68.32f, -1057.24f), new Vector3(0f, 0f, 333.32f)),
+            Tuple.Create(new Vector3(-709.3f, 65.58f, -1151.96f), new Vector3(13.82f, 0f, 0f))
+        };
+        
+        private static List<Tuple<Vector3, Vector3>> finalSpawnLocations = new List<Tuple<Vector3, Vector3>>();
+        
         public static void RegisterDistribution()
         {
             RegisterVanillaDistribution();
             RegisterLootDistribution();
+            RegisterRandomScrapMetalDistribution();
         }
 
         private static void RegisterVanillaDistribution()
@@ -66,7 +85,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
                 new SpawnInfo(tableCoral, new Vector3(-762f, -44.0f, -1036.75f), new Quaternion(0f, 0f, 0f, 1f)),
                 new SpawnInfo(tableCoral, new Vector3(-762f, -44.3f, -1036.75f), new Quaternion(0f, 0f, 0f, 1f)),
                 new SpawnInfo(tableCoral, new Vector3(-762f, -44.6f, -1036.75f), new Quaternion(0f, 0f, 0f, 1f)),
-                new SpawnInfo(tableCoral, new Vector3(-762f, -44.9f, -1036.8f), new Quaternion(0f, 0f, 0f, 1f))
+                new SpawnInfo(tableCoral, new Vector3(-762f, -44.9f, -1036.8f), new Quaternion(0f, 0f, 0f, 1f)),
             };
             
             CoordinatedSpawnsHandler.RegisterCoordinatedSpawns(vanillaSpawnInfo);
@@ -82,6 +101,36 @@ namespace LyonicDevelopment.IslandSpawn.Core
             LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.SparseReef_Spike, 0.2f, 1);
             LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.SandstoneChunk), BiomeType.SparseReef_Spike, 0.1f, 1);
             LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.SparseReef_Wall, 0.2f, 1);
+        }
+
+        private static void RegisterRandomScrapMetalDistribution()
+        {
+            FillRandomScrapPositions(6, 8);
+
+            foreach (Tuple<Vector3, Vector3> spawnLocation in finalSpawnLocations)
+            {
+                CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(new SpawnInfo(TechType.ScrapMetal, spawnLocation.Item1, spawnLocation.Item2));
+            }
+        }
+
+        private static void FillRandomScrapPositions(int minSpawns, int maxSpawns)
+        {
+            for (int i = 0; i < potentialScrapSpawnLocations.Count; i++)
+            {
+                if(UnityEngine.Random.Range(0, 2) == 0)
+                    finalSpawnLocations.Add(potentialScrapSpawnLocations[i]);
+
+                if (finalSpawnLocations.Count >= maxSpawns)
+                    break;
+            }
+
+            foreach (var spawnLocation in finalSpawnLocations)
+            {
+                potentialScrapSpawnLocations.Remove(spawnLocation);
+            }
+            
+            if(finalSpawnLocations.Count < minSpawns)
+                FillRandomScrapPositions(minSpawns, maxSpawns);
         }
 
     }
