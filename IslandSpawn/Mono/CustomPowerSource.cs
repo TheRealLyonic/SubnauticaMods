@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace LyonicDevelopment.IslandSpawn.Mono
 {
@@ -8,7 +10,12 @@ namespace LyonicDevelopment.IslandSpawn.Mono
         public static bool exists;
         
         private const float MAX_POWER = 100f;
-        
+
+        private void Awake()
+        {
+            exists = false;
+        }
+
         private new void Start()
         {
             maxPower = MAX_POWER;

@@ -83,7 +83,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
         {
             for (int i = 0; i < secondsToLoad; i++)
             {
-                Plugin.Logger.LogInfo("Checking Panel...");
+                Plugin.Logger.LogDebug("Checking Panel...");
                 
                 if (blackUIPanel == null)
                 {

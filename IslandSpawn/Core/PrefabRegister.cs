@@ -2,6 +2,8 @@ using LyonicDevelopment.IslandSpawn.Mono;
 using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Extensions;
+using Nautilus.Handlers;
 using Nautilus.Utility;
 using UnityEngine;
 
@@ -24,6 +26,9 @@ namespace LyonicDevelopment.IslandSpawn.Core
         public static CustomPrefab powerCollider { get; private set; }
         public static readonly SpawnLocation colliderSpawnLocation = new SpawnLocation(new Vector3(-804f, 76.87f, -1050.71f), new Vector3(0f, 17.5f, 0f));
         
+        public static CustomPrefab seedSack { get; private set; }
+        public static readonly SpawnLocation seedSackSpawnLocation = new SpawnLocation(new Vector3(-795.4f, -2f, -1007.5f), new Vector3(0f, 0f, 0f));
+        
         public static void RegisterPrefabs()
         {
             RegisterCustomSolarPanel();
@@ -31,6 +36,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
             RegisterCustomRadio();
             RegisterCustomMedCabinet();
             RegisterPowerCollider();
+            RegisterCreepvineSeedSack();
         }
 
         private static void RegisterCustomSolarPanel()
@@ -174,6 +180,56 @@ namespace LyonicDevelopment.IslandSpawn.Core
             powerCollider.SetSpawns(colliderSpawnLocation);
 
             powerCollider.Register();
+        }
+
+        private static void RegisterCreepvineSeedSack()
+        {
+            seedSack = new CustomPrefab(PrefabInfo.WithTechType("SeedSack", "Seed sack", ""));
+
+            var seedSackObject = Plugin.AssetBundle.LoadAsset<GameObject>("SeedSack");
+            
+            foreach (var renderer in seedSackObject.GetComponentsInChildren<Renderer>())
+            {
+                foreach (var material in renderer.materials)
+                {
+                    Plugin.Logger.LogWarning(material.shader);
+                    
+                    material.shader = MaterialUtils.Shaders.MarmosetUBER;
+                }
+            }
+            
+            PrefabUtils.AddBasicComponents(seedSackObject, seedSack.Info.ClassID, TechType.None, LargeWorldEntity.CellLevel.Medium);
+
+            seedSackObject.EnsureComponent<SkyApplier>().renderers =
+                seedSackObject.GetAllComponentsInChildren<Renderer>();
+            
+            seedSackObject.AddComponent<SeedSackController>();
+
+            var fruitObject = seedSackObject.transform.GetChild(1);
+
+            PickPrefab[] fruit = new PickPrefab[fruitObject.childCount];
+            
+            //Add the pickprefab component to all the fruit on the cluster.
+            for (int i = 0; i < fruitObject.childCount; i++)
+            {
+                var component = fruitObject.GetChild(i).gameObject.AddComponent<PickPrefab>();
+
+                component.pickTech = TechType.CreepvineSeedCluster;
+
+                fruit[i] = component;
+            }
+
+            seedSackObject.AddComponent<FruitPlant>().fruits = fruit;
+            
+            seedSack.SetGameObject(seedSackObject);
+            seedSack.SetSpawns(seedSackSpawnLocation);
+            
+            seedSack.Register();
+
+            string entryDesc = "A strange adaptation of the regular creepvine, adapted to grow on the walls of underwater caves.\n\nAssessment: Vital alien resource - Construction Applications";
+            
+            PDAHandler.AddEncyclopediaEntry("SeedSackEncy", "Lifeforms/Flora/Exploitable", "Seed Sack", entryDesc, Plugin.AssetBundle.LoadAsset<Texture2D>("seed_sack_databank"));
+            PDAHandler.AddCustomScannerEntry(seedSack.Info.TechType, 3f, false, "SeedSackEncy");
         }
 
     }

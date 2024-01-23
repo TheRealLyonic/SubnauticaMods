@@ -24,7 +24,8 @@ namespace LyonicDevelopment.IslandSpawn.Core
             Tuple.Create(new Vector3(-754.56f, 31.13f, -1084.49f), new Vector3(0f, 0f, 0f)),
             Tuple.Create(new Vector3(-724.21f, 38.13f, -1088.56f), new Vector3(0f, 0f, 0f)),
             Tuple.Create(new Vector3(-794.66f, 68.32f, -1057.24f), new Vector3(0f, 0f, 333.32f)),
-            Tuple.Create(new Vector3(-709.3f, 65.58f, -1151.96f), new Vector3(13.82f, 0f, 0f))
+            Tuple.Create(new Vector3(-709.3f, 65.58f, -1151.96f), new Vector3(13.82f, 0f, 0f)),
+            Tuple.Create(new Vector3(-681.4f, 29f, -1080.55f), new Vector3(0f, 0f, 0f))
         };
         
         private static List<Tuple<Vector3, Vector3>> finalSpawnLocations = new List<Tuple<Vector3, Vector3>>();
@@ -104,7 +105,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
 
         private static void RegisterRandomScrapMetalDistribution()
         {
-            FillRandomScrapPositions(6, 8);
+            FillRandomScrapPositions(5, 7);
 
             foreach (Tuple<Vector3, Vector3> spawnLocation in finalSpawnLocations)
             {

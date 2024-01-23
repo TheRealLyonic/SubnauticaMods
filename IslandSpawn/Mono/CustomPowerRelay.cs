@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace LyonicDevelopment.IslandSpawn.Mono
 {
@@ -6,6 +8,11 @@ namespace LyonicDevelopment.IslandSpawn.Mono
     {
         public static GameObject powerRelayObject;
         public static bool exists;
+
+        public void Awake()
+        {
+            exists = false;
+        }
 
         public virtual void Start()
         {
