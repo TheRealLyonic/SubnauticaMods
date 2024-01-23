@@ -192,8 +192,6 @@ namespace LyonicDevelopment.IslandSpawn.Core
             {
                 foreach (var material in renderer.materials)
                 {
-                    Plugin.Logger.LogWarning(material.shader);
-                    
                     material.shader = MaterialUtils.Shaders.MarmosetUBER;
                 }
             }
