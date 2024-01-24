@@ -29,7 +29,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
         public static readonly SpawnLocation colliderSpawnLocation = new SpawnLocation(new Vector3(-804f, 76.87f, -1050.71f), new Vector3(0f, 17.5f, 0f));
         
         public static CustomPrefab seedSack { get; private set; }
-        public static readonly SpawnLocation seedSackSpawnLocation = new SpawnLocation(new Vector3(-795.4f, -2f, -1007.5f), new Vector3(0f, 0f, 0f));
+        public static readonly SpawnLocation seedSackSpawnLocation = new SpawnLocation(new Vector3(-795.4f, -2f, -1007.3f), new Vector3(0f, 343.19f, 0f));
         
         public static void RegisterPrefabs()
         {
@@ -187,7 +187,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
         private static void RegisterSeedSack()
         {
             seedSack = new CustomPrefab(PrefabInfo.WithTechType("SeedSack", "Seed sack", ""));
-
+            
             var seedSackObject = Plugin.AssetBundle.LoadAsset<GameObject>("Seed_Sack");
             
             PrefabUtils.AddBasicComponents(seedSackObject, seedSack.Info.ClassID, TechType.None, LargeWorldEntity.CellLevel.Medium);
@@ -215,13 +215,38 @@ namespace LyonicDevelopment.IslandSpawn.Core
             
             //Fix materials
             MaterialUtils.ApplySNShaders(seedSackObject);
+
+            var kelpMaterial = seedSackObject.transform.GetChild(0).GetComponent<MeshRenderer>().materials[0];
+            
+            kelpMaterial.SetColor("_GlowColor", new Color(0.666f, 0.952f, 0f));
+            kelpMaterial.SetColor("_SpecColor", new Color(0.558f, 1f, 0.689f));
+            
+            kelpMaterial.SetFloat("_MarmoSpecEnum", 3f);
+            kelpMaterial.SetFloat("_Shininess", 3.73f);
+            kelpMaterial.SetFloat("_Fresnel", 0f);
+            kelpMaterial.SetFloat("_GlowStrength", 1f);
+            kelpMaterial.SetFloat("_GlowStrengthNight", 0.2f);
+            
+            foreach (var renderer in fruitObject.GetComponentsInChildren<Renderer>())
+            {
+                foreach (var material in renderer.materials)
+                {
+                    material.SetColor("_SpecColor", new Color(0.556f, 1f, 0.689f));
+                    
+                    material.SetFloat("_Shininess", 7.1718f);
+                    material.SetFloat("_Fresnel", 0.3571f);
+                    material.SetFloat("_GlowStrength", 1f);
+                    material.SetFloat("_GlowStrengthNight", 1f);
+                    material.SetFloat("_LightmapStrength", 2.65f);
+                }
+            }
             
             seedSack.SetGameObject(seedSackObject);
             seedSack.SetSpawns(seedSackSpawnLocation);
             
             seedSack.Register();
 
-            string entryDesc = "A strange adaptation of the regular creepvine, adapted to grow on the walls of underwater caves.\n\nAssessment: Vital alien resource - Construction Applications";
+            string entryDesc = "A strange adaptation of the regular creepvine, evolved to grow on the walls of underwater caves.\n\nAssessment: Vital alien resource - Construction Applications";
             
             PDAHandler.AddEncyclopediaEntry("SeedSackEncy", "Lifeforms/Flora/Exploitable", "Seed Sack", entryDesc, Plugin.AssetBundle.LoadAsset<Texture2D>("seed_sack_databank"));
             PDAHandler.AddCustomScannerEntry(seedSack.Info.TechType, 3f, false, "SeedSackEncy");
