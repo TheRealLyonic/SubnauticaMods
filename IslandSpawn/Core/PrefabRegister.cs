@@ -214,7 +214,10 @@ namespace LyonicDevelopment.IslandSpawn.Core
             
             seedSack.Register();
 
-            string entryDesc = "A strange adaptation of the regular creepvine, evolved to grow on the walls of underwater caves.\n\nAssessment: Vital alien resource - Construction Applications";
+            string entryDesc = "A strange adaptation of the kelp plants found in the safe-shallows, evolved to grow on the walls of underwater caves in strange, stalagmite-like protrusions.\n\n" +
+                               "1. Creepvine center\nThe core of this plant appears to be composed of the same kelp-like substance that the common creepvine consists of, suggesting a close ancestral relation between the two.\n\n" +
+                               "2. Seed clusters\nSimilarly to it's open-water counterpart, this flora is capable of growing glowing, oil-based seed clusters, which may be used in the fabrication of lubricant, or other core construction materials.\n\n" +
+                               "Assessment: Vital alien resource - Construction Applications";
             
             PDAHandler.AddEncyclopediaEntry("SeedSackEncy", "Lifeforms/Flora/Exploitable", "Seed Sack", entryDesc, Plugin.AssetBundle.LoadAsset<Texture2D>("seed_sack_databank"));
             PDAHandler.AddCustomScannerEntry(seedSack.Info.TechType, 3f, false, "SeedSackEncy");

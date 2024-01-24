@@ -60,8 +60,9 @@ namespace LyonicDevelopment.IslandSpawn.Core
                 new SpawnInfo(acidMushroom, new Vector3(-805.3f, -8f, -1004.2f), new Quaternion(0.56f, 0.56f, 0f, -0.83f)),
                 new SpawnInfo(acidMushroom, new Vector3(-803.9f, -7.12f, -1004.6f), new Quaternion(-0.68f, 0f, 0f, 0.73f)),
                 new SpawnInfo(acidMushroom, new Vector3(-803.5f, -7.35f, -1002.15f), new Quaternion(-0.68f, 0f, 0f, 0.73f)),
-                
-                //TODO: Add creepvine spawns + More titanium & copper sources so seaglide construction is realistic
+                new SpawnInfo(acidMushroom, new Vector3(-804f, -7.4f, -1003f), new Quaternion(-0.68f, 0f, 0f, 0.73f)),
+                new SpawnInfo(acidMushroom, new Vector3(-804.54f, -7.4f, -1003.97f), new Vector3(315f, 273.7f, 42.31f)),
+                new SpawnInfo(acidMushroom, new Vector3(-804.1f, -7.25f, -1003.7f), new Vector3(279.4f, 308.5f, 0f)),
                 
                 //Table coral - Batch 1
                 new SpawnInfo(tableCoral, new Vector3(-735.7f, -29.3f, -993f), new Quaternion(0f, -0.87f, 0f, 0.5f)),
