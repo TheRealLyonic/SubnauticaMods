@@ -16,11 +16,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
         
         public void Start()
         {
-            blackUIPanel = Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("BlackPanel"));
-            
-            PrefabUtils.AddBasicComponents(blackUIPanel, "BlackUIPanel", TechType.None, LargeWorldEntity.CellLevel.Near);
-            
-            blackUIPanel.name = "Lyonic_BlackUIPanel";
+            blackUIPanel = Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("BlackUIPanel"));
             
             blackUIPanel.SetActive(false);
             
@@ -89,10 +85,8 @@ namespace LyonicDevelopment.IslandSpawn.Mono
                 {
                     Plugin.Logger.LogWarning("BlackUIPanel failed, trying to fix...");
                 
-                    blackUIPanel = Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("BlackPanel"));
-                    PrefabUtils.AddBasicComponents(blackUIPanel, "BlackUIPanel", TechType.None, LargeWorldEntity.CellLevel.Near);
+                    blackUIPanel = Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("BlackUIPanel"));
                 
-                    blackUIPanel.name = "Lyonic_BlackUIPanel";
                     blackUIPanel.transform.SetParent(screenCanvas.transform);
                     blackUIPanel.transform.localPosition = new Vector3(0f, 0f, 0f);
                     blackUIPanel.SetActive(true);

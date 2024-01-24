@@ -167,15 +167,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
         {
             powerCollider = new CustomPrefab(PrefabInfo.WithTechType("PowerCollider"));
             
-            GameObject powerColliderObject = Plugin.AssetBundle.LoadAsset<GameObject>("PowerCollider");
-            
-            PrefabUtils.AddBasicComponents(powerColliderObject, powerCollider.Info.ClassID, 
-                powerCollider.Info.TechType, LargeWorldEntity.CellLevel.Medium);
-            
-            powerColliderObject.transform.GetChild(0).gameObject.AddComponent<PowerCollider>();
-            powerColliderObject.transform.GetChild(0).gameObject.AddComponent<PrefabDestroyer>();
-            
-            powerCollider.SetGameObject(powerColliderObject);
+            powerCollider.SetGameObject(Plugin.AssetBundle.LoadAsset<GameObject>("PowerCollider"));
             powerCollider.SetSpawns(colliderSpawnLocation);
 
             powerCollider.Register();
@@ -187,32 +179,10 @@ namespace LyonicDevelopment.IslandSpawn.Core
             
             var seedSackObject = Plugin.AssetBundle.LoadAsset<GameObject>("Seed_Sack");
             
-            PrefabUtils.AddBasicComponents(seedSackObject, seedSack.Info.ClassID, TechType.None, LargeWorldEntity.CellLevel.Medium);
-            
-            seedSackObject.EnsureComponent<SkyApplier>().renderers =
-                seedSackObject.GetAllComponentsInChildren<Renderer>();
-            
-            seedSackObject.AddComponent<SeedSackController>();
-
-            var fruitObject = seedSackObject.transform.GetChild(1);
-
-            PickPrefab[] fruit = new PickPrefab[fruitObject.childCount];
-            
-            //Add the pickprefab component to all the fruit on the cluster.
-            for (int i = 0; i < fruitObject.childCount; i++)
-            {
-                var component = fruitObject.GetChild(i).gameObject.AddComponent<PickPrefab>();
-
-                component.pickTech = TechType.CreepvineSeedCluster;
-
-                fruit[i] = component;
-            }
-
-            seedSackObject.AddComponent<FruitPlant>().fruits = fruit;
-            
-            //Fix materials
+            //Material fixes
             MaterialUtils.ApplySNShaders(seedSackObject);
 
+                //Kelp
             var kelpMaterial = seedSackObject.transform.GetChild(0).GetComponent<MeshRenderer>().materials[0];
             
             kelpMaterial.SetColor("_GlowColor", new Color(0.666f, 0.952f, 0f));
@@ -224,7 +194,8 @@ namespace LyonicDevelopment.IslandSpawn.Core
             kelpMaterial.SetFloat("_GlowStrength", 1f);
             kelpMaterial.SetFloat("_GlowStrengthNight", 0.2f);
             
-            foreach (var renderer in fruitObject.GetComponentsInChildren<Renderer>())
+                //Seed clusters
+            foreach (var renderer in seedSackObject.transform.GetChild(1).GetComponentsInChildren<Renderer>())
             {
                 foreach (var material in renderer.materials)
                 {
