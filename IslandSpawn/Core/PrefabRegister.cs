@@ -1,12 +1,9 @@
-using System;
 using LyonicDevelopment.IslandSpawn.Mono;
 using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Assets.PrefabTemplates;
-using Nautilus.Extensions;
 using Nautilus.Handlers;
 using Nautilus.Utility;
-using Nautilus.Utility.MaterialModifiers;
 using UnityEngine;
 
 namespace LyonicDevelopment.IslandSpawn.Core
