@@ -1,3 +1,4 @@
+using System;
 using LyonicDevelopment.IslandSpawn.Mono;
 using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
@@ -5,6 +6,7 @@ using Nautilus.Assets.PrefabTemplates;
 using Nautilus.Extensions;
 using Nautilus.Handlers;
 using Nautilus.Utility;
+using Nautilus.Utility.MaterialModifiers;
 using UnityEngine;
 
 namespace LyonicDevelopment.IslandSpawn.Core
@@ -36,7 +38,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
             RegisterCustomRadio();
             RegisterCustomMedCabinet();
             RegisterPowerCollider();
-            RegisterCreepvineSeedSack();
+            RegisterSeedSack();
         }
 
         private static void RegisterCustomSolarPanel()
@@ -182,22 +184,14 @@ namespace LyonicDevelopment.IslandSpawn.Core
             powerCollider.Register();
         }
 
-        private static void RegisterCreepvineSeedSack()
+        private static void RegisterSeedSack()
         {
             seedSack = new CustomPrefab(PrefabInfo.WithTechType("SeedSack", "Seed sack", ""));
 
-            var seedSackObject = Plugin.AssetBundle.LoadAsset<GameObject>("SeedSack");
-            
-            foreach (var renderer in seedSackObject.GetComponentsInChildren<Renderer>())
-            {
-                foreach (var material in renderer.materials)
-                {
-                    material.shader = MaterialUtils.Shaders.MarmosetUBER;
-                }
-            }
+            var seedSackObject = Plugin.AssetBundle.LoadAsset<GameObject>("Seed_Sack");
             
             PrefabUtils.AddBasicComponents(seedSackObject, seedSack.Info.ClassID, TechType.None, LargeWorldEntity.CellLevel.Medium);
-
+            
             seedSackObject.EnsureComponent<SkyApplier>().renderers =
                 seedSackObject.GetAllComponentsInChildren<Renderer>();
             
@@ -218,6 +212,9 @@ namespace LyonicDevelopment.IslandSpawn.Core
             }
 
             seedSackObject.AddComponent<FruitPlant>().fruits = fruit;
+            
+            //Fix materials
+            MaterialUtils.ApplySNShaders(seedSackObject);
             
             seedSack.SetGameObject(seedSackObject);
             seedSack.SetSpawns(seedSackSpawnLocation);
