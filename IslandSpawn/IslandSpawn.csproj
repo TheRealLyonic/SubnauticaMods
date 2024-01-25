@@ -344,6 +344,7 @@
         <None Include="packages.config"/>
     </ItemGroup>
     <ItemGroup>
+      <Content Include="Project_Notes.txt" />
       <Content Include="Terrain\IslandPatch.optoctreepatch" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
