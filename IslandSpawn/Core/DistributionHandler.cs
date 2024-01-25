@@ -9,7 +9,6 @@ namespace LyonicDevelopment.IslandSpawn.Core
     {
         //ClassIDs - Note that the CraftData.GetClassIDForTechType() will not work with some or all of these
         private static string beaconFragment = "a50c91eb-f7cf-4fbf-8157-0aa8d444820c";
-        private static string gravtrapFragment = "6e4f85c2-ad1d-4d0a-b20c-1158204ee424";
         private static string acidMushroom = "fc7c1098-13af-417a-8038-0053b65498e5";
         private static string tableCoral = "70eb6270-bf5e-4d6a-8182-484ffcfd8de6";
         
@@ -23,18 +22,35 @@ namespace LyonicDevelopment.IslandSpawn.Core
             Tuple.Create(new Vector3(-769.97f, 13.02f, -1105.8f), new Vector3(0f, 0f, 0f)),
             Tuple.Create(new Vector3(-754.56f, 31.13f, -1084.49f), new Vector3(0f, 0f, 0f)),
             Tuple.Create(new Vector3(-724.21f, 38.13f, -1088.56f), new Vector3(0f, 0f, 0f)),
-            Tuple.Create(new Vector3(-794.66f, 68.32f, -1057.24f), new Vector3(0f, 0f, 333.32f)),
+            Tuple.Create(new Vector3(-794.46f, 68.22f, -1057.24f), new Vector3(0f, 0f, 333.32f)),
             Tuple.Create(new Vector3(-709.3f, 65.58f, -1151.96f), new Vector3(13.82f, 0f, 0f)),
             Tuple.Create(new Vector3(-681.4f, 29f, -1080.55f), new Vector3(0f, 0f, 0f))
         };
+
+        private static List<Tuple<Vector3, Vector3>> scrapSpawnLocations = new List<Tuple<Vector3, Vector3>>();
         
-        private static List<Tuple<Vector3, Vector3>> finalSpawnLocations = new List<Tuple<Vector3, Vector3>>();
+        private static List<Tuple<Vector3, Vector3>> potentialLimestoneSpawnLocations = new List<Tuple<Vector3, Vector3>>
+        {
+            Tuple.Create(new Vector3(-741.8f, 24.5f, -1102.4f), new Vector3(330f, 0f, 0f)),
+            Tuple.Create(new Vector3(-730.3f, 38.2f, -1088.65f), new Vector3(170f, 200f, 230f)),
+            Tuple.Create(new Vector3(-795.7f, 69f, -1056.6f), new Vector3(0f, 0f, 291.7f)),
+            Tuple.Create(new Vector3(-824.9f, -13.7f, -998f), new Vector3(270f, 102.86f, 0f)),
+            Tuple.Create(new Vector3(-813.5f, -8.5f, -1005.6f), new Vector3(70f, 0f, 0f)),
+            Tuple.Create(new Vector3(-792.7f, -1.9f, -1013.9f), new Vector3(290f, 137.14f, 0f)),
+            Tuple.Create(new Vector3(-808.7f, -4.3f, -979.2f), new Vector3(280f, 0f, 0f)),
+            Tuple.Create(new Vector3(-802.44f, 76.1f, -1060.62f), new Vector3(34.82f, 346.16f, 317.69f)),
+            Tuple.Create(new Vector3(-762.01f, 14.44f, -1106.3f), new Vector3(312.39f, 50f, 335.63f)),
+            Tuple.Create(new Vector3(-707.84f, 63.91f, -1164.87f), new Vector3(58.65f, 347.66f, 311.6f))
+        };
+
+        private static List<Tuple<Vector3, Vector3>> limestoneSpawnLocations = new List<Tuple<Vector3, Vector3>>();
         
         public static void RegisterDistribution()
         {
             RegisterVanillaDistribution();
             RegisterLootDistribution();
             RegisterRandomScrapMetalDistribution();
+            RegisterRandomLimestoneDistribution();
         }
 
         private static void RegisterVanillaDistribution()
@@ -95,44 +111,82 @@ namespace LyonicDevelopment.IslandSpawn.Core
         private static void RegisterLootDistribution()
         {
             //Note that none of the floating island biometypes have valid resource spawns except for the two that are inside and outside of the degasi habitats.
-            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.FloatingIslands_AbandonedBase_Outside, 0.09f, 1);
-            LootDistributionHandler.EditLootDistributionData(beaconFragment, BiomeType.FloatingIslands_AbandonedBase_Outside, 0.08f, 1);
-            LootDistributionHandler.EditLootDistributionData(gravtrapFragment, BiomeType.FloatingIslands_AbandonedBase_Outside, 0.07f, 1);
+            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.FloatingIslands_AbandonedBase_Outside, 0.14f, 1);
+            LootDistributionHandler.EditLootDistributionData(beaconFragment, BiomeType.FloatingIslands_AbandonedBase_Outside, 0.05f, 1);
             //The sparse reef is just below the floating island; Good place for fragments + Additional loot spawns?
-            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.SparseReef_Spike, 0.2f, 1);
-            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.SandstoneChunk), BiomeType.SparseReef_Spike, 0.1f, 1);
+            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.SparseReef_Spike, 0.3f, 1);
+            LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.SandstoneChunk), BiomeType.SparseReef_Spike, 0.2f, 1);
             LootDistributionHandler.EditLootDistributionData(CraftData.GetClassIdForTechType(TechType.LimestoneChunk), BiomeType.SparseReef_Wall, 0.2f, 1);
         }
 
         private static void RegisterRandomScrapMetalDistribution()
         {
-            FillRandomScrapPositions(5, 7);
+            FillRandomPositions(0, 5, 7);
 
-            foreach (Tuple<Vector3, Vector3> spawnLocation in finalSpawnLocations)
+            foreach (var scrapSpawnLocation in scrapSpawnLocations)
             {
-                CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(new SpawnInfo(TechType.ScrapMetal, spawnLocation.Item1, spawnLocation.Item2));
+                CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(new SpawnInfo(TechType.ScrapMetal, scrapSpawnLocation.Item1, scrapSpawnLocation.Item2));
             }
         }
 
-        private static void FillRandomScrapPositions(int minSpawns, int maxSpawns)
+        private static void RegisterRandomLimestoneDistribution()
         {
-            for (int i = 0; i < potentialScrapSpawnLocations.Count; i++)
-            {
-                if(UnityEngine.Random.Range(0, 2) == 0)
-                    finalSpawnLocations.Add(potentialScrapSpawnLocations[i]);
+            FillRandomPositions(1, 6, 9);
 
-                if (finalSpawnLocations.Count >= maxSpawns)
-                    break;
-            }
-
-            foreach (var spawnLocation in finalSpawnLocations)
+            foreach (var limestoneSpawnLocation in limestoneSpawnLocations)
             {
-                potentialScrapSpawnLocations.Remove(spawnLocation);
+                CoordinatedSpawnsHandler.RegisterCoordinatedSpawn(new SpawnInfo(TechType.LimestoneChunk, limestoneSpawnLocation.Item1, limestoneSpawnLocation.Item2));
             }
-            
-            if(finalSpawnLocations.Count < minSpawns)
-                FillRandomScrapPositions(minSpawns, maxSpawns);
         }
 
+        /*
+        I'm aware this is a really odd way of doing things, initially this method was much simpler, took the potential
+        spawn location list as a parameter and returned a randomized list to be used above. That caused random but frequent
+        game crashes, with no errors in the log. My guess is it has something to do with the backend nature of arrays,
+        and things that use them behind the hood. Regardless, this works for the time being. Will revisit if needed. 
+        */
+        private static void FillRandomPositions(int lootType, int minSpawns, int maxSpawns)
+        {
+            if (lootType == 0)
+            {
+                //Scrap
+                for (int i = 0; i < potentialScrapSpawnLocations.Count; i++)
+                {
+                    if(UnityEngine.Random.Range(0, 2) == 0)
+                        scrapSpawnLocations.Add(potentialScrapSpawnLocations[i]);
+
+                    if (scrapSpawnLocations.Count >= maxSpawns)
+                        break;
+                }
+
+                foreach (var scrapSpawnLocation in scrapSpawnLocations)
+                {
+                    potentialScrapSpawnLocations.Remove(scrapSpawnLocation);
+                }
+
+                if (scrapSpawnLocations.Count < minSpawns)
+                    FillRandomPositions(0, minSpawns, maxSpawns);
+            }
+            else
+            {
+                //Limestone
+                for (int i = 0; i < potentialLimestoneSpawnLocations.Count; i++)
+                {
+                    if(UnityEngine.Random.Range(0, 2) == 0)
+                        limestoneSpawnLocations.Add(potentialLimestoneSpawnLocations[i]);
+
+                    if (limestoneSpawnLocations.Count >= maxSpawns)
+                        break;
+                }
+
+                foreach (var limestoneSpawnLocation in limestoneSpawnLocations)
+                {
+                    potentialLimestoneSpawnLocations.Remove(limestoneSpawnLocation);
+                }
+
+                if (limestoneSpawnLocations.Count < minSpawns)
+                    FillRandomPositions(1, minSpawns, maxSpawns);
+            }
+        }
     }
 }

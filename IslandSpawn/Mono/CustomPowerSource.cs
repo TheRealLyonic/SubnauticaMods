@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -45,7 +44,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
                 return true;
             }
 
-            Plugin.Logger.LogError("Custom solar panel couldn't find electronics!");
+            Plugin.Logger.LogWarning("Custom solar panel couldn't find electronics, retrying...");
             
             connectedRelay = null;
             return false;

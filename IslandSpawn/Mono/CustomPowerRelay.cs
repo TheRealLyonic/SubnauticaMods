@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -76,7 +75,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             }
             else
             {
-                Plugin.Logger.LogError("Custom power relay could not connect to power source.");
+                Plugin.Logger.LogWarning("Custom power relay could not connect to power source, retrying...");
 
                 if (isPowered)
                 {
