@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Nautilus.Handlers;
 using UnityEngine;
 
@@ -56,6 +57,49 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             None
         }
 
+        private Dictionary<PDAPath, string> pathDictionary = new Dictionary<PDAPath, string>
+        {
+            {PDAPath.Blueprints, "Tech"},
+            {PDAPath.SurvivalPackage, "Welcome"},
+            {PDAPath.AdditionalTechnical, "Welcome/StartGear"},
+            {PDAPath.HabitatInstallations, "Tech/Habitats"},
+            {PDAPath.Equipment, "Tech/Equipment"},
+            {PDAPath.Vehicles, "Tech/Vehicles"},
+            {PDAPath.Power, "Tech/Power"},
+            {PDAPath.IndigenousLifeforms, "Lifeforms"},
+            {PDAPath.Coral, "Lifeforms/Coral"},
+            {PDAPath.Fauna, "Lifeforms/Fauna"},
+            {PDAPath.Flora, "Lifeforms/Flora"},
+            {PDAPath.Land, "Lifeforms/Flora/Land"},
+            {PDAPath.Sea, "Lifeforms/Flora/Sea"},
+            {PDAPath.Exploitable, "Lifeforms/Flora/Exploitable"},
+            {PDAPath.Herbivores, "Lifeforms/Fauna/Herbivores"},
+            {PDAPath.Carnivores, "Lifeforms/Fauna/Carnivores"},
+            {PDAPath.Rays, "Lifeforms/Fauna/Rays"},
+            {PDAPath.Sharks, "Lifeforms/Fauna/Sharks"},
+            {PDAPath.Leviathans, "Lifeforms/Fauna/Leviathans"},
+            {PDAPath.OtherPredators, "Lifeforms/Fauna/Other"},
+            {PDAPath.HerbivoresSmall, "Lifeforms/Fauna/SmallHerbivores"},
+            {PDAPath.HerbivoresLarge, "Lifeforms/Fauna/LargeHerbivores"},
+            {PDAPath.ScavengersAndParasites, "Lifeforms/Fauna/Scavengers"},
+            {PDAPath.Deceased, "Lifeforms/Fauna/Deceased"},
+            {PDAPath.GeologicalData, "PlanetaryGeology"},
+            {PDAPath.AdvancedTheories, "Advanced"},
+            {PDAPath.DataDownloads, "DownloadedData"},
+            {PDAPath.OperationsLogs, "DownloadedData/BeforeCrash"},
+            {PDAPath.PublicDocuments, "DownloadedData/PublicDocs"},
+            {PDAPath.DegasiSurvivors, "DownloadedData/Degasi"},
+            {PDAPath.AlterraSearchRescue, "DownloadedData/Degasi/Orders"},
+            {PDAPath.Corrupted, "DownloadedData/Lifepods"},
+            {PDAPath.AuroraSurvivors, "DownloadedData/AuroraSurvivors"},
+            {PDAPath.CodesClues, "DownloadedData/Codes"},
+            {PDAPath.AlienData, "DownloadedData/Precursor"},
+            {PDAPath.TerminalData, "DownloadedData/Precursor/Terminal"},
+            {PDAPath.ScanData, "DownloadedData/Precursor/Scan"},
+            {PDAPath.Artifacts, "DownloadedData/Precursor/Artifacts"},
+            {PDAPath.TimeCapsules, "TimeCapsules"},
+        };
+
         public PDAPath pdaPath = PDAPath.None;
 
         public bool destroyAfterScan;
@@ -69,8 +113,6 @@ namespace LyonicDevelopment.IslandSpawn.Mono
                     Plugin.Logger.LogWarning($"No entry data provided for {gameObject.name}.");
                     return;
                 }
-
-                string path = PathFromEnum();
 
                 EnumHandler.TryGetValue(gameObject.GetComponent<PrefabIdentifier>().classId, out TechType techType);
 
@@ -90,95 +132,8 @@ namespace LyonicDevelopment.IslandSpawn.Mono
                         formattedDesc += "\n";
                 }
             
-                PDAHandler.AddEncyclopediaEntry($"{gameObject.name}Ency", path, entryTitle, formattedDesc, entryImage);
+                PDAHandler.AddEncyclopediaEntry($"{gameObject.name}Ency", pathDictionary[pdaPath], entryTitle, formattedDesc, entryImage);
                 PDAHandler.AddCustomScannerEntry(techType, scanTime, destroyAfterScan, $"{gameObject.name}Ency");
-            }
-        }
-
-        private string PathFromEnum()
-        {
-            switch (pdaPath)
-            {
-                case PDAPath.Blueprints:
-                    return "Tech";
-                case PDAPath.SurvivalPackage:
-                    return "Welcome";
-                case PDAPath.AdditionalTechnical:
-                    return "Welcome/StartGear";
-                case PDAPath.HabitatInstallations:
-                    return "Tech/Habitats";
-                case PDAPath.Equipment:
-                    return "Tech/Equipment";
-                case PDAPath.Vehicles:
-                    return "Tech/Vehicles";
-                case PDAPath.Power:
-                    return "Tech/Power";
-                case PDAPath.IndigenousLifeforms:
-                    return "Lifeforms";
-                case PDAPath.Coral:
-                    return "Lifeforms/Coral";
-                case PDAPath.Fauna:
-                    return "Lifeforms/Fauna";
-                case PDAPath.Flora:
-                    return "Lifeforms/Flora";
-                case PDAPath.Land:
-                    return "Lifeforms/Flora/Land";
-                case PDAPath.Sea:
-                    return "Lifeforms/Flora/Sea";
-                case PDAPath.Exploitable:
-                    return "Lifeforms/Flora/Exploitable";
-                case PDAPath.Herbivores:
-                    return "Lifeforms/Fauna/Herbivores";
-                case PDAPath.Carnivores:
-                    return "Lifeforms/Fauna/Carnivores";
-                case PDAPath.Rays:
-                    return "Lifeforms/Fauna/Rays";
-                case PDAPath.Sharks:
-                    return "Lifeforms/Fauna/Sharks";
-                case PDAPath.Leviathans:
-                    return "Lifeforms/Fauna/Leviathans";
-                case PDAPath.OtherPredators:
-                    return "Lifeforms/Fauna/Other";
-                case PDAPath.HerbivoresSmall:
-                    return "Lifeforms/Fauna/SmallHerbivores";
-                case PDAPath.HerbivoresLarge:
-                    return "Lifeforms/Fauna/LargeHerbivores";
-                case PDAPath.ScavengersAndParasites:
-                    return "Lifeforms/Fauna/Scavengers";
-                case PDAPath.Deceased:
-                    return "Lifeforms/Fauna/Deceased";
-                case PDAPath.GeologicalData:
-                    return "PlanetaryGeology";
-                case PDAPath.AdvancedTheories:
-                    return "Advanced";
-                case PDAPath.DataDownloads:
-                    return "DownloadedData";
-                case PDAPath.OperationsLogs:
-                    return "DownloadedData/BeforeCrash";
-                case PDAPath.PublicDocuments:
-                    return "DownloadedData/PublicDocs";
-                case PDAPath.DegasiSurvivors:
-                    return "DownloadedData/Degasi";
-                case PDAPath.AlterraSearchRescue:
-                    return "DownloadedData/Degasi/Orders";
-                case PDAPath.Corrupted:
-                    return "DownloadedData/Lifepods";
-                case PDAPath.AuroraSurvivors:
-                    return "DownloadedData/AuroraSurvivors";
-                case PDAPath.CodesClues:
-                    return "DownloadedData/Codes";
-                case PDAPath.AlienData:
-                    return "DownloadedData/Precursor";
-                case PDAPath.TerminalData:
-                    return "DownloadedData/Precursor/Terminal";
-                case PDAPath.ScanData:
-                    return "DownloadedData/Precursor/Scan";
-                case PDAPath.Artifacts:
-                    return "DownloadedData/Precursor/Artifacts";
-                case PDAPath.TimeCapsules:
-                    return "TimeCapsules";
-                default:
-                    return null;
             }
         }
     }
