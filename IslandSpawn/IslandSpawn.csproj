@@ -323,6 +323,8 @@
         <Compile Include="Core\DistributionHandler.cs" />
         <Compile Include="Core\PrefabRegister.cs" />
         <Compile Include="Core\StoryManager.cs" />
+        <Compile Include="MaterialUtil\MaterialProperties.cs" />
+        <Compile Include="MaterialUtil\SeedSackMatSettings.cs" />
         <Compile Include="Mono\CustomPowerRelay.cs" />
         <Compile Include="Mono\CustomPowerSource.cs" />
         <Compile Include="Mono\PlayerSpawner.cs" />
