@@ -13,7 +13,6 @@ namespace LyonicDevelopment.IslandSpawn
         {
             //Fixes for if a user starts a new game without closing/reopening the game from the last session.
             PlayerSpawner.isNewGame = false;
-            PrefabDestroyer.hasRan = false;
         }
 
         [HarmonyPatch(nameof(uGUI_MainMenu.StartNewGame))]

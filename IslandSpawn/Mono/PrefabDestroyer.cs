@@ -9,9 +9,6 @@ namespace LyonicDevelopment.IslandSpawn.Mono
 {
     public class PrefabDestroyer : MonoBehaviour
     {
-
-        public static bool hasRan;
-        
         private List<GameObject> destroyObjects = new List<GameObject>();
         
         //Here we define any TechTypes we want destroyed, as well as whether or not they have a parent object that needs destroyed.
@@ -26,29 +23,16 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             //Give GameObjects time to spawn
             yield return new WaitUntil(() => PlayerSpawner.playerSpawned);
 
-            if (!hasRan)
-            {
-                hasRan = true;
-                
-                FindDestroyObjects();
+            FindDestroyObjects();
 
-                foreach (GameObject destroyObject in destroyObjects)
-                    DestroyNearBase(destroyObject);
+            foreach (GameObject destroyObject in destroyObjects)
+                DestroyNearBase(destroyObject);
 
-                CoroutineHost.StartCoroutine(WaitForSpawns());
-            }
+            CoroutineHost.StartCoroutine(WaitForSpawns());
         }
 
         private IEnumerator WaitForSpawns()
         { 
-            /*
-            This method was added because cargo creates would occasionally take longer than expected to spawn, resulting
-            in the initial check missing them, and them being allowed to persist within the scene. This method will check
-            for any unwanted prefabs for 20 seconds after the player spawns. We also account for some boxes spawning in the
-            habitat area earlier than others, by continuing to check for unwanted prefabs even if we find some. We avoid
-            simply destroying the objects in the list at the end of the 20 seconds so that the unwanted prefabs aren't left
-            in the game world for the player to see until the 20 seconds is up. This should fix the problem entirely.
-            */
             for (int i = 0; i <= 20; i++)
             {
                 FindDestroyObjects();
