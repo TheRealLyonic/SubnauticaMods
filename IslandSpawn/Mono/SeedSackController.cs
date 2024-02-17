@@ -4,16 +4,13 @@ namespace LyonicDevelopment.IslandSpawn.Mono
 {
     public class SeedSackController : MonoBehaviour
     {
-        private GameObject fruitParentObject, lightObject;
-        private int activeSeedObjects, inactiveSeedObjects;
+        public GameObject lightObject;
+        public FruitPlant fruitPlant;
+        
+        private int inactiveSeedObjects, activeSeedObjects;
         
         private void Awake()
         {
-            fruitParentObject = transform.GetChild(1).gameObject;
-            lightObject = transform.GetChild(2).gameObject;
-            
-            var fruitPlant = gameObject.GetComponent<FruitPlant>();
-            
             fruitPlant.Initialize();
             fruitPlant.fruitSpawnEnabled = true;
         }
@@ -22,16 +19,16 @@ namespace LyonicDevelopment.IslandSpawn.Mono
         {
             activeSeedObjects = 0;
             inactiveSeedObjects = 0;
-
-            for (int i = 0; i < fruitParentObject.transform.childCount; i++)
+            
+            for (int i = 0; i < fruitPlant.fruits.Length; i++)
             {
-                if (fruitParentObject.transform.GetChild(i).gameObject.activeSelf)
+                if (fruitPlant.fruits[i].gameObject.activeSelf)
                     activeSeedObjects++;
                 else
                     inactiveSeedObjects++;
             }
             
-            lightObject.SetActive(inactiveSeedObjects != fruitParentObject.transform.childCount);
+            lightObject.SetActive(inactiveSeedObjects != fruitPlant.fruits.Length);
         }
     }
 }

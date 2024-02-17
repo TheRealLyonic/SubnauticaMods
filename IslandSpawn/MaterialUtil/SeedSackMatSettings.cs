@@ -20,7 +20,7 @@ namespace LyonicDevelopment.IslandSpawn.MaterialUtil
                 material.SetFloat(MaterialProperties.FRESNEL, 0f);
                 material.SetFloat(MaterialProperties.GLOW_STRENGTH, 1f);
                 material.SetFloat(MaterialProperties.GLOW_STRENGTH_NIGHT, 0.2f);
-            }else if (material.name.Contains("Seed_Sack"))
+            }else if (material.name.Contains("SeedSack"))
             {
                 material.SetColor(MaterialProperties.SPEC_COLOR, new Color(0.556f, 1f, 0.689f));
                 

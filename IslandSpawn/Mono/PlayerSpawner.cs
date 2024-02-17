@@ -28,6 +28,8 @@ namespace LyonicDevelopment.IslandSpawn.Mono
                 playerSpawned = false;
                 CoroutineHost.StartCoroutine(SpawnPlayerOnIsland());
             }
+            else
+                playerSpawned = true;
         }
 
         private IEnumerator SpawnPlayerOnIsland()

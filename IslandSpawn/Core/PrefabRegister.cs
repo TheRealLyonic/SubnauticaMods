@@ -21,15 +21,14 @@ namespace LyonicDevelopment.IslandSpawn.Core
 
         public static CustomPrefab customMedCabinet { get; private set; }
         public static readonly SpawnLocation medCabinetSpawnLocation = new SpawnLocation(new Vector3(-802.36f, 78.1f, -1051.06f), new Vector3(0f, 285f, 0f));
-
-        public static CustomPrefab customLocker { get; private set; }
-        public static readonly SpawnLocation lockerSpawnLocation = new SpawnLocation(new Vector3(-801.7f, 76.6f, -1044.2f), new Vector3(0f, 195f, 0f));
-        
         public static CustomPrefab powerCollider { get; private set; }
         public static readonly SpawnLocation colliderSpawnLocation = new SpawnLocation(new Vector3(-804f, 76.87f, -1050.71f), new Vector3(0f, 17.5f, 0f));
         
         public static CustomPrefab seedSack { get; private set; }
         public static readonly SpawnLocation seedSackSpawnLocation = new SpawnLocation(new Vector3(-795.4f, -2f, -1007.3f), new Vector3(0f, 343.19f, 0f));
+        
+        public static CustomPrefab mediumLocker { get; private set; }
+        public static readonly SpawnLocation lockerSpawnLocation = new SpawnLocation(new Vector3(-801.7f, 76.39f, -1044.35f), new Vector3(0f, 194f, 0f));
         
         public static void RegisterPrefabs()
         {
@@ -37,9 +36,9 @@ namespace LyonicDevelopment.IslandSpawn.Core
             RegisterCustomFabricator();
             RegisterCustomRadio();
             RegisterCustomMedCabinet();
-            RegisterCustomLocker();
             RegisterPowerCollider();
             RegisterSeedSack();
+            RegisterMediumStorageLocker();
         }
 
         private static void RegisterCustomSolarPanel()
@@ -167,25 +166,6 @@ namespace LyonicDevelopment.IslandSpawn.Core
             customMedCabinet.Register();
         }
 
-        private static void RegisterCustomLocker()
-        {
-            customLocker = new CustomPrefab(PrefabInfo.WithTechType("CustomLocker", "Locker", ""));
-
-            var gameObjectTemplate = new CloneTemplate(customLocker.Info, TechType.Locker);
-
-            gameObjectTemplate.ModifyPrefab += (prefab) =>
-            {
-                prefab.GetComponent<Constructable>().deconstructionAllowed = false;
-
-                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Medium;
-            };
-            
-            customLocker.SetGameObject(gameObjectTemplate);
-            customLocker.SetSpawns(lockerSpawnLocation);
-            
-            customLocker.Register();
-        }
-
         private static void RegisterPowerCollider()
         {
             powerCollider = new CustomPrefab(PrefabInfo.WithTechType("PowerCollider"));
@@ -208,6 +188,22 @@ namespace LyonicDevelopment.IslandSpawn.Core
             seedSack.SetSpawns(seedSackSpawnLocation);
             
             seedSack.Register();
+        }
+
+        private static void RegisterMediumStorageLocker()
+        {
+            mediumLocker = new CustomPrefab(PrefabInfo.WithTechType("MediumStorageLocker", "Medium Locker", ""));
+
+            var lockerObject = Plugin.AssetBundle.LoadAsset<GameObject>("Medium_Storage_Locker");
+
+            lockerObject.GetComponentInChildren<ChildObjectIdentifier>().classId = mediumLocker.Info.ClassID;
+            
+            MaterialUtils.ApplySNShaders(lockerObject, modifiers: new MediumLockerMatSettings());
+
+            mediumLocker.SetGameObject(lockerObject);
+            mediumLocker.SetSpawns(lockerSpawnLocation);
+
+            mediumLocker.Register();
         }
 
     }

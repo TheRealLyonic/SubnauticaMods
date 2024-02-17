@@ -325,6 +325,8 @@
         <Compile Include="Core\StoryManager.cs" />
         <Compile Include="MaterialUtil\MaterialProperties.cs" />
         <Compile Include="MaterialUtil\SeedSackMatSettings.cs" />
+        <Compile Include="MaterialUtil\MediumLockerMatSettings.cs" />
+        <Compile Include="Mono\AddLifepodEssentials.cs" />
         <Compile Include="Mono\CustomPowerRelay.cs" />
         <Compile Include="Mono\CustomPowerSource.cs" />
         <Compile Include="Mono\PlayerSpawner.cs" />
