@@ -53,7 +53,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
                 GameObject.Destroy(prefab.GetComponent<PreventDeconstruction>());
 
                 prefab.GetComponent<Constructable>().deconstructionAllowed = false;
-                prefab.GetComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Medium;
+                prefab.GetComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
                 
                 prefab.AddComponent<CustomPowerSource>();
                 
@@ -87,7 +87,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
                 prefab.GetComponent<Constructable>().deconstructionAllowed = false;
                 prefab.GetComponent<Constructable>().techType = TechType.Fabricator;
                 
-                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Medium;
+                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
                 prefab.AddComponent<CustomPowerRelay>();
                 
                 foreach (var renderer in prefab.GetComponentsInChildren<Renderer>(true))
@@ -120,7 +120,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
                 prefab.GetComponent<LiveMixin>().health = 20;
                 prefab.GetComponent<Constructable>().deconstructionAllowed = false;
                 
-                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Medium;
+                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
                 prefab.AddComponent<CustomPowerRelay>();
                 
                 foreach (var material in prefab.GetComponentsInChildren<Renderer>(true)[0].materials)
@@ -149,7 +149,7 @@ namespace LyonicDevelopment.IslandSpawn.Core
 
                 prefab.GetComponent<Constructable>().deconstructionAllowed = false;
                 
-                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Medium;
+                prefab.AddComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
                 prefab.AddComponent<CustomPowerRelay>();
                 
                 for (int i = 0; i < 2; i++)
