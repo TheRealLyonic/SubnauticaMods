@@ -7,8 +7,6 @@ namespace LyonicDevelopment.IslandSpawn.Mono
     {
         public static GameObject powerSourceObject;
         public static bool exists;
-        
-        private const float MAX_POWER = 100f;
 
         private void Awake()
         {
@@ -17,14 +15,12 @@ namespace LyonicDevelopment.IslandSpawn.Mono
 
         private new void Start()
         {
-            maxPower = MAX_POWER;
-
             powerSourceObject = gameObject;
             exists = true;
             
             InvokeRepeating("UpdateConnectionCallback", Random.value, 1f);
             
-            Plugin.Logger.LogInfo("Starting power source now...");
+            Plugin.Logger.LogDebug("Starting power source now...");
         }
 
         private new void UpdateConnectionCallback()
@@ -36,15 +32,13 @@ namespace LyonicDevelopment.IslandSpawn.Mono
         {
             if (CustomPowerRelay.exists)
             {
-                
-                
                 connectedRelay = CustomPowerRelay.powerRelayObject.GetComponent<CustomPowerRelay>();
                 gameObject.GetComponent<SolarPanel>().relay = connectedRelay;
                 connectedRelay.AddInboundPower(this);
                 return true;
             }
 
-            Plugin.Logger.LogWarning("Custom solar panel couldn't find electronics, retrying...");
+            Plugin.Logger.LogDebug("Custom solar panel couldn't find electronics, retrying...");
             
             connectedRelay = null;
             return false;

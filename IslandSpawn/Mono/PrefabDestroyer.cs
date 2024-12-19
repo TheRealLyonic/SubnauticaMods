@@ -47,7 +47,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
                 yield return new WaitForSeconds(1);
             }
             
-            Plugin.Logger.LogInfo("Late-spawn check ended.");
+            Plugin.Logger.LogDebug("Late-spawn check ended.");
         }
 
         private void FindDestroyObjects()

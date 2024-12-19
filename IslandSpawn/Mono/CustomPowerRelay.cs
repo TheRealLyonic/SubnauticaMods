@@ -51,7 +51,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
                 {
                     inboundPowerSources.Capacity = 1;
                     inboundPowerSources.Add(CustomPowerSource.powerSourceObject.GetComponent<CustomPowerSource>());
-                    Plugin.Logger.LogInfo("Added power source.");
+                    Plugin.Logger.LogDebug("Added power source.");
                 }
                 
                 if (!isPowered)
@@ -75,7 +75,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
             }
             else
             {
-                Plugin.Logger.LogWarning("Custom power relay could not connect to power source, retrying...");
+                Plugin.Logger.LogDebug("Custom power relay could not connect to power source, retrying...");
 
                 if (isPowered)
                 {

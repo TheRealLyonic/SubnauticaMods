@@ -36,7 +36,7 @@ namespace LyonicDevelopment.IslandSpawn.Mono
         {
             yield return new WaitUntil(() => !sceneLoader.isLoading);
             
-            Plugin.Logger.LogInfo("Spawning player on island...");
+            Plugin.Logger.LogDebug("Spawning player on island...");
                 
             Player.main.SetPosition(new Vector3(PlayerPatch.SPAWN_POS.x, PlayerPatch.SPAWN_POS.y + 20f, PlayerPatch.SPAWN_POS.z));
             Player.main.cinematicModeActive = true;

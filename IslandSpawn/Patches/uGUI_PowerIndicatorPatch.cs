@@ -21,8 +21,8 @@ namespace LyonicDevelopment.IslandSpawn
 
                     if (powerRelay.inboundPowerSources.Count > 0)
                     {
-                        power = Mathf.RoundToInt(powerRelay.inboundPowerSources[0].GetPower());
-                        maxPower = Mathf.RoundToInt(powerRelay.inboundPowerSources[0].GetMaxPower());
+                        power = Mathf.RoundToInt(powerRelay.GetPower());
+                        maxPower = Mathf.RoundToInt(powerRelay.GetMaxPower());
                         status = powerRelay.GetPowerStatus();
 
                         __result = true;
