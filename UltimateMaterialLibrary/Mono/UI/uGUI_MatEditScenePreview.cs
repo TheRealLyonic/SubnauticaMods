@@ -30,6 +30,8 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.UI
             {4, "degasi_island_preview"},
             {5, "precursor_moonpool_preview"}
         };
+
+        public static Camera matPreviewCamera;
         
         public GameObject biomeSelectionPrefab;
         public GameObject previewParentPrefab;
@@ -91,6 +93,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.UI
             previewParent.transform.localPosition = new Vector3(0f, 0f, camController.tr.forward.z * 5f);
 
             previewObjectSky = previewParent.GetComponent<SkyApplier>();
+            matPreviewCamera = previewParent.GetComponentInChildren<Camera>(true);
             
             SetPlayerLocation(0);
         }
@@ -140,7 +143,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.UI
             
             var task = new TaskResult<Material>();
             yield return Utility.MaterialDatabase.TryGetMatFromDatabase(currentMatIndex, task);
-
+            
             var foundMat = task.value;
             
             Plugin.Logger.LogWarning(foundMat.name);
