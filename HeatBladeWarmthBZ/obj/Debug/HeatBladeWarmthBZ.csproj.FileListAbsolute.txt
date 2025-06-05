@@ -77,10 +77,7 @@ C:\Subnautica Modding\Subnautica Mods\HeatBladeWarmthBZ\bin\Debug\Unity.TextMesh
 C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\bin\Debug\HeatBladeWarmthBZ.dll
 C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\bin\Debug\HeatBladeWarmthBZ.pdb
 C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\bin\Debug\0Harmony.dll
-C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\bin\Debug\Assembly-CSharp-firstpass_publicized.dll
-C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\bin\Debug\Assembly-CSharp_publicized.dll
 C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\bin\Debug\BepInEx.dll
-C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\bin\Debug\Nautilus.dll
 C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\bin\Debug\Unity.TextMeshPro.dll
 C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\bin\Debug\UnityEngine.AnimationModule.dll
 C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\bin\Debug\UnityEngine.CoreModule.dll
@@ -147,6 +144,6 @@ C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\bin\Debug\MonoMod.Utils.x
 C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\bin\Debug\MonoMod.RuntimeDetour.xml
 C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\obj\Debug\HeatBladeWarmthBZ.csproj.AssemblyReference.cache
 C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\obj\Debug\HeatBladeWarmthBZ.csproj.CoreCompileInputs.cache
-C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\obj\Debug\HeatBladeWarmthBZ.csproj.CopyComplete
 C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\obj\Debug\HeatBladeWarmthBZ.dll
 C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\obj\Debug\HeatBladeWarmthBZ.pdb
+C:\Subnautica Modding\SubnauticaMods\HeatBladeWarmthBZ\obj\Debug\HeatBlad.7C2C3DFA.Up2Date

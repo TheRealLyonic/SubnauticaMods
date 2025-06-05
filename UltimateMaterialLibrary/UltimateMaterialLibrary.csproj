@@ -322,7 +322,12 @@
     <ItemGroup>
         <Compile Include="Config.cs" />
         <Compile Include="Mono\MaterialModificationMode.cs" />
-        <Compile Include="Mono\UI\uGUI_MatEditScenePreview.cs" />
+        <Compile Include="Mono\MatPreviewImageGenerator.cs" />
+        <Compile Include="Mono\UI\AssetBrowser\FolderAsset.cs" />
+        <Compile Include="Mono\UI\AssetBrowser\MatAsset.cs" />
+        <Compile Include="Mono\UI\AssetBrowser\uGUI_AssetBrowser.cs" />
+        <Compile Include="Mono\UI\uGUI_BiomeSelector.cs" />
+        <Compile Include="Mono\UI\uGUI_MatEditor.cs" />
         <Compile Include="Patches\CSVEntitySpawnerPatch.cs" />
         <Compile Include="Patches\PlayerPatch.cs" />
         <Compile Include="Patches\uGUI_SceneLoadingPatch.cs" />
@@ -338,6 +343,7 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="Localization\English.json" />
+      <Content Include="Resources\MatFilePathMap.json" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <Import Project="..\packages\BepInEx.Core.5.4.21\build\BepInEx.Core.targets" Condition="Exists('..\packages\BepInEx.Core.5.4.21\build\BepInEx.Core.targets')"/>
@@ -350,6 +356,10 @@
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
         <Exec Command="mkdir &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;" ContinueOnError="true"/>
         <Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;"/>
+        <Exec Command="mkdir &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)\Localization&quot;" ContinueOnError="true"/>
+        <Exec Command="copy /Y &quot;C:\Subnautica Modding\SubnauticaMods\UltimateMaterialLibrary\Localization\English.json&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)\Localization&quot;"/>
+        <Exec Command="mkdir &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)\Resources&quot;" ContinueOnError="true"/>
+        <Exec Command="copy /Y &quot;C:\Subnautica Modding\SubnauticaMods\UltimateMaterialLibrary\Resources\MatFilePathMap.json&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)\Resources&quot;"/>
     </Target>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.

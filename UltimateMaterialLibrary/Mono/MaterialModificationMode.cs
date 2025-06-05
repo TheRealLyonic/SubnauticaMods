@@ -1,4 +1,4 @@
-using LyonicDevelopment.UltimateMaterialLibrary.UI;
+using LyonicDevelopment.UltimateMaterialLibrary.Mono.UI;
 using UnityEngine;
 
 namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
@@ -8,10 +8,9 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
         public bool sceneLoadingFinished;
         public bool dayMode;
         
-        private uGUI_MatEditScenePreview scenePreview;
+        private uGUI_MatEditor matEditor;
         
         private GameObject hudParent;
-
         private GameObject selectionUIParent;
         
         private void OnEnable()
@@ -32,7 +31,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
                 
                 selectionUIParent = Instantiate(selectionUIPrefab, hudParent.transform.GetChild(0));
                 
-                scenePreview = selectionUIParent.GetComponent<uGUI_MatEditScenePreview>();
+                matEditor = selectionUIParent.GetComponent<uGUI_MatEditor>();
                 
                 //Lock player view
                 Player.main.playerController.SetEnabled(false);
@@ -47,7 +46,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
                 
                 Inventory.main.quickSlots.DeselectImmediate();
             
-                scenePreview.EnterSelectionMode();
+                matEditor.EnterSelectionMode();
             
                 var depthCompass = hudParent.GetComponentInChildren<uGUI_Compass>().transform.GetParent().gameObject;
                 depthCompass.gameObject.SetActive(false);
