@@ -1,5 +1,3 @@
-using System.Collections;
-using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,9 +7,6 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
     public class MatAsset : MonoBehaviour
     {
         [SerializeField]
-        private MatPreviewImageGenerator previewImageGenerator;
-        
-        [SerializeField]
         private Image matPreviewImage;
         
         [SerializeField]
@@ -20,29 +15,18 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
         [SerializeField]
         private Material material;
 
-        public void UpdatePreviewMaterial(Material mat)
+        public void UpdatePreview(Material previewMat, Texture2D previewImage)
         {
-            material = mat;
-            
-            matNameText.text = mat.name;
-            
-            StartCoroutine(GetPreviewImageForMaterial());
-        }
-
-        private IEnumerator GetPreviewImageForMaterial()
-        {
-            if (material == null)
+            if (!Plugin.FOUND_MATERIALS.Contains(previewMat.name))
             {
-                Plugin.Logger.LogError($"Trying to get preview image for null material!");
-                yield break;
+                Plugin.FOUND_MATERIALS.Add(previewMat.name);
+                Plugin.Logger.LogWarning(Plugin.FOUND_MATERIALS.Count);
             }
             
-            var taskResult = new TaskResult<Texture2D>();
-            yield return previewImageGenerator.GenerateImage(material, taskResult);
-
-            var previewImage = taskResult.value;
+            material = previewMat;
+            matNameText.text = previewMat.name;
             
-            matPreviewImage.sprite = Sprite.Create(previewImage, new Rect(0, 0, previewImage.width, previewImage.height), new Vector2(0.5f, 0.5f));;
+            matPreviewImage.sprite = Sprite.Create(previewImage, new Rect(0, 0, previewImage.width, previewImage.height), Vector2.zero);
         }
     }
 }

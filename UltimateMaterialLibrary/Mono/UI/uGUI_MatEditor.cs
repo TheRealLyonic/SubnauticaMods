@@ -1,6 +1,8 @@
 using System.Collections;
 using LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser;
+using Nautilus.Utility;
 using UnityEngine;
+using Random = System.Random;
 
 namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI
 {
@@ -8,20 +10,27 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI
     {
         public FreecamController camController { get; private set; }
         
-        public GameObject biomeSelectionPrefab;
-        public GameObject previewParentPrefab;
+        [SerializeField]
+        private GameObject biomeSelectionPrefab;
+        
+        [SerializeField]
+        private GameObject previewParentPrefab;
+
+        [SerializeField]
+        private GameObject assetBrowserPrefab;
         
         private MaterialModificationMode modificationMode;
-        private uGUI_AssetBrowser assetBrowser;
         private uGUI_SceneHUD sceneHUD;
 
         private GameObject biomeSelectionUI;
         private GameObject previewParent;
+        private GameObject assetBrowserObject;
+
+        private uGUI_AssetBrowser assetBrowser;
+        
         private GameObject previewObject;
 
         private SkyApplier previewObjectSky;
-
-        private int currentMatIndex;
 
         private void Awake()
         {
@@ -56,7 +65,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI
         {
             UWE.Utils.lockCursor = true;
             
-            Destroy(biomeSelectionUI);
+            biomeSelectionUI.SetActive(false);
             
             previewParent.transform.SetParent(null);
 
@@ -69,45 +78,28 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI
         {
             camController.enabled = false;
             UWE.Utils.lockCursor = false;
+
+            if (assetBrowserObject == null)
+            {
+                assetBrowserObject = Instantiate(assetBrowserPrefab, transform);
+                assetBrowser = assetBrowserObject.GetComponent<uGUI_AssetBrowser>();
+            }
             
-            if (assetBrowser == null)
-                assetBrowser = Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("AssetBrowser.prefab"), transform).GetComponent<uGUI_AssetBrowser>();
+            assetBrowser.previewImageGenerator = previewParent.GetComponent<MatPreviewImageGenerator>();
             
-            assetBrowser.gameObject.SetActive(true);
+            assetBrowserObject.SetActive(true);
             
             assetBrowser.UpdateDirectory("Assets/Materials");
         }
 
         public void UpdatePreviewObject()
         {
+            previewParent.transform.localPosition = new Vector3(0f, 0f, camController.tr.forward.z * 5f);
+            
             if (previewObject == null)
                 StartCoroutine(SpawnPrimitiveShape(PrimitiveType.Sphere));
             
             previewObjectSky.UpdateSkyIfNecessary();
-        }
-
-        public void UpdateMaterial(int moveDirection)
-        {
-            StartCoroutine(NavigateMaterials(moveDirection));
-        }
-
-        private IEnumerator NavigateMaterials(int adjustment)
-        {
-            currentMatIndex += adjustment;
-
-            if (currentMatIndex > Utility.MaterialDatabase.currentSize - 1)
-                currentMatIndex = 0;
-            else if (currentMatIndex < 0)
-                currentMatIndex = Utility.MaterialDatabase.currentSize - 1;
-            
-            var task = new TaskResult<Material>();
-            yield return Utility.MaterialDatabase.TryGetMatFromDatabase(currentMatIndex, task);
-            
-            var foundMat = task.value;
-            
-            Plugin.Logger.LogWarning(foundMat.name);
-            
-            previewObject.GetComponentInChildren<Renderer>().material = foundMat;
         }
 
         private IEnumerator SpawnPrimitiveShape(PrimitiveType primitiveType)
@@ -122,7 +114,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI
             previewParent.GetComponent<SkyApplier>().renderers = renderers;
             
             var task = new TaskResult<Material>();
-            yield return Utility.MaterialDatabase.TryGetMatFromDatabase(currentMatIndex, task);
+            yield return Utility.MaterialDatabase.TryGetMatFromDatabase(new Random().Next(2837), task);
             
             renderers[0].material = task.value;
             

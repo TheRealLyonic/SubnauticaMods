@@ -19,9 +19,9 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
             {
                 SetDay(true);
                 
-                var selectionUIPrefab = Plugin.AssetBundle.LoadAsset<GameObject>("SelectionUI.prefab");
+                var umlHudPrefab = Plugin.AssetBundle.LoadAsset<GameObject>("UML_HUD.prefab");
 
-                if (selectionUIPrefab == null)
+                if (umlHudPrefab == null)
                 {
                     Plugin.Logger.LogError("Failed to get UI prefab for MaterialModificationMode!");
                     return;
@@ -29,7 +29,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
 
                 hudParent = FindObjectOfType<uGUI_SceneHUD>().transform.gameObject;
                 
-                selectionUIParent = Instantiate(selectionUIPrefab, hudParent.transform.GetChild(0));
+                selectionUIParent = Instantiate(umlHudPrefab, hudParent.transform.GetChild(0));
                 
                 matEditor = selectionUIParent.GetComponent<uGUI_MatEditor>();
                 

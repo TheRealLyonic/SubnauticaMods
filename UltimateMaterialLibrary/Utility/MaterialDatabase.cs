@@ -156,11 +156,19 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
             
             foreach (var path in directoryMaterials.Keys)
             {
-                if (path.StartsWith(directoryPath) && path.LastIndexOf('/') == directoryPath.Length)
+                if (path.StartsWith(directoryPath))
                 {
-                    var folderName = path.Substring(directoryPath.Length + 1);
+                    if (directoryPath.Length == path.Length)
+                        continue;
                     
-                    returnList.Add(folderName);
+                    var trimmedPath = path.Substring(directoryPath.Length + 1);
+                    
+                    var index = trimmedPath.IndexOf('/');
+                    
+                    trimmedPath = index > 0 ? trimmedPath.Substring(0, index) : trimmedPath;
+                    
+                    if(!returnList.Contains(trimmedPath))
+                        returnList.Add(trimmedPath);
                 }
             }
             
@@ -170,6 +178,9 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
         public static IEnumerator GetAllMaterialsInsideDirectory(string directoryPath, TaskResult<List<Material>> materialList)
         {
             var returnList = new List<Material>();
+
+            if (!directoryMaterials.ContainsKey(directoryPath))
+                yield break;
 
             var materialNames = directoryMaterials[directoryPath];
 
@@ -353,9 +364,12 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
         protected static string RemoveInstanceFromMatName(string originalMatName)
         {
             string returnValue = originalMatName;
-            
-            if(originalMatName.EndsWith(" (Instance)"))
+
+            if (originalMatName.EndsWith(" (Instance)"))
+            {
                 returnValue = originalMatName.Substring(0, originalMatName.Length - " (Instance)".Length);
+                return RemoveInstanceFromMatName(returnValue);
+            }
 
             return returnValue;
         }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
@@ -32,7 +31,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
 
             try
             {
-                previewSphere.GetComponent<Renderer>().material = material;
+                previewSphere.GetComponent<MeshRenderer>().material = material;
 
                 var renderTexture = new RenderTexture(width, height, 24, RenderTextureFormat.ARGB32);
 

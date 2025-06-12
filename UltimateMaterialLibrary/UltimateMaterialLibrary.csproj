@@ -357,9 +357,9 @@
         <Exec Command="mkdir &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;" ContinueOnError="true"/>
         <Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;"/>
         <Exec Command="mkdir &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)\Localization&quot;" ContinueOnError="true"/>
-        <Exec Command="copy /Y &quot;C:\Subnautica Modding\SubnauticaMods\UltimateMaterialLibrary\Localization\English.json&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)\Localization&quot;"/>
+        <Exec Command="copy /Y &quot;C:\Users\rwbyf\OneDrive\Documents\Subnautica Modding\SubnauticaMods\UltimateMaterialLibrary\Localization\English.json&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)\Localization&quot;"/>
         <Exec Command="mkdir &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)\Resources&quot;" ContinueOnError="true"/>
-        <Exec Command="copy /Y &quot;C:\Subnautica Modding\SubnauticaMods\UltimateMaterialLibrary\Resources\MatFilePathMap.json&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)\Resources&quot;"/>
+        <Exec Command="copy /Y &quot;C:\Users\rwbyf\OneDrive\Documents\Subnautica Modding\SubnauticaMods\UltimateMaterialLibrary\Resources\MatFilePathMap.json&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)\Resources&quot;"/>
     </Target>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.
