@@ -202,7 +202,17 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
                 {
                     foreach (var material in renderer.materials)
                     {
+                        string cleanMatName = RemoveInstanceFromMatName(material.name);
+                        
                         if (material == null)
+                            continue;
+
+                        bool skipMat = false;
+                        foreach (var mat in returnList)
+                            if (RemoveInstanceFromMatName(mat.name).Equals(cleanMatName) || cleanMatName.Equals("Standard"))
+                                skipMat = true;
+
+                        if (skipMat)
                             continue;
                         
                         returnList.Add(material);
@@ -229,6 +239,11 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
             }
             
             materialList.Set(returnList);
+        }
+
+        public static string FilterInstanceFromMatName(string matName)
+        {
+            return RemoveInstanceFromMatName(matName);
         }
     }
     
@@ -260,6 +275,8 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
 
         protected static void RegisterMat(string matName, string filePath)
         {
+            matName = RemoveInstanceFromMatName(matName);
+            
             if (!matDatabase.ContainsKey(matName))
             {
                 string matDirectoryPath;

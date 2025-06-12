@@ -24,7 +24,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
             }
             
             material = previewMat;
-            matNameText.text = previewMat.name;
+            matNameText.text = Utility.MaterialDatabase.FilterInstanceFromMatName(previewMat.name);
             
             matPreviewImage.sprite = Sprite.Create(previewImage, new Rect(0, 0, previewImage.width, previewImage.height), Vector2.zero);
         }
