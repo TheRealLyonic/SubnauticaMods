@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
+namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser.Assets
 {
     public class FolderAsset : MonoBehaviour
     {

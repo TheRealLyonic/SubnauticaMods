@@ -323,9 +323,12 @@
         <Compile Include="Config.cs" />
         <Compile Include="Mono\MaterialModificationMode.cs" />
         <Compile Include="Mono\MatPreviewImageGenerator.cs" />
-        <Compile Include="Mono\UI\AssetBrowser\FolderAsset.cs" />
-        <Compile Include="Mono\UI\AssetBrowser\MatAsset.cs" />
+        <Compile Include="Mono\UI\AssetBrowser\Assets\DraggableMat.cs" />
+        <Compile Include="Mono\UI\AssetBrowser\Assets\FolderAsset.cs" />
+        <Compile Include="Mono\UI\AssetBrowser\Assets\MatAsset.cs" />
         <Compile Include="Mono\UI\AssetBrowser\uGUI_AssetBrowser.cs" />
+        <Compile Include="Mono\UI\PreviewHandler\MouseHoverDetector.cs" />
+        <Compile Include="Mono\UI\PreviewHandler\PreviewObjectHandler.cs" />
         <Compile Include="Mono\UI\uGUI_BiomeSelector.cs" />
         <Compile Include="Mono\UI\uGUI_MatEditor.cs" />
         <Compile Include="Patches\CSVEntitySpawnerPatch.cs" />

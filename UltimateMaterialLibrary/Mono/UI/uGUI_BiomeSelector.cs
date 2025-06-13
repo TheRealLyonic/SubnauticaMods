@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler;
 using TMPro;
 using UnityEngine;
 
@@ -33,11 +34,15 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI
         private int currentLocation;
         
         private uGUI_MatEditor matEditor;
+        private PreviewObjectHandler previewObjectHandler;
 
         private void Awake()
         {
             if (!matEditor)
-                matEditor = gameObject.GetComponentInParent<uGUI_MatEditor>();
+                matEditor = GetComponentInParent<uGUI_MatEditor>();
+            
+            if(!previewObjectHandler)
+                previewObjectHandler = GetComponentInParent<PreviewObjectHandler>();
         }
 
         private void Start()
@@ -66,7 +71,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI
             
             biomeDisplayText.text = Language.main.Get(spawnNameDictionary[locationIndex]);
             
-            matEditor.UpdatePreviewObject();
+            previewObjectHandler.UpdatePreviewObjectLocation(matEditor.camController.tr);
         }
 
         public void ConfirmSelection()

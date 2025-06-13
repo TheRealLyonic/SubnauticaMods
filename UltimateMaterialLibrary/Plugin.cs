@@ -18,8 +18,6 @@ namespace LyonicDevelopment.UltimateMaterialLibrary
         public new static ManualLogSource Logger { get; private set; }
         
         public static AssetBundle AssetBundle { get; private set; }
-
-        public static List<string> FOUND_MATERIALS = new List<string>();
         
         public static Config CONFIG { get; private set; }
         

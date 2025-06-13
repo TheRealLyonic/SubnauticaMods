@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser.Assets;
+using LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +12,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
     {
         public string currentDirectory { get; private set; } = "NULL";
 
+        public PreviewObjectHandler previewObjectHandler;
         public MatPreviewImageGenerator previewImageGenerator;
 
         [SerializeField]
@@ -115,6 +118,8 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
                 var matAssetObject = Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("MatAsset.prefab"), contentParent);
                 
                 var matAsset = matAssetObject.GetComponent<MatAsset>();
+
+                matAsset.previewObjectHandler = previewObjectHandler;
 
                 var textureResult = new TaskResult<Texture2D>();
                 yield return previewImageGenerator.GenerateImage(material, textureResult);
