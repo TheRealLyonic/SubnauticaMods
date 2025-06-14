@@ -31,12 +31,16 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
             {
                 if (path.StartsWith(directoryPath))
                 {
-                    //TODO: Fix bug resulting in paths that share part of the same name showing up as sub-directories...
-                        //Detect for '/' delimeter?
                     if (directoryPath.Length == path.Length)
                         continue;
                     
-                    var trimmedPath = path.Substring(directoryPath.Length + 1);
+                    var trimmedPath = path.Substring(directoryPath.Length);
+
+                    //This is not a folder inside the directory we're in. Just starts with the same string.
+                    if (!trimmedPath[0].Equals('/'))
+                        continue;
+                    
+                    trimmedPath = trimmedPath.Substring(1);
 
                     var index = trimmedPath.IndexOf('/');
                     
