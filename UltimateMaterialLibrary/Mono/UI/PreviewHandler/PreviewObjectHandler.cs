@@ -22,6 +22,8 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler
         private GameObject hoveredObject;
         private GameObject previousHoveredObject;
         private Material previousMat;
+
+        private GameObject lastAppliedObject;
         
         public void SpawnPreview(Transform camControllerTr)
         {
@@ -71,6 +73,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler
                 
                 previousMat = null;
                 previousHoveredObject = null;
+                lastAppliedObject = null;
             }
         }
 
@@ -91,12 +94,30 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler
                     previousHoveredObject = hoveredObject;
                     previousMat = renderer.material;
                     renderer.material = newMaterial;
+                    lastAppliedObject = hoveredObject;
                 }
+            }
+        }
+
+        public void UpdateLastAppliedObjectMat(Material newMaterial)
+        {
+            if (lastAppliedObject != null)
+            {
+                var renderer = lastAppliedObject.GetComponent<Renderer>();
+
+                if (renderer is null)
+                    return;
+                
+                if (Utility.MaterialDatabase.FilterInstanceFromMatName(renderer.material.name) != Utility.MaterialDatabase.FilterInstanceFromMatName(newMaterial.name))
+                    renderer.material = newMaterial;
             }
         }
 
         public void LockHoveredObjectMaterial()
         {
+            if (hoveredObject == null)
+                lastAppliedObject = null;
+            
             previousMat = null;
             previousHoveredObject = null;
         }
@@ -105,10 +126,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler
             //"Mesh has been marked as non-accessible."
         private IEnumerator SpawnPrimitiveShape(PrimitiveType primitiveType)
         {
-            currentPreviewObj = Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("Reaper_Model.prefab"));
-            
-            MaterialUtils.ApplySNShaders(currentPreviewObj);
-            // currentPreviewObj = GameObject.CreatePrimitive(primitiveType);
+            currentPreviewObj = GameObject.CreatePrimitive(primitiveType);
 
             currentPreviewObj.name = "PreviewObject";
             currentPreviewObj.transform.SetParent(previewParent.transform, false);
@@ -132,11 +150,13 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler
                 hoverDetector.SetHandler(this);
             }
 
-            var matTask = new TaskResult<Material>();
-            yield return Utility.MaterialDatabase.TryGetMatFromDatabase(
-                new Random().Next(Utility.MaterialDatabase.currentSize - 1), matTask);
-            
-            renderers[0].material = matTask.value;
+            foreach (var renderer in renderers)
+            {
+                var matTask = new TaskResult<Material>();
+                yield return Utility.MaterialDatabase.TryGetMatFromDatabase(new Random().Next(Utility.MaterialDatabase.currentSize - 1), matTask);
+
+                renderer.material = matTask.value;
+            }
             
             currentPreviewObj.SetActive(true);
         }

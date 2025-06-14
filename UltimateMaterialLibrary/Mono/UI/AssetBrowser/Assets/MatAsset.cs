@@ -31,6 +31,11 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser.Assets
             previewObjectHandler.UpdateHoveredObjectMaterial(material);
         }
 
+        public void ApplyMaterial()
+        {
+            previewObjectHandler.UpdateLastAppliedObjectMat(material);
+        }
+
         public void DropMaterial()
         {
             previewObjectHandler.LockHoveredObjectMaterial();
