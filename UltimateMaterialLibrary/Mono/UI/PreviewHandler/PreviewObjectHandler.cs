@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Nautilus.Utility;
 using UnityEngine;
 using Random = System.Random;
 
@@ -75,6 +76,9 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler
 
         public void UpdateHoveredObjectMaterial(Material newMaterial)
         {
+            if (hoveredObject == null || previousHoveredObject != hoveredObject)
+                ResetHoveredObjectMaterial();
+            
             if (hoveredObject != null)
             {
                 var renderer = hoveredObject.GetComponent<Renderer>();
@@ -89,10 +93,6 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler
                     renderer.material = newMaterial;
                 }
             }
-            else
-            {
-                ResetHoveredObjectMaterial();
-            }
         }
 
         public void LockHoveredObjectMaterial()
@@ -101,9 +101,14 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler
             previousHoveredObject = null;
         }
 
+        //TODO: Make pop-up informing the user to enable read/write property on .fbx if Mesh is not read/writable.
+            //"Mesh has been marked as non-accessible."
         private IEnumerator SpawnPrimitiveShape(PrimitiveType primitiveType)
         {
-            currentPreviewObj = GameObject.CreatePrimitive(primitiveType);
+            currentPreviewObj = Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("Reaper_Model.prefab"));
+            
+            MaterialUtils.ApplySNShaders(currentPreviewObj);
+            // currentPreviewObj = GameObject.CreatePrimitive(primitiveType);
 
             currentPreviewObj.name = "PreviewObject";
             currentPreviewObj.transform.SetParent(previewParent.transform, false);

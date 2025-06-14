@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser.Assets;
 using LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler;
+using LyonicDevelopment.UltimateMaterialLibrary.Utility;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -54,8 +55,11 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
         {
             currentDirectory = newDirectory;
 
-            var convertedDirectory = newDirectory.Replace("Assets/Materials/", "");
-            convertedDirectory = convertedDirectory.Replace("Assets/Materials", "");
+            var replaceString = "Assets/Materials";
+            var convertedDirectory = newDirectory.Substring(replaceString.Length);
+            
+            if(convertedDirectory.StartsWith("/"))
+                convertedDirectory = convertedDirectory.Substring(1);
             
             var paths = convertedDirectory.Split('/');
             
@@ -90,7 +94,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
                 });
             }
 
-            var folderNames = Utility.MaterialDatabase.GetAllFoldersInsideDirectory(newDirectory);
+            var folderNames = MatDirectoryHandler.GetAllFoldersInsideDirectory(newDirectory);
 
             foreach (var folderName in folderNames)
             {
@@ -106,7 +110,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
             }
 
             var taskResult = new TaskResult<List<Material>>();
-            yield return Utility.MaterialDatabase.GetAllMaterialsInsideDirectory(newDirectory, taskResult);
+            yield return MatDirectoryHandler.GetAllMaterialsInsideDirectory(newDirectory, taskResult);
 
             var foundMats = taskResult.value;
 

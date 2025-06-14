@@ -338,6 +338,7 @@
         <Compile Include="Patches\UI\uGUI_PingsPatch.cs" />
         <Compile Include="Plugin.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="Utility\MatDirectoryHandler.cs" />
         <Compile Include="Utility\MaterialDatabase.cs" />
     </ItemGroup>
     <ItemGroup>

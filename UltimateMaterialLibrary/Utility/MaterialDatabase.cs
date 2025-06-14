@@ -150,91 +150,56 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
             materialResult.Set(matResult);
         }
 
-        public static List<string> GetAllFoldersInsideDirectory(string directoryPath)
+        public static string GetMaterialPath(string materialName)
         {
-            var returnList = new List<string>();
+            materialName = RemoveInstanceFromMatName(materialName);
             
-            foreach (var path in directoryMaterials.Keys)
+            if (!matDatabase.ContainsKey(materialName))
             {
-                if (path.StartsWith(directoryPath))
-                {
-                    if (directoryPath.Length == path.Length)
-                        continue;
-                    
-                    var trimmedPath = path.Substring(directoryPath.Length + 1);
-                    
-                    var index = trimmedPath.IndexOf('/');
-                    
-                    trimmedPath = index > 0 ? trimmedPath.Substring(0, index) : trimmedPath;
-                    
-                    if(!returnList.Contains(trimmedPath))
-                        returnList.Add(trimmedPath);
-                }
+                Plugin.Logger.LogError($"Failed to get material {materialName} from MaterialDatabase.");
+                return "";
             }
             
-            return returnList;
+            return matDatabase[materialName];
         }
 
-        public static IEnumerator GetAllMaterialsInsideDirectory(string directoryPath, TaskResult<List<Material>> materialList)
+        public static IEnumerator GetAllMaterialsFromPrefab(string prefabPath, TaskResult<List<Material>> materialList)
         {
             var returnList = new List<Material>();
 
-            if (!directoryMaterials.ContainsKey(directoryPath))
+            var task = PrefabDatabase.GetPrefabForFilenameAsync(prefabPath);
+
+            yield return task;
+
+            if (!task.TryGetPrefab(out var prefab))
+            {
+                Plugin.Logger.LogError($"Failed to get prefab at path: {prefabPath}.");
                 yield break;
-
-            var materialNames = directoryMaterials[directoryPath];
-
-            if (directoryPath.Contains("Prefabs/"))
-            {
-                var prefabPath = matDatabase[materialNames[0]];
-
-                var task = PrefabDatabase.GetPrefabForFilenameAsync(prefabPath);
-
-                yield return task;
-
-                if (!task.TryGetPrefab(out var prefab))
-                {
-                    Plugin.Logger.LogError($"Failed to get prefab for material {materialNames[0]}.");
-                    yield break;
-                }
-
-                foreach (var renderer in prefab.GetAllComponentsInChildren<Renderer>())
-                {
-                    foreach (var material in renderer.materials)
-                    {
-                        string cleanMatName = RemoveInstanceFromMatName(material.name);
-                        
-                        if (material == null)
-                            continue;
-
-                        bool skipMat = false;
-                        foreach (var mat in returnList)
-                            if (RemoveInstanceFromMatName(mat.name).Equals(cleanMatName) || cleanMatName.Equals("Standard"))
-                                skipMat = true;
-
-                        if (skipMat)
-                            continue;
-                        
-                        returnList.Add(material);
-                    }
-                }
             }
-            else
-            {
-                foreach (var materialName in materialNames)
-                {
-                    var taskResult = new TaskResult<Material>();
-                    yield return TryGetMatFromDatabase(materialName, taskResult);
-                
-                    var foundMaterial = taskResult.value;
 
-                    if (foundMaterial == null)
+            foreach (var renderer in prefab.GetAllComponentsInChildren<Renderer>())
+            {
+                foreach (var material in renderer.materials)
+                {
+                    if (material == null)
+                        continue;
+                    
+                    string cleanMatName = RemoveInstanceFromMatName(material.name);
+
+                    bool skipMat = false;
+                    foreach (var mat in returnList)
                     {
-                        Plugin.Logger.LogError($"Failed to get material {materialName} from database using directory method.");
-                        yield break;
+                        if (RemoveInstanceFromMatName(mat.name).Equals(cleanMatName) || cleanMatName.Equals("Standard"))
+                        {
+                            skipMat = true;
+                            break;
+                        }
                     }
-                
-                    returnList.Add(foundMaterial);
+
+                    if (skipMat)
+                        continue;
+                    
+                    returnList.Add(material);
                 }
             }
             
@@ -247,14 +212,11 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
         }
     }
     
-    public abstract class MaterialDatabaseBase
+    public abstract class MaterialDatabaseBase : MatDirectoryHandler
     {
-        public static readonly int VANILLA_MAT_DATABASE_SIZE = 2838;
-        
         public static int FINAL_DATABASE_SIZE;
         
         protected static Dictionary<string, string> matDatabase = new Dictionary<string, string>();
-        protected static Dictionary<string, string[]> directoryMaterials = new Dictionary<string, string[]>();
 
         protected static void BuildDatabase()
         {
@@ -275,9 +237,9 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
 
         protected static void RegisterMat(string matName, string filePath)
         {
-            matName = RemoveInstanceFromMatName(matName);
+            string cleanMatName = RemoveInstanceFromMatName(matName);
             
-            if (!matDatabase.ContainsKey(matName))
+            if (!matDatabase.ContainsKey(cleanMatName))
             {
                 string matDirectoryPath;
                 if (!filePath.EndsWith(".prefab"))
@@ -298,27 +260,11 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
                 else
                     matDirectoryPath = "Assets/Materials/Prefabs/" + filePath.Substring(0, filePath.LastIndexOf('.'));
                 
-                AddNameToDirectoryDictionary(matDirectoryPath, matName);
+                RegisterMaterialWithDirectory(matDirectoryPath, cleanMatName);
                 
-                
-                Plugin.Logger.LogDebug($"Registered material #{matDatabase.Count}: {matName}.");
-                matDatabase.Add(matName, filePath);
+                Plugin.Logger.LogDebug($"Registered material #{matDatabase.Count}: {cleanMatName}.");
+                matDatabase.Add(cleanMatName, filePath);
             }
-        }
-        
-        private static void AddNameToDirectoryDictionary(string matDirectory, string matName)
-        {
-            if (directoryMaterials.TryGetValue(matDirectory, out var previousMaterialNames))
-            {
-                string[] newMaterialNames = new string[previousMaterialNames.Length + 1];
-                
-                Array.Copy(previousMaterialNames, newMaterialNames, previousMaterialNames.Length);
-                newMaterialNames[previousMaterialNames.Length] = matName;
-                
-                directoryMaterials[matDirectory] = newMaterialNames;
-            }
-            else
-                directoryMaterials.Add(matDirectory, new []{ matName });
         }
 
         protected static IEnumerator GetMaterialFromPath(string matPath, IOut<Material> materialResult)
@@ -355,7 +301,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
             if (task.TryGetPrefab(out var prefab))
             {
                 var renderers = prefab.GetAllComponentsInChildren<Renderer>();
-
+                
                 foreach (var renderer in renderers)
                 {
                     foreach (var mat in renderer.materials)

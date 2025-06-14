@@ -43,12 +43,13 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI
             camController.FreecamToggle();
             camController.enabled = false;
 
+            camController.tr.GetChild(0).localEulerAngles = Vector3.zero;
+
             biomeSelectionUI = Instantiate(biomeSelectionPrefab, transform);
             biomeSelectionUI.SetActive(true);
 
             UWE.Utils.lockCursor = false;
 
-            //TODO: Spawn Primitive here
             previewObjectHandler.SpawnPreview(camController.tr);
         }
 
