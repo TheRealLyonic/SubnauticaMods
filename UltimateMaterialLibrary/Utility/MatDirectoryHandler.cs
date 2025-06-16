@@ -53,51 +53,12 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
 
             return returnList;
         }
-        
-        public static IEnumerator GetAllMaterialsInsideDirectory(string directoryPath, TaskResult<List<Material>> materialList)
+
+        public static string[] GetAllMaterialsInsideDirectory(string directoryPath)
         {
-            var returnList = new List<Material>();
+            directoryMaterials.TryGetValue(directoryPath, out var matNames);
 
-            if (!directoryMaterials.ContainsKey(directoryPath))
-                yield break;
-
-            var materialNames = directoryMaterials[directoryPath];
-
-            if (directoryPath.Contains("Prefabs/"))
-            {
-                var task = new TaskResult<List<Material>>();
-                yield return MaterialDatabase.GetAllMaterialsFromPrefab(MaterialDatabase.GetMaterialPath(materialNames[0]), task);
-
-                var foundMaterials = task.value;
-
-                if (foundMaterials == null)
-                {
-                    Plugin.Logger.LogError($"Failed to get list of materials inside directory {directoryPath}.");
-                    yield break;
-                }
-                
-                returnList.AddRange(foundMaterials);
-            }
-            else
-            {
-                foreach (var materialName in materialNames)
-                {
-                    var taskResult = new TaskResult<Material>();
-                    yield return MaterialDatabase.TryGetMatFromDatabase(materialName, taskResult);
-
-                    var foundMat = taskResult.value;
-
-                    if (foundMat == null)
-                    {
-                        Plugin.Logger.LogError($"Failed to get material {materialName} from database.");
-                        yield break;
-                    }
-                    
-                    returnList.Add(foundMat);
-                }
-            }
-            
-            materialList.Set(returnList);
+            return matNames;
         }
     }
 }

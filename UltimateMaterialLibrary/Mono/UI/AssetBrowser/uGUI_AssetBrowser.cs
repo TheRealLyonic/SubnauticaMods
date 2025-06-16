@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser.Assets;
@@ -6,6 +7,7 @@ using LyonicDevelopment.UltimateMaterialLibrary.Utility;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UWE;
 
 namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
 {
@@ -35,6 +37,8 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
 
         public void UpdateDirectory(string newDirectory)
         {
+            StopCoroutine(nameof(GeneratePreviewImages));
+            
             if (currentDirectory.Equals(newDirectory))
                 return;
             
@@ -48,11 +52,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
             currentFolderAssets.Clear();
             currentMaterialAssets.Clear();
             
-            StartCoroutine(UpdateDirectoryAsync(newDirectory));
-        }
-
-        private IEnumerator UpdateDirectoryAsync(string newDirectory)
-        {
+            //Update our current set directory info across the board
             currentDirectory = newDirectory;
 
             var replaceString = "Assets/Materials";
@@ -108,37 +108,53 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
                 
                 currentFolderAssets.Add(folderAsset);
             }
+            
+            var foundMatNames = MatDirectoryHandler.GetAllMaterialsInsideDirectory(newDirectory);
 
-            var taskResult = new TaskResult<List<Material>>();
-            yield return MatDirectoryHandler.GetAllMaterialsInsideDirectory(newDirectory, taskResult);
-
-            var foundMats = taskResult.value;
-
-            if (foundMats == null)
-                yield break;
-
-            foreach (var material in foundMats)
+            if (foundMatNames != null)
             {
-                var matAssetObject = Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("MatAsset.prefab"), contentParent);
+                var matAssetPrefab = Plugin.AssetBundle.LoadAsset<GameObject>("MatAsset.prefab");
+
+                foreach (var matName in foundMatNames)
+                {
+                    var matAssetObject = Instantiate(matAssetPrefab, contentParent);
                 
-                var matAsset = matAssetObject.GetComponent<MatAsset>();
+                    var matAsset = matAssetObject.GetComponent<MatAsset>();
+                
+                    matAsset.previewObjectHandler = previewObjectHandler;
+                
+                    matAsset.Initialize(matName);
+                
+                    currentMaterialAssets.Add(matAsset);
+                }
+                
+                StartCoroutine(GeneratePreviewImages());
+            }
+        }
 
-                matAsset.previewObjectHandler = previewObjectHandler;
+        private IEnumerator GeneratePreviewImages()
+        {
+            var currentList = currentMaterialAssets.ToArray();
+            
+            foreach (var matAsset in currentList)
+            {
+                yield return new WaitUntil(() => matAsset.material != null);
 
-                var textureResult = new TaskResult<Texture2D>();
-                yield return previewImageGenerator.GenerateImage(material, textureResult);
+                var task = new TaskResult<Texture2D>();
+                yield return previewImageGenerator.GenerateImage(matAsset.material, task);
 
-                var generatedPreview = textureResult.value;
+                var generatedPreview = task.value;
 
                 if (!generatedPreview)
                 {
-                    Plugin.Logger.LogError($"Failed to generate preview for material: {material.name}");
+                    Plugin.Logger.LogError($"Failed to generate preview image for material: {matAsset.material.name}");
                     yield break;
                 }
                 
-                matAsset.UpdatePreview(material, generatedPreview);
-                
-                currentMaterialAssets.Add(matAsset);
+                if (!currentMaterialAssets.Contains(matAsset))
+                    yield break;
+
+                matAsset.UpdatePreviewImage(generatedPreview);
             }
         }
     }

@@ -11,21 +11,30 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
         
         [SerializeField]
         private Camera matPreviewCamera;
+
+        [SerializeField]
+        private Light previewLight;
+
+        private const float BACKWARD_DISTANCE = 3f;
         
-        public IEnumerator GenerateImage(Material material, TaskResult<Texture2D> imageResult, int width=256, int height=256)
+        private Transform previewSphereParent;
+
+        private void Awake()
         {
-            var parentObject = previewSphere.transform.GetParent();
-            
-            for (int i = 0; i < parentObject.childCount; i++)
-            {
-                var childObject = parentObject.GetChild(i);
-                
-                if(childObject.gameObject.name != previewSphere.name && childObject.gameObject.name != matPreviewCamera.gameObject.name)
-                    parentObject.GetChild(i).gameObject.SetActive(false);
-            }
-            
+            if(previewSphereParent == null)
+                previewSphereParent = previewSphere.transform.GetParent();
+        }
+
+        public void UpdateImageGenPos(Transform camTransform)
+        {
+            previewSphereParent.position = camTransform.position + camTransform.forward * -BACKWARD_DISTANCE;
+        }
+
+        public  IEnumerator GenerateImage(Material material, TaskResult<Texture2D> imageResult, int width=256, int height=256)
+        {
             previewSphere.SetActive(true);
             matPreviewCamera.gameObject.SetActive(true);
+            previewLight.gameObject.SetActive(true);
             
             yield return new WaitForEndOfFrame();
 
@@ -66,14 +75,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
                 Plugin.Logger.LogWarning("-----------------------------------------------------------------------------------");
             }
             
-            for (int i = 0; i < parentObject.childCount; i++)
-            {
-                var childObject = parentObject.GetChild(i);
-                
-                if(childObject.gameObject.name != previewSphere.name && childObject.gameObject.name != matPreviewCamera.gameObject.name)
-                    parentObject.GetChild(i).gameObject.SetActive(true);
-            }
-            
+            previewLight.gameObject.SetActive(false);
             matPreviewCamera.gameObject.SetActive(false);
             previewSphere.SetActive(false);
         }

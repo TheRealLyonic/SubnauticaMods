@@ -163,49 +163,6 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
             return matDatabase[materialName];
         }
 
-        public static IEnumerator GetAllMaterialsFromPrefab(string prefabPath, TaskResult<List<Material>> materialList)
-        {
-            var returnList = new List<Material>();
-
-            var task = PrefabDatabase.GetPrefabForFilenameAsync(prefabPath);
-
-            yield return task;
-
-            if (!task.TryGetPrefab(out var prefab))
-            {
-                Plugin.Logger.LogError($"Failed to get prefab at path: {prefabPath}.");
-                yield break;
-            }
-
-            foreach (var renderer in prefab.GetAllComponentsInChildren<Renderer>())
-            {
-                foreach (var material in renderer.materials)
-                {
-                    if (material == null)
-                        continue;
-                    
-                    string cleanMatName = RemoveInstanceFromMatName(material.name);
-
-                    bool skipMat = false;
-                    foreach (var mat in returnList)
-                    {
-                        if (RemoveInstanceFromMatName(mat.name).Equals(cleanMatName) || cleanMatName.Equals("Standard"))
-                        {
-                            skipMat = true;
-                            break;
-                        }
-                    }
-
-                    if (skipMat)
-                        continue;
-                    
-                    returnList.Add(material);
-                }
-            }
-            
-            materialList.Set(returnList);
-        }
-
         public static string FilterInstanceFromMatName(string matName)
         {
             return RemoveInstanceFromMatName(matName);

@@ -78,7 +78,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI
             }
 
             assetBrowser.previewObjectHandler = previewObjectHandler;
-            assetBrowser.previewImageGenerator = previewObjectHandler.PreviewImageGenerator;
+            assetBrowser.previewImageGenerator = previewObjectHandler.previewImageGenerator;
             
             assetBrowserObject.SetActive(true);
             

@@ -7,7 +7,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler
 {
     public class PreviewObjectHandler : MonoBehaviour
     {
-        public MatPreviewImageGenerator PreviewImageGenerator { get; private set; }
+        public MatPreviewImageGenerator previewImageGenerator { get; private set; }
         
         private const float FORWARD_DISTANCE = 3f;
         
@@ -29,9 +29,10 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler
         {
             previewParent = Instantiate(previewParentPrefab, camControllerTr);
 
-            PreviewImageGenerator = previewParent.GetComponent<MatPreviewImageGenerator>();
+            previewImageGenerator = previewParent.GetComponent<MatPreviewImageGenerator>();
 
             previewParent.transform.position = camControllerTr.position + camControllerTr.forward * FORWARD_DISTANCE;
+            previewImageGenerator.UpdateImageGenPos(camControllerTr);
 
             previewObjectSky = previewParent.GetComponent<SkyApplier>();
 
@@ -51,6 +52,8 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler
         public void UpdatePreviewObjectLocation(Transform camControllerTr)
         {
             previewParent.transform.position = camControllerTr.position + camControllerTr.forward * FORWARD_DISTANCE;
+            
+            previewImageGenerator.UpdateImageGenPos(camControllerTr);
             
             previewObjectSky.UpdateSkyIfNecessary();
         }
@@ -110,6 +113,13 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler
                 
                 if (Utility.MaterialDatabase.FilterInstanceFromMatName(renderer.material.name) != Utility.MaterialDatabase.FilterInstanceFromMatName(newMaterial.name))
                     renderer.material = newMaterial;
+            }
+            else
+            {
+                var renderers = currentPreviewObj.GetAllComponentsInChildren<Renderer>();
+
+                if (renderers.Length == 1)
+                    renderers[0].material = newMaterial;
             }
         }
 
