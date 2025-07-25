@@ -52,7 +52,12 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser.Assets
             catch (NullReferenceException)
             {}
         }
-        
+
+        public void OnDestroy()
+        {
+            Plugin.Logger.LogWarning("Destroyed MatAsset!");
+        }
+
         public void DragMaterial()
         {
             if(material != null)

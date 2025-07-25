@@ -28,6 +28,8 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler
         public void SpawnPreview(Transform camControllerTr)
         {
             previewParent = Instantiate(previewParentPrefab, camControllerTr);
+            
+            MaterialUtils.ApplySNShaders(previewParent);
 
             previewImageGenerator = previewParent.GetComponent<MatPreviewImageGenerator>();
 

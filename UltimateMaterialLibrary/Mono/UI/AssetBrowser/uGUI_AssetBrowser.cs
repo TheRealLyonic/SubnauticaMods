@@ -1,25 +1,30 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using BepInEx;
 using LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser.Assets;
 using LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.PreviewHandler;
 using LyonicDevelopment.UltimateMaterialLibrary.Utility;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UWE;
 
 namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
 {
     public class uGUI_AssetBrowser : MonoBehaviour
     {
-        public string currentDirectory { get; private set; } = "NULL";
-
         public PreviewObjectHandler previewObjectHandler;
         public MatPreviewImageGenerator previewImageGenerator;
-
+        
+        private string currentDirectory = "NULL";
+        
         [SerializeField]
         private GameObject pathButtonPrefab;
+
+        [SerializeField]
+        private GameObject folderAssetPrefab;
+        
+        [SerializeField]
+        private GameObject matAssetPrefab;
 
         [SerializeField]
         private Transform pathContentParent;
@@ -37,14 +42,15 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
 
         public void UpdateDirectory(string newDirectory)
         {
-            StopCoroutine(nameof(GeneratePreviewImages));
-            
             if (currentDirectory.Equals(newDirectory))
                 return;
             
-            foreach(var button in pathButtons)
-                Destroy(button);
-            
+            //Clear the current directory
+            StopCoroutine(nameof(GeneratePreviewImages));
+
+            for (int i = 0; i < pathContentParent.childCount; i++)
+                Destroy(pathContentParent.GetChild(i).gameObject);
+
             for (int i = 0; i < contentParent.childCount; i++)
                 Destroy(contentParent.GetChild(i).gameObject);
             
@@ -71,6 +77,9 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
 
             for (int i = 0; i < paths.Length; i++)
             {
+                if (paths[i].IsNullOrWhiteSpace())
+                    continue;
+                
                 var newPath = Instantiate(pathButtonPrefab, pathContentParent);
                 
                 newPath.GetComponent<TextMeshProUGUI>().text = " > " + paths[i];
@@ -98,7 +107,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
 
             foreach (var folderName in folderNames)
             {
-                var folderAssetObject = Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("FolderAsset.prefab"), contentParent);
+                var folderAssetObject = Instantiate(folderAssetPrefab, contentParent);
 
                 folderAssetObject.name = folderName;
 
@@ -113,8 +122,6 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
 
             if (foundMatNames != null)
             {
-                var matAssetPrefab = Plugin.AssetBundle.LoadAsset<GameObject>("MatAsset.prefab");
-
                 foreach (var matName in foundMatNames)
                 {
                     var matAssetObject = Instantiate(matAssetPrefab, contentParent);
@@ -132,6 +139,78 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
             }
         }
 
+        public void SearchRecursive(string searchString)
+        {
+            if (searchString.IsNullOrWhiteSpace())
+                return;
+            
+            StopCoroutine(nameof(GeneratePreviewImages));
+
+            for (int i = 0; i < pathContentParent.childCount; i++)
+            {
+                var pathObj = pathContentParent.GetChild(i).gameObject;
+
+                if (!pathButtons.Contains(pathObj))
+                {
+                    currentDirectory = currentDirectory.Substring(0, currentDirectory.LastIndexOf('/'));
+                    Destroy(pathObj);
+                }
+            }
+            
+            for (int i = 0; i < contentParent.childCount; i++)
+                Destroy(contentParent.GetChild(i).gameObject);
+            
+            currentFolderAssets.Clear();
+            currentMaterialAssets.Clear();
+
+            var newPath = Instantiate(pathButtonPrefab, pathContentParent);
+            newPath.GetComponent<TextMeshProUGUI>().text = " > \"" + searchString + "\"";
+            
+            var folderNames = MatDirectoryHandler.GetAllFoldersThatContain(currentDirectory, searchString);
+
+            foreach (var folderName in folderNames)
+            {
+                var folderAssetObject = Instantiate(folderAssetPrefab, contentParent);
+                
+                var trimmedName = folderName.Substring(folderName.LastIndexOf('/') + 1);
+
+                folderAssetObject.name = trimmedName;
+                
+                var folderAsset = folderAssetObject.GetComponent<FolderAsset>();
+                
+                folderAsset.UpdateDirectoryName(folderName, trimmedName);
+                
+                currentFolderAssets.Add(folderAsset);
+            }
+            
+            var matNames = MatDirectoryHandler.GetAllMaterialsThatContain(currentDirectory, searchString);
+
+            foreach (var matName in matNames)
+            {
+                var matAssetObject = Instantiate(matAssetPrefab, contentParent);
+                
+                var matAsset = matAssetObject.GetComponent<MatAsset>();
+                
+                matAsset.previewObjectHandler = previewObjectHandler;
+                matAsset.Initialize(matName);
+                
+                currentMaterialAssets.Add(matAsset);
+            }
+            
+            StartCoroutine(GeneratePreviewImages());
+            
+            currentDirectory = currentDirectory + "/" + searchString;
+        }
+
+        public string GetCurrentDirectory()
+        {
+            for (int i = 0; i < pathContentParent.childCount; i++)
+                if (!pathButtons.Contains(pathContentParent.GetChild(i).gameObject))
+                    currentDirectory = currentDirectory.Substring(0, currentDirectory.LastIndexOf('/'));
+            
+            return currentDirectory;
+        }
+
         private IEnumerator GeneratePreviewImages()
         {
             var currentList = currentMaterialAssets.ToArray();
@@ -141,8 +220,10 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
                 yield return new WaitUntil(() => matAsset.material != null);
 
                 var task = new TaskResult<Texture2D>();
-                yield return previewImageGenerator.GenerateImage(matAsset.material, task);
 
+                var currentResolution = DisplayManager.GetResolution();
+                yield return previewImageGenerator.GenerateImage(matAsset.material, task, currentResolution.width, currentResolution.height, matAsset.material.IsKeywordEnabled("WBOIT"));
+                
                 var generatedPreview = task.value;
 
                 if (!generatedPreview)

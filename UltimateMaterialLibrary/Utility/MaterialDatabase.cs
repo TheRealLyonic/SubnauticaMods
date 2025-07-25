@@ -195,33 +195,34 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
         protected static void RegisterMat(string matName, string filePath)
         {
             string cleanMatName = RemoveInstanceFromMatName(matName);
+
+            //Fuck you Eldritch
+            if (matDatabase.ContainsKey(cleanMatName))
+                return;
             
-            if (!matDatabase.ContainsKey(cleanMatName))
+            string matDirectoryPath;
+            if (!filePath.EndsWith(".prefab"))
             {
-                string matDirectoryPath;
-                if (!filePath.EndsWith(".prefab"))
-                {
-                    matDirectoryPath = filePath.Substring(0, filePath.LastIndexOf('/'));
+                matDirectoryPath = filePath.Substring(0, filePath.LastIndexOf('/'));
 
-                    matDirectoryPath = matDirectoryPath.Replace("/Materials/", "/");
+                matDirectoryPath = matDirectoryPath.Replace("/Materials/", "/");
                 
-                    if(matDirectoryPath.Contains("Assets/"))
-                        matDirectoryPath = matDirectoryPath.Replace("Assets/", "Assets/Materials/");
+                if(matDirectoryPath.Contains("Assets/"))
+                    matDirectoryPath = matDirectoryPath.Replace("Assets/", "Assets/Materials/");
 
-                    if(!matDirectoryPath.StartsWith("Assets/Materials"))
-                        matDirectoryPath = "Assets/Materials/" + matDirectoryPath;
+                if(!matDirectoryPath.StartsWith("Assets/Materials"))
+                    matDirectoryPath = "Assets/Materials/" + matDirectoryPath;
                 
-                    if(matDirectoryPath.EndsWith("/Materials"))
-                        matDirectoryPath = matDirectoryPath.Substring(0, matDirectoryPath.LastIndexOf('/'));
-                }
-                else
-                    matDirectoryPath = "Assets/Materials/Prefabs/" + filePath.Substring(0, filePath.LastIndexOf('.'));
-                
-                RegisterMaterialWithDirectory(matDirectoryPath, cleanMatName);
-                
-                Plugin.Logger.LogDebug($"Registered material #{matDatabase.Count}: {cleanMatName}.");
-                matDatabase.Add(cleanMatName, filePath);
+                if(matDirectoryPath.EndsWith("/Materials"))
+                    matDirectoryPath = matDirectoryPath.Substring(0, matDirectoryPath.LastIndexOf('/'));
             }
+            else
+                matDirectoryPath = "Assets/Materials/Prefabs/" + filePath.Substring(0, filePath.LastIndexOf('.'));
+                
+            RegisterMaterialWithDirectory(matDirectoryPath, cleanMatName);
+                
+            Plugin.Logger.LogDebug($"Registered material #{matDatabase.Count}: {cleanMatName}.");
+            matDatabase.Add(cleanMatName, filePath);
         }
 
         protected static IEnumerator GetMaterialFromPath(string matPath, IOut<Material> materialResult)

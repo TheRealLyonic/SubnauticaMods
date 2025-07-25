@@ -25,13 +25,16 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser.Assets
                 button = GetComponentInChildren<Button>();
         }
 
-        public void UpdateDirectoryName(string newDirectoryName)
+        public void UpdateDirectoryName(string newDirectoryName, string displayName = null)
         {
             directoryName = newDirectoryName;
             
-            folderNameText.text = directoryName;
+            if(displayName != null)
+                folderNameText.text = displayName;
+            else
+                folderNameText.text = directoryName;
             
-            button.onClick.AddListener(() => assetBrowser.UpdateDirectory(assetBrowser.currentDirectory + "/" + newDirectoryName));
+            button.onClick.AddListener(() => assetBrowser.UpdateDirectory(assetBrowser.GetCurrentDirectory() + "/" + newDirectoryName));
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
 {
@@ -51,14 +49,73 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Utility
                 }
             }
 
+            if(returnList.Count > 0)
+                returnList.Sort();
+            
+            return returnList;
+        }
+
+        public static List<string> GetAllFoldersThatContain(string currentDirectory, string searchString)
+        {
+            var returnList = new List<string>();
+
+            var potentialFolders = GetFoldersRecursively(currentDirectory);
+
+            foreach (var folder in potentialFolders)
+            {
+                var rawFolderName = folder.Substring(folder.LastIndexOf('/') + 1);
+                
+                if (rawFolderName.ToLower().Contains(searchString.ToLower()))
+                    returnList.Add(folder);
+            }
+            
+            returnList.Sort();
+            
             return returnList;
         }
 
         public static string[] GetAllMaterialsInsideDirectory(string directoryPath)
         {
             directoryMaterials.TryGetValue(directoryPath, out var matNames);
-
+            
+            if(matNames != null)
+                Array.Sort(matNames);
+            
             return matNames;
+        }
+        
+        public static List<string> GetAllMaterialsThatContain(string currentDirectory, string searchString)
+        {
+            List<string> matResults = new List<string>();
+            
+            foreach (var path in directoryMaterials.Keys)
+            {
+                if (path.StartsWith(currentDirectory))
+                {
+                    foreach (var material in directoryMaterials[path])
+                    {
+                        if (material.ToLower().Contains(searchString.ToLower()))
+                            matResults.Add(material);
+                    }
+                }
+            }
+            
+            return matResults;
+        }
+
+        private static List<string> GetFoldersRecursively(string parentDirectory)
+        {
+            List<string> result = new List<string>();
+
+            foreach (var folder in GetAllFoldersInsideDirectory(parentDirectory))
+            {
+                foreach (var subFolder in GetFoldersRecursively(parentDirectory + "/" + folder))
+                    result.Add(folder + "/" + subFolder);
+                
+                result.Add(folder);
+            }
+            
+            return result;
         }
     }
 }
