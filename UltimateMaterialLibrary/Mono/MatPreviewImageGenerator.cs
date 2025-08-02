@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using Nautilus.Utility;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
@@ -22,16 +22,13 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
         private const float BACKWARD_DISTANCE = 3f;
         
         private Transform previewSphereParent;
-
-        private WBOITPreview wboitPreview;
-
+        
+        private List<Texture2D> previewTextures = new List<Texture2D>();
+        
         private void Awake()
         {
             if(previewSphereParent == null)
                 previewSphereParent = previewSphere.transform.GetParent();
-            
-            if(wboitPreview == null)
-                wboitPreview = matPreviewCamera.GetComponent<WBOITPreview>();
         }
 
         public void UpdateImageGenPos(Transform camTransform)
@@ -39,7 +36,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
             previewSphereParent.position = camTransform.position + camTransform.forward * -BACKWARD_DISTANCE;
         }
 
-        public  IEnumerator GenerateImage(Material material, TaskResult<Texture2D> imageResult, int width, int height, bool wboitMat)
+        public IEnumerator GenerateImage(Material material, TaskResult<Texture2D> imageResult, int width, int height, bool wboitMat)
         {
             //WBOIT Mats refuse to Render if we don't capture them at the current gameResolution for some reason.
             if (!wboitMat)
@@ -86,6 +83,9 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
                     var tempTex = RenderTexture.GetTemporary(newWidth, newHeight, 0, RenderTextureFormat.ARGB32);
                 
                     Graphics.Blit(screenCapture, tempTex);
+                    
+                    DestroyImmediate(screenCapture);
+                    screenCapture = null;
 
                     var scaledTexture = new Texture2D(newWidth, newHeight, TextureFormat.ARGB32, false);
                     RenderTexture.active = tempTex;
@@ -93,17 +93,20 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
                     scaledTexture.ReadPixels(new Rect(0, 0, newWidth, newHeight), 0, 0);
                     scaledTexture.Apply();
 
-                    RenderTexture.active = null;
                     RenderTexture.ReleaseTemporary(tempTex);
                 
                     imageResult.Set(scaledTexture);
                 }else
                     imageResult.Set(screenCapture);
 
+                previewTextures.Add(imageResult.value);
+                
                 //Clean up after getting the image
                 matPreviewCamera.targetTexture = null;
                 RenderTexture.active = null;
 
+                renderTexture.Release();
+                
                 Destroy(renderTexture);
             }
             catch (Exception ex)
@@ -118,6 +121,12 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono
             matPreviewCamera.gameObject.SetActive(false);
             previewSphere.SetActive(false);
             previewBackground.SetActive(false);
+        }
+
+        public void UnloadTexture(Texture2D texture)
+        {
+            previewTextures.Remove(texture);
+            DestroyImmediate(texture);
         }
         
     }

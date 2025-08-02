@@ -55,7 +55,7 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser.Assets
 
         public void OnDestroy()
         {
-            Plugin.Logger.LogWarning("Destroyed MatAsset!");
+            previewObjectHandler.previewImageGenerator.UnloadTexture(matPreviewImage.sprite.texture);
         }
 
         public void DragMaterial()

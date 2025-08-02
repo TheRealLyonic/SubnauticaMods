@@ -213,6 +213,8 @@ namespace LyonicDevelopment.UltimateMaterialLibrary.Mono.UI.AssetBrowser
 
         private IEnumerator GeneratePreviewImages()
         {
+            Resources.UnloadUnusedAssets();
+            
             var currentList = currentMaterialAssets.ToArray();
             
             foreach (var matAsset in currentList)
