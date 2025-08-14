@@ -2,7 +2,7 @@ using HarmonyLib;
 using LyonicDevelopment.IslandSpawn.Mono;
 using UnityEngine;
 
-namespace LyonicDevelopment.IslandSpawn
+namespace LyonicDevelopment.IslandSpawn.Patches
 {
     [HarmonyPatch(typeof(Player))]
     public class PlayerPatch

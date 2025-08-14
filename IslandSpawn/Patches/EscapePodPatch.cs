@@ -3,7 +3,7 @@ using HarmonyLib;
 using UnityEngine;
 using UWE;
 
-namespace LyonicDevelopment.IslandSpawn
+namespace LyonicDevelopment.IslandSpawn.Patches
 {
     [HarmonyPatch(typeof(EscapePod))]
     public class EscapePodPatch

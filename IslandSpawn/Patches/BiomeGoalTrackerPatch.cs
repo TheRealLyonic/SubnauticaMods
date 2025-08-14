@@ -1,7 +1,7 @@
 using HarmonyLib;
 using Story;
 
-namespace LyonicDevelopment.IslandSpawn
+namespace LyonicDevelopment.IslandSpawn.Patches
 {
     [HarmonyPatch(typeof(BiomeGoalTracker))]
     public class BiomeGoalTrackerPatch

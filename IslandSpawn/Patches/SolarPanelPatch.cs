@@ -1,7 +1,7 @@
 using HarmonyLib;
 using LyonicDevelopment.IslandSpawn.Mono;
 
-namespace LyonicDevelopment.IslandSpawn
+namespace LyonicDevelopment.IslandSpawn.Patches
 {
     [HarmonyPatch(typeof(SolarPanel))]
     public class SolarPanelPatch

@@ -5,6 +5,7 @@ using HarmonyLib;
 using Nautilus.Utility;
 using UnityEngine;
 using LyonicDevelopment.IslandSpawn.Core;
+using Nautilus.Handlers;
 
 namespace LyonicDevelopment.IslandSpawn
 {
@@ -30,9 +31,12 @@ namespace LyonicDevelopment.IslandSpawn
             AssetBundle =
                 AssetBundleLoadingUtils.LoadFromAssetsFolder(Assembly.GetExecutingAssembly(), "islandspawnassets");
             
-            PrefabRegister.RegisterPrefabs();
-            DistributionHandler.RegisterDistribution();
-            StoryManager.RegisterStoryEvents();
+            WaitScreenHandler.RegisterLateLoadTask(PLUGIN_NAME, task =>
+            {
+                PrefabRegister.RegisterPrefabs();
+                DistributionHandler.RegisterDistribution();
+                StoryManager.RegisterStoryEvents();
+            }, "Registering Mod Content");
             
             Harmony.PatchAll();
             

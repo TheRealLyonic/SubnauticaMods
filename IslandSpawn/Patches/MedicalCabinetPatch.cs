@@ -1,7 +1,7 @@
 using HarmonyLib;
 using LyonicDevelopment.IslandSpawn.Mono.Prefabs;
 
-namespace LyonicDevelopment.IslandSpawn
+namespace LyonicDevelopment.IslandSpawn.Patches
 {
     [HarmonyPatch(typeof(MedicalCabinet))]
     public class MedicalCabinetPatch

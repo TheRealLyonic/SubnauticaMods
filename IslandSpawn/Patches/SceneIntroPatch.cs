@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace LyonicDevelopment.IslandSpawn
+namespace LyonicDevelopment.IslandSpawn.Patches
 {
     [HarmonyPatch(typeof(uGUI_SceneIntro))]
     public class SceneIntroPatch

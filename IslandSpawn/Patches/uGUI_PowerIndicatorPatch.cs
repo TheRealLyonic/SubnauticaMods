@@ -3,7 +3,7 @@ using HarmonyLib;
 using LyonicDevelopment.IslandSpawn.Mono;
 using UnityEngine;
 
-namespace LyonicDevelopment.IslandSpawn
+namespace LyonicDevelopment.IslandSpawn.Patches
 {
     [HarmonyPatch(typeof(uGUI_PowerIndicator))]
     public class uGUI_PowerIndicatorPatch

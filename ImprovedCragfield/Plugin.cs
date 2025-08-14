@@ -47,9 +47,7 @@ namespace LyonicDevelopment.ImprovedCragfield
 			};
 
 			foreach(var loot in lootDistribution)
-			{
 				LootDistributionHandler.EditLootDistributionData(loot.Item1, loot.Item2, loot.Item3, 1);
-			}
 		}
 	}
 }
